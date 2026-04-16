@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MILES — Service Advisor · Straightaway Tire & Auto</title>
+<title>AI Service Advisor · Straightaway Tire & Auto</title>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
 /* ─── TOKENS ─────────────────────────────────────────────────────── */
@@ -655,7 +655,7 @@ select{font-family:var(--sans)}
 <body>
 
 <div class="narrow-guard">
-  <div class="ng-logo">MILES</div>
+  <div class="ng-logo">AI</div>
   <div class="ng-tag">Service Advisor · Straightaway Tire &amp; Auto</div>
   <p class="ng-msg">Best viewed on a desktop browser at 1280px or wider.</p>
 </div>
@@ -667,8 +667,7 @@ select{font-family:var(--sans)}
     <div class="nav-logo">
       <img src="https://gostraightaway.com/wp-content/uploads/2024/10/Straightaway_White_Final.svg" alt="Straightaway Tire &amp; Auto" class="brand-logo-img">
       <div class="brand-logo-sep"></div>
-      <div class="logo-word">MILES</div>
-      <div class="logo-desc">Service Advisor</div>
+      <div class="logo-word">Service Advisor</div>
       <div class="logo-by">Built by Neuralogic Group</div>
     </div>
     <div class="brand-wrap">
@@ -701,9 +700,12 @@ select{font-family:var(--sans)}
       <div class="nav-item" data-view="performance" tabindex="0">
         <i data-lucide="bar-chart-2"></i><span>Performance &amp; ROI</span>
       </div>
+      <div class="nav-item" data-view="settings" tabindex="0">
+        <i data-lucide="settings"></i><span>Settings</span>
+      </div>
     </div>
     <div class="miles-status">
-      <div class="st-lbl">MILES Status</div>
+      <div class="st-lbl">AI Status</div>
       <div class="st-row">
         <div class="st-ind">
           <div class="st-dot pulsing" id="stDot"></div>
@@ -717,7 +719,7 @@ select{font-family:var(--sans)}
         </button>
       </div>
       <div class="pause-banner" id="mpBanner">
-        System paused. MILES will not answer calls until resumed.
+        System paused. AI will not answer calls until resumed.
       </div>
     </div>
   </nav>
@@ -809,8 +811,8 @@ select{font-family:var(--sans)}
           <div class="mlc-status">
             <div class="mlc-dot" id="mlcDot"></div>
             <div>
-              <div class="mlc-sys-name">MILES AI — After-Hours Inbound Handler <span class="mlc-shops-tag">90 Shops</span></div>
-              <div class="mlc-sys-sub" id="mlcSub">Offline — press Start to watch MILES handle calls live</div>
+              <div class="mlc-sys-name">Service AI — After-Hours Inbound Handler <span class="mlc-shops-tag">90 Shops</span></div>
+              <div class="mlc-sys-sub" id="mlcSub">Offline — press Start to watch AI handle calls live</div>
             </div>
           </div>
           <div class="mlc-counters">
@@ -823,7 +825,7 @@ select{font-family:var(--sans)}
             <div class="mlc-ctr"><div class="mlc-ctr-val" id="lc-conf">96.3%</div><div class="mlc-ctr-lbl">Confidence</div></div>
           </div>
           <button class="mlc-toggle" id="mlcToggle" onclick="toggleMILES()">
-            <i data-lucide="play"></i><span>Start MILES</span>
+            <i data-lucide="play"></i><span>Start AI</span>
           </button>
         </div>
 
@@ -861,7 +863,7 @@ select{font-family:var(--sans)}
             <div class="mlc-transcript" id="mlcTranscript"></div>
             <div class="mlc-thinking" id="mlcThinking">
               <div class="thinking-dots"><span></span><span></span><span></span></div>
-              <span class="mlc-think-lbl" id="mlcThinkLbl">MILES processing…</span>
+              <span class="mlc-think-lbl" id="mlcThinkLbl">AI processing…</span>
             </div>
           </div>
 
@@ -918,7 +920,7 @@ select{font-family:var(--sans)}
                   <!-- Transcript -->
                   <div class="transcript-wrap" id="mainTranscript">
                     <div class="tline">
-                      <span class="tspeaker ts-miles">MILES</span>
+                      <span class="tspeaker ts-miles">AI</span>
                       <span class="ttext">Thanks for calling Auto Care Plus in Derry. This is the after-hours service line. May I have your name?</span>
                     </div>
                     <div class="tline">
@@ -926,7 +928,7 @@ select{font-family:var(--sans)}
                       <span class="ttext">Yeah, hi, this is David Sullivan.</span>
                     </div>
                     <div class="tline">
-                      <span class="tspeaker ts-miles">MILES</span>
+                      <span class="tspeaker ts-miles">AI</span>
                       <span class="ttext">Hi David — I see you've been a customer with us since 2019. Are you calling about your 2017 Subaru Outback?</span>
                     </div>
                     <div class="tline">
@@ -934,7 +936,7 @@ select{font-family:var(--sans)}
                       <span class="ttext">Yeah, exactly. I've got this grinding noise when I brake. Started today.</span>
                     </div>
                     <div class="tline">
-                      <span class="tspeaker ts-miles">MILES</span>
+                      <span class="tspeaker ts-miles">AI</span>
                       <span class="ttext">That's something we definitely want to look at — grinding on brakes can mean the pads have worn through to the rotors. I'd recommend bringing it in as soon as possible. Are you comfortable driving short distances?</span>
                     </div>
                     <div class="tline">
@@ -993,8 +995,8 @@ select{font-family:var(--sans)}
               <div class="cc-collapsed" id="body-cc1">
                 <div class="cc-summary">
                   <strong>Booked:</strong> Wednesday 8:00 AM — Oil Change + Tire Rotation · All County Boca Raton<br>
-                  MILES identified returning customer, confirmed vehicle, offered 2 available slots. Customer selected morning slot. SMS confirmation sent to (561) 555-0142.
-                  <div style="margin-top:6px;font-size:11px;color:var(--t3)">Completed 8 min ago · MILES-INTAKE → MILES-BOOK</div>
+                  AI identified returning customer, confirmed vehicle, offered 2 available slots. Customer selected morning slot. SMS confirmation sent to (561) 555-0142.
+                  <div style="margin-top:6px;font-size:11px;color:var(--t3)">Completed 8 min ago · AI-INTAKE → AI-BOOK</div>
                 </div>
               </div>
             </div>
@@ -1015,7 +1017,7 @@ select{font-family:var(--sans)}
               </div>
               <div class="cc-collapsed" id="body-cc2">
                 <div class="cc-summary">
-                  <strong>Escalated to On-Call Advisor (All County):</strong> Customer wants to discuss warranty claim on brake work completed 6 months ago. MILES confidence dropped below threshold at warranty dispute keyword — escalated per protocol.<br>
+                  <strong>Escalated to On-Call Advisor (All County):</strong> Customer wants to discuss warranty claim on brake work completed 6 months ago. AI confidence dropped below threshold at warranty dispute keyword — escalated per protocol.<br>
                   <div style="margin-top:6px;font-size:11px;color:var(--warning)">Awaiting callback · Advisor notified via SMS · 20 min ago</div>
                 </div>
               </div>
@@ -1038,8 +1040,8 @@ select{font-family:var(--sans)}
               <div class="cc-collapsed" id="body-cc3">
                 <div class="cc-summary">
                   <strong>Booked:</strong> Saturday 10:30 AM — 60K Mile Service · Auto Care Plus Derry<br>
-                  Customer called for 60K service inquiry. MILES matched service menu, confirmed pricing range, and scheduled. Highest confidence call of the shift.
-                  <div style="margin-top:6px;font-size:11px;color:var(--t3)">Completed 35 min ago · MILES-INTAKE → MILES-BOOK</div>
+                  Customer called for 60K service inquiry. AI matched service menu, confirmed pricing range, and scheduled. Highest confidence call of the shift.
+                  <div style="margin-top:6px;font-size:11px;color:var(--t3)">Completed 35 min ago · AI-INTAKE → AI-BOOK</div>
                 </div>
               </div>
             </div>
@@ -1061,8 +1063,8 @@ select{font-family:var(--sans)}
               <div class="cc-collapsed" id="body-cc4">
                 <div class="cc-summary">
                   <strong>Booked:</strong> Thursday 9:00 AM — Wheel Alignment · Victory Plymouth<br>
-                  Customer reported pulling left after hitting pothole. MILES matched alignment workflow, confirmed no urgent safety risk, scheduled morning slot.
-                  <div style="margin-top:6px;font-size:11px;color:var(--t3)">Completed 51 min ago · MILES-INTAKE → MILES-BOOK</div>
+                  Customer reported pulling left after hitting pothole. AI matched alignment workflow, confirmed no urgent safety risk, scheduled morning slot.
+                  <div style="margin-top:6px;font-size:11px;color:var(--t3)">Completed 51 min ago · AI-INTAKE → AI-BOOK</div>
                 </div>
               </div>
             </div>
@@ -1077,15 +1079,15 @@ select{font-family:var(--sans)}
           </div>
           <div class="agent-board">
 
-            <!-- MILES-INTAKE -->
+            <!-- AI-INTAKE -->
             <div class="agent-card">
               <div class="agent-top">
                 <div class="agent-dot green"></div>
                 <div class="agent-name-wrap">
-                  <div class="agent-name">MILES-INTAKE</div>
+                  <div class="agent-name">AI-INTAKE</div>
                   <div class="agent-role">Inbound call handling</div>
                 </div>
-                <button class="agent-pause-btn" id="apIntake" title="Pause MILES-INTAKE">
+                <button class="agent-pause-btn" id="apIntake" title="Pause AI-INTAKE">
                   <i data-lucide="pause"></i>
                 </button>
               </div>
@@ -1097,15 +1099,15 @@ select{font-family:var(--sans)}
               </div>
             </div>
 
-            <!-- MILES-BOOK -->
+            <!-- AI-BOOK -->
             <div class="agent-card">
               <div class="agent-top">
                 <div class="agent-dot green-idle"></div>
                 <div class="agent-name-wrap">
-                  <div class="agent-name">MILES-BOOK</div>
+                  <div class="agent-name">AI-BOOK</div>
                   <div class="agent-role">Calendar &amp; bay scheduling</div>
                 </div>
-                <button class="agent-pause-btn" id="apBook" title="Pause MILES-BOOK">
+                <button class="agent-pause-btn" id="apBook" title="Pause AI-BOOK">
                   <i data-lucide="pause"></i>
                 </button>
               </div>
@@ -1117,15 +1119,15 @@ select{font-family:var(--sans)}
               </div>
             </div>
 
-            <!-- MILES-RECALL -->
+            <!-- AI-RECALL -->
             <div class="agent-card">
               <div class="agent-top">
                 <div class="agent-dot blue"></div>
                 <div class="agent-name-wrap">
-                  <div class="agent-name">MILES-RECALL</div>
+                  <div class="agent-name">AI-RECALL</div>
                   <div class="agent-role">Deferred service outbound</div>
                 </div>
-                <button class="agent-pause-btn" id="apRecall" title="Pause MILES-RECALL">
+                <button class="agent-pause-btn" id="apRecall" title="Pause AI-RECALL">
                   <i data-lucide="pause"></i>
                 </button>
               </div>
@@ -1147,15 +1149,15 @@ select{font-family:var(--sans)}
               </div>
             </div>
 
-            <!-- MILES-HANDOFF -->
+            <!-- AI-HANDOFF -->
             <div class="agent-card needs-attn">
               <div class="agent-top">
                 <div class="agent-dot amber"></div>
                 <div class="agent-name-wrap">
-                  <div class="agent-name">MILES-HANDOFF</div>
+                  <div class="agent-name">AI-HANDOFF</div>
                   <div class="agent-role">Escalation &amp; warm transfer</div>
                 </div>
-                <button class="agent-pause-btn" id="apHandoff" title="Pause MILES-HANDOFF">
+                <button class="agent-pause-btn" id="apHandoff" title="Pause AI-HANDOFF">
                   <i data-lucide="pause"></i>
                 </button>
               </div>
@@ -1205,10 +1207,10 @@ select{font-family:var(--sans)}
         </select>
         <select class="cq-sel" id="cqAgent">
           <option value="all">All Sub-agents</option>
-          <option value="intake">MILES-INTAKE</option>
-          <option value="book">MILES-BOOK</option>
-          <option value="recall">MILES-RECALL</option>
-          <option value="handoff">MILES-HANDOFF</option>
+          <option value="intake">AI-INTAKE</option>
+          <option value="book">AI-BOOK</option>
+          <option value="recall">AI-RECALL</option>
+          <option value="handoff">AI-HANDOFF</option>
         </select>
         <span class="cq-count" id="cqCount">Showing 14 calls · Last 24 hours</span>
       </div>
@@ -1260,7 +1262,7 @@ select{font-family:var(--sans)}
             <span class="cal-util-item">Open Slots This Week: <strong>23</strong></span>
             <div class="cal-util-divider"></div>
             <span class="cal-util-item" style="display:flex;align-items:center;gap:6px">
-              <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(11,37,69,.15);border-left:2.5px solid var(--navy)"></span>MILES-BOOKED
+              <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(11,37,69,.15);border-left:2.5px solid var(--navy)"></span>AI-BOOKED
               <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--panel-alt);border-left:2.5px solid var(--t3);margin-left:6px"></span>STAFF-BOOKED
             </span>
           </div>
@@ -1291,7 +1293,7 @@ select{font-family:var(--sans)}
       <div class="lo-header">
         <h1 class="lo-title">Deferred Service Recall</h1>
         <div class="lo-right">
-          <div style="font-size:12px;color:var(--t3)">Managed by <span style="font-weight:600;color:var(--blue)">MILES-RECALL</span></div>
+          <div style="font-size:12px;color:var(--t3)">Managed by <span style="font-weight:600;color:var(--blue)">AI-RECALL</span></div>
         </div>
       </div>
 
@@ -1344,7 +1346,7 @@ select{font-family:var(--sans)}
         <tbody>
           <tr>
             <td><div class="camp-name">90-Day Brake Service Follow-Up</div><div class="camp-target">180 customers · All 5 brands</div></td>
-            <td><div class="camp-agent">MILES-RECALL</div></td>
+            <td><div class="camp-agent">AI-RECALL</div></td>
             <td><span class="camp-status cs-running"><span style="width:5px;height:5px;border-radius:50%;background:var(--success);display:inline-block"></span>RUNNING</span></td>
             <td>
               <div style="font-size:12px;font-weight:600;color:var(--t1);font-family:var(--mono)" id="campRow1Count">47 / 180</div>
@@ -1356,7 +1358,7 @@ select{font-family:var(--sans)}
           </tr>
           <tr>
             <td><div class="camp-name">Tire Replacement — 70%+ Worn at Last Visit</div><div class="camp-target">94 customers · All County, EAS, Victory</div></td>
-            <td><div class="camp-agent">MILES-RECALL</div></td>
+            <td><div class="camp-agent">AI-RECALL</div></td>
             <td><span class="camp-status cs-scheduled"><span style="width:5px;height:5px;border-radius:50%;background:var(--blue);display:inline-block"></span>SCHEDULED</span></td>
             <td>
               <div style="font-size:12px;color:var(--t3);font-family:var(--mono)">0 / 94 · Starts tomorrow 9 AM</div>
@@ -1368,7 +1370,7 @@ select{font-family:var(--sans)}
           </tr>
           <tr>
             <td><div class="camp-name">Oil Change Reminder — 4,500 mi Since Last Visit</div><div class="camp-target">420 customers · All 5 brands</div></td>
-            <td><div class="camp-agent">MILES-RECALL</div></td>
+            <td><div class="camp-agent">AI-RECALL</div></td>
             <td><span class="camp-status cs-running"><span style="width:5px;height:5px;border-radius:50%;background:var(--success);display:inline-block"></span>RUNNING</span></td>
             <td>
               <div style="font-size:12px;font-weight:600;color:var(--t1);font-family:var(--mono)">312 / 420</div>
@@ -1380,7 +1382,7 @@ select{font-family:var(--sans)}
           </tr>
           <tr>
             <td><div class="camp-name">State Inspection Expiring This Month</div><div class="camp-target">65 customers · Auto Care Plus (NH only)</div></td>
-            <td><div class="camp-agent">MILES-RECALL</div></td>
+            <td><div class="camp-agent">AI-RECALL</div></td>
             <td><span class="camp-status cs-running"><span style="width:5px;height:5px;border-radius:50%;background:var(--success);display:inline-block"></span>RUNNING</span></td>
             <td>
               <div style="font-size:12px;font-weight:600;color:var(--t1);font-family:var(--mono)">18 / 65</div>
@@ -1392,7 +1394,7 @@ select{font-family:var(--sans)}
           </tr>
           <tr>
             <td><div class="camp-name">Alignment — Recommended at Last Visit</div><div class="camp-target">138 customers · All 5 brands</div></td>
-            <td><div class="camp-agent">MILES-RECALL</div></td>
+            <td><div class="camp-agent">AI-RECALL</div></td>
             <td><span class="camp-status cs-draft">DRAFT</span></td>
             <td>
               <div style="font-size:12px;color:var(--t3);font-family:var(--mono)">Not started</div>
@@ -1408,7 +1410,7 @@ select{font-family:var(--sans)}
       <!-- Suggested Campaigns -->
       <div class="camp-section-title" style="display:flex;align-items:center;gap:8px">
         <i data-lucide="sparkles" style="width:15px;height:15px;color:var(--blue)"></i>
-        MILES Suggested Campaigns
+        AI Suggested Campaigns
         <span style="font-size:11px;font-weight:400;color:var(--t3)">Based on customer database analysis</span>
       </div>
       <div class="suggest-grid">
@@ -1529,7 +1531,7 @@ select{font-family:var(--sans)}
           <div class="metric-sub up">Calls that would have gone to voicemail</div>
         </div>
         <div class="metric-card">
-          <div class="metric-label">Appointments Booked by MILES</div>
+          <div class="metric-label">Appointments Booked by AI</div>
           <div class="metric-row">
             <div class="metric-val">2,341</div>
             <svg width="64" height="24" viewBox="0 0 64 24" fill="none"><polyline points="0,20 10,17 20,15 30,11 40,9 50,6 60,4 64,3" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1553,7 +1555,7 @@ select{font-family:var(--sans)}
               <div style="font-size:10px;color:var(--t3)">ROI</div>
             </div>
           </div>
-          <div class="metric-sub up">vs. $54K MILES annual platform cost</div>
+          <div class="metric-sub up">vs. $54K annual platform cost</div>
         </div>
       </div>
 
@@ -1564,16 +1566,16 @@ select{font-family:var(--sans)}
           <div class="chart-subtitle">After-hours window (6 PM – 11 PM) shown in navy — previously 100% voicemail</div>
           <svg id="barChartSvg" class="chart-svg" viewBox="0 0 560 160" preserveAspectRatio="xMidYMid meet" style="height:160px"></svg>
           <div class="chart-legend" style="margin-top:8px">
-            <div class="legend-item"><div class="legend-dot" style="background:var(--navy);border-radius:2px;width:12px;height:8px"></div>After-Hours (MILES)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--navy);border-radius:2px;width:12px;height:8px"></div>After-Hours (AI)</div>
             <div class="legend-item"><div class="legend-dot" style="background:#CBD5E1;border-radius:2px;width:12px;height:8px"></div>Business Hours</div>
           </div>
         </div>
         <div class="chart-card">
           <div class="chart-title">Booking Conversion Rate — 90-Day Trend</div>
-          <div class="chart-subtitle">Staff-only baseline vs. MILES-assisted conversion</div>
+          <div class="chart-subtitle">Staff-only baseline vs. AI-assisted conversion</div>
           <svg id="lineChartSvg" class="chart-svg" viewBox="0 0 560 160" preserveAspectRatio="xMidYMid meet" style="height:160px"></svg>
           <div class="chart-legend" style="margin-top:8px">
-            <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>MILES-Assisted (67%)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>AI-Assisted (67%)</div>
             <div class="legend-item"><div class="legend-dot" style="background:#CBD5E1"></div>Staff-Only Baseline (31%)</div>
           </div>
         </div>
@@ -1654,6 +1656,609 @@ select{font-family:var(--sans)}
         </table>
       </div>
     </div>
+
+
+    <!-- VIEW 7 — SETTINGS -->
+    <div class="view" id="view-settings">
+      <div class="lo-header">
+        <h1 class="lo-title">Settings</h1>
+        <div class="lo-right">
+          <button class="camp-btn camp-btn-primary" onclick="settingsSaveAll()"><i data-lucide="save"></i> Save All Changes</button>
+        </div>
+      </div>
+
+      <div class="settings-layout">
+
+        <!-- Left nav -->
+        <nav class="settings-nav">
+          <div class="sn-item active" data-section="general"        onclick="switchSettingsSection('general')">        <i data-lucide="sliders"></i>        General</div>
+          <div class="sn-item"        data-section="ai-behavior"     onclick="switchSettingsSection('ai-behavior')">   <i data-lucide="cpu"></i>           AI Behavior</div>
+          <div class="sn-item"        data-section="call-routing"    onclick="switchSettingsSection('call-routing')">  <i data-lucide="phone-forwarded"></i>Call Routing</div>
+          <div class="sn-item"        data-section="brands"          onclick="switchSettingsSection('brands')">        <i data-lucide="building-2"></i>     Brands &amp; Locations</div>
+          <div class="sn-item"        data-section="integrations"    onclick="switchSettingsSection('integrations')">  <i data-lucide="plug"></i>           Integrations</div>
+          <div class="sn-item"        data-section="notifications"   onclick="switchSettingsSection('notifications')"> <i data-lucide="bell"></i>           Notifications</div>
+          <div class="sn-item"        data-section="users"           onclick="switchSettingsSection('users')">         <i data-lucide="users"></i>          Users &amp; Roles</div>
+          <div class="sn-item"        data-section="billing"         onclick="switchSettingsSection('billing')">       <i data-lucide="credit-card"></i>    Billing &amp; Usage</div>
+        </nav>
+
+        <!-- Content panels -->
+        <div class="settings-content">
+
+          <!-- ── GENERAL ── -->
+          <div class="settings-panel active" id="sp-general">
+            <div class="sp-title">General</div>
+            <div class="sg-group">
+              <div class="sg-label">System Name</div>
+              <div class="sg-desc">Display name shown in reports and notifications.</div>
+              <input class="sg-input" value="AI Service Advisor — Straightaway Tire &amp; Auto">
+            </div>
+            <div class="sg-group">
+              <div class="sg-label">Default Timezone</div>
+              <select class="sg-select">
+                <option>America/New_York (EST/EDT)</option>
+                <option selected>America/Chicago (CST/CDT)</option>
+                <option>America/Denver (MST/MDT)</option>
+                <option>America/Los_Angeles (PST/PDT)</option>
+              </select>
+            </div>
+            <div class="sg-group">
+              <div class="sg-label">Default Language</div>
+              <select class="sg-select">
+                <option selected>English (US)</option>
+                <option>Spanish (US)</option>
+                <option>French (CA)</option>
+              </select>
+            </div>
+            <div class="sg-group">
+              <div class="sg-label">Date &amp; Time Format</div>
+              <div style="display:flex;gap:10px">
+                <select class="sg-select" style="flex:1"><option selected>MM/DD/YYYY</option><option>DD/MM/YYYY</option><option>YYYY-MM-DD</option></select>
+                <select class="sg-select" style="flex:1"><option selected>12-hour (AM/PM)</option><option>24-hour</option></select>
+              </div>
+            </div>
+            <div class="sg-group">
+              <div class="sg-row-split">
+                <div>
+                  <div class="sg-label">Dark Mode</div>
+                  <div class="sg-desc">Toggle interface dark theme.</div>
+                </div>
+                <label class="sg-toggle"><input type="checkbox" onchange="showToast('Dark mode coming in v1.2')"><span class="sg-track"><span class="sg-thumb"></span></span></label>
+              </div>
+            </div>
+            <div class="sg-group">
+              <div class="sg-row-split">
+                <div>
+                  <div class="sg-label">Show Confidence Scores</div>
+                  <div class="sg-desc">Display AI confidence % on all call cards and logs.</div>
+                </div>
+                <label class="sg-toggle"><input type="checkbox" checked onchange="showToast('Preference saved')"><span class="sg-track"><span class="sg-thumb"></span></span></label>
+              </div>
+            </div>
+            <div class="sg-group">
+              <div class="sg-row-split">
+                <div>
+                  <div class="sg-label">Auto-Refresh Live Feed</div>
+                  <div class="sg-desc">Refresh Live Operations dashboard every 30 seconds.</div>
+                </div>
+                <label class="sg-toggle"><input type="checkbox" checked onchange="showToast('Preference saved')"><span class="sg-track"><span class="sg-thumb"></span></span></label>
+              </div>
+            </div>
+            <div class="sg-save-row"><button class="sg-save-btn" onclick="showToast('General settings saved')">Save Changes</button></div>
+          </div>
+
+          <!-- ── AI BEHAVIOR ── -->
+          <div class="settings-panel" id="sp-ai-behavior">
+            <div class="sp-title">AI Behavior</div>
+
+            <div class="sg-group">
+              <div class="sg-label">Confidence Threshold — Escalation</div>
+              <div class="sg-desc">Calls where AI confidence drops below this level are immediately escalated to an on-call advisor.</div>
+              <div class="sg-slider-row">
+                <input type="range" class="sg-slider" min="50" max="95" value="82" id="sliderEsc" oninput="document.getElementById('sliderEscVal').textContent=this.value+'%'">
+                <span class="sg-slider-val" id="sliderEscVal">82%</span>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">Confidence Threshold — Voicemail Fallback</div>
+              <div class="sg-desc">Below this threshold (but above escalation threshold), AI leaves a voicemail and creates a CRM callback ticket.</div>
+              <div class="sg-slider-row">
+                <input type="range" class="sg-slider" min="50" max="95" value="70" id="sliderVm" oninput="document.getElementById('sliderVmVal').textContent=this.value+'%'">
+                <span class="sg-slider-val" id="sliderVmVal">70%</span>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">AI Voice &amp; Tone</div>
+              <select class="sg-select">
+                <option selected>Professional &amp; Warm (Default)</option>
+                <option>Concise &amp; Direct</option>
+                <option>Conversational &amp; Friendly</option>
+              </select>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">TTS Voice Profile</div>
+              <select class="sg-select">
+                <option selected>Alex — Straightaway (Custom)</option>
+                <option>ElevenLabs — Rachel</option>
+                <option>ElevenLabs — Josh</option>
+                <option>ElevenLabs — Elli</option>
+              </select>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">Intent Classification Model</div>
+              <div class="sg-desc">NLP model used to classify caller intent. Higher accuracy models may add latency.</div>
+              <select class="sg-select">
+                <option>Standard (96.3% accuracy · ~0.3s latency)</option>
+                <option selected>Balanced (97.1% accuracy · ~0.5s latency)</option>
+                <option>Precision (98.2% accuracy · ~0.9s latency)</option>
+              </select>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-row-split">
+                <div>
+                  <div class="sg-label">Caller ID Lookup (ANI Match)</div>
+                  <div class="sg-desc">Match caller phone number against CRM for personalized greetings.</div>
+                </div>
+                <label class="sg-toggle"><input type="checkbox" checked onchange="showToast('Preference saved')"><span class="sg-track"><span class="sg-thumb"></span></span></label>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-row-split">
+                <div>
+                  <div class="sg-label">Proactive Upsell Suggestions</div>
+                  <div class="sg-desc">AI offers related services based on vehicle service history (e.g., rotation with oil change).</div>
+                </div>
+                <label class="sg-toggle"><input type="checkbox" checked onchange="showToast('Preference saved')"><span class="sg-track"><span class="sg-thumb"></span></span></label>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-row-split">
+                <div>
+                  <div class="sg-label">Recall Campaign Outbound Calling</div>
+                  <div class="sg-desc">Allow AI to initiate outbound calls for deferred service recall campaigns.</div>
+                </div>
+                <label class="sg-toggle"><input type="checkbox" checked onchange="showToast('Preference saved')"><span class="sg-track"><span class="sg-thumb"></span></span></label>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">Max Call Duration Before Escalation</div>
+              <div class="sg-desc">If a call exceeds this duration without booking, auto-escalate to advisor.</div>
+              <div class="sg-slider-row">
+                <input type="range" class="sg-slider" min="2" max="15" value="8" id="sliderDur" oninput="document.getElementById('sliderDurVal').textContent=this.value+' min'">
+                <span class="sg-slider-val" id="sliderDurVal">8 min</span>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">Sentiment Analysis</div>
+              <div class="sg-desc">Real-time caller sentiment detection. Triggers escalation if frustration or urgency thresholds are met.</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+                <div class="sg-info-card"><div class="sg-ic-lbl">Frustration Trigger</div><select class="sg-select" style="margin-top:4px;font-size:12px"><option>High</option><option selected>Medium</option><option>Low (sensitive)</option></select></div>
+                <div class="sg-info-card"><div class="sg-ic-lbl">Urgency Trigger</div><select class="sg-select" style="margin-top:4px;font-size:12px"><option selected>High</option><option>Medium</option><option>Low (sensitive)</option></select></div>
+              </div>
+            </div>
+
+            <div class="sg-save-row"><button class="sg-save-btn" onclick="showToast('AI behavior settings saved')">Save Changes</button></div>
+          </div>
+
+          <!-- ── CALL ROUTING ── -->
+          <div class="settings-panel" id="sp-call-routing">
+            <div class="sp-title">Call Routing</div>
+
+            <div class="sg-group">
+              <div class="sg-label">After-Hours Window</div>
+              <div class="sg-desc">AI handles all inbound calls outside these hours. All brands share the same window unless overridden per location.</div>
+              <div style="display:flex;gap:10px;margin-top:8px">
+                <div style="flex:1"><div class="sg-sub-lbl">Opens</div><select class="sg-select"><option>6:00 AM</option><option>6:30 AM</option><option selected>7:00 AM</option><option>7:30 AM</option><option>8:00 AM</option></select></div>
+                <div style="flex:1"><div class="sg-sub-lbl">Closes</div><select class="sg-select"><option>5:00 PM</option><option>5:30 PM</option><option>6:00 PM</option><option selected>6:30 PM</option><option>7:00 PM</option></select></div>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">Ring Intercept Threshold</div>
+              <div class="sg-desc">Number of rings before AI intercepts an unanswered call during business hours.</div>
+              <select class="sg-select">
+                <option>1 ring</option>
+                <option selected>2 rings</option>
+                <option>3 rings</option>
+                <option>4 rings</option>
+              </select>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">On-Call Escalation Target</div>
+              <div class="sg-desc">Who receives escalated calls when an advisor is unavailable.</div>
+              <select class="sg-select">
+                <option selected>On-Call Service Advisor (rotating)</option>
+                <option>Service Manager (direct)</option>
+                <option>Regional Manager</option>
+                <option>Voicemail + CRM Ticket only</option>
+              </select>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">Overflow Behavior (Queue Full)</div>
+              <select class="sg-select">
+                <option selected>AI handles overflow — no queue limit</option>
+                <option>Queue max 10 — remainder to voicemail</option>
+                <option>Queue max 20 — remainder to voicemail</option>
+              </select>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-row-split">
+                <div>
+                  <div class="sg-label">Warm Transfer Pre-Briefing</div>
+                  <div class="sg-desc">AI delivers a 6-second caller summary to the advisor before connecting.</div>
+                </div>
+                <label class="sg-toggle"><input type="checkbox" checked onchange="showToast('Preference saved')"><span class="sg-track"><span class="sg-thumb"></span></span></label>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-row-split">
+                <div>
+                  <div class="sg-label">CRM Screen Pop on Transfer</div>
+                  <div class="sg-desc">Push customer record to advisor's screen when transferring a call.</div>
+                </div>
+                <label class="sg-toggle"><input type="checkbox" checked onchange="showToast('Preference saved')"><span class="sg-track"><span class="sg-thumb"></span></span></label>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-row-split">
+                <div>
+                  <div class="sg-label">Missed Call Auto-Recovery</div>
+                  <div class="sg-desc">AI automatically calls back missed inbound numbers within 15 minutes.</div>
+                </div>
+                <label class="sg-toggle"><input type="checkbox" checked onchange="showToast('Preference saved')"><span class="sg-track"><span class="sg-thumb"></span></span></label>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">Recall Campaign Call Window</div>
+              <div class="sg-desc">Time window in which outbound recall calls are permitted.</div>
+              <div style="display:flex;gap:10px;margin-top:8px">
+                <div style="flex:1"><div class="sg-sub-lbl">Earliest</div><select class="sg-select"><option>8:00 AM</option><option selected>9:00 AM</option><option>10:00 AM</option></select></div>
+                <div style="flex:1"><div class="sg-sub-lbl">Latest</div><select class="sg-select"><option>5:00 PM</option><option selected>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option></select></div>
+              </div>
+            </div>
+
+            <div class="sg-save-row"><button class="sg-save-btn" onclick="showToast('Call routing settings saved')">Save Changes</button></div>
+          </div>
+
+          <!-- ── BRANDS & LOCATIONS ── -->
+          <div class="settings-panel" id="sp-brands">
+            <div class="sp-title">Brands &amp; Locations</div>
+            <div class="sg-desc" style="margin-bottom:16px">Manage brand groups and per-location AI settings. Location-level overrides take precedence over brand defaults.</div>
+
+            <div class="sg-brands-list">
+              <div class="sgb-row">
+                <div class="sgb-color" style="background:#0B2545"></div>
+                <div class="sgb-info"><div class="sgb-name">All County Tire &amp; Auto</div><div class="sgb-meta">18 locations · NH, VT</div></div>
+                <div class="sgb-stats"><span class="sgb-stat">Active</span><span class="sgb-stat-num">18/18 live</span></div>
+                <button class="sg-edit-btn" onclick="showToast('Brand config — coming in v1.2')"><i data-lucide="edit-2"></i> Configure</button>
+              </div>
+              <div class="sgb-row">
+                <div class="sgb-color" style="background:#2563EB"></div>
+                <div class="sgb-info"><div class="sgb-name">Auto Care Plus</div><div class="sgb-meta">14 locations · NH</div></div>
+                <div class="sgb-stats"><span class="sgb-stat">Active</span><span class="sgb-stat-num">14/14 live</span></div>
+                <button class="sg-edit-btn" onclick="showToast('Brand config — coming in v1.2')"><i data-lucide="edit-2"></i> Configure</button>
+              </div>
+              <div class="sgb-row">
+                <div class="sgb-color" style="background:#059669"></div>
+                <div class="sgb-info"><div class="sgb-name">EAS Tire &amp; Auto</div><div class="sgb-meta">22 locations · MN, WI</div></div>
+                <div class="sgb-stats"><span class="sgb-stat">Active</span><span class="sgb-stat-num">22/22 live</span></div>
+                <button class="sg-edit-btn" onclick="showToast('Brand config — coming in v1.2')"><i data-lucide="edit-2"></i> Configure</button>
+              </div>
+              <div class="sgb-row">
+                <div class="sgb-color" style="background:#7C3AED"></div>
+                <div class="sgb-info"><div class="sgb-name">Silverlake Automotive</div><div class="sgb-meta">11 locations · CO</div></div>
+                <div class="sgb-stats"><span class="sgb-stat">Active</span><span class="sgb-stat-num">11/11 live</span></div>
+                <button class="sg-edit-btn" onclick="showToast('Brand config — coming in v1.2')"><i data-lucide="edit-2"></i> Configure</button>
+              </div>
+              <div class="sgb-row">
+                <div class="sgb-color" style="background:#D97706"></div>
+                <div class="sgb-info"><div class="sgb-name">Victory Tire &amp; Auto</div><div class="sgb-meta">25 locations · MN, ND</div></div>
+                <div class="sgb-stats"><span class="sgb-stat">Active</span><span class="sgb-stat-num">25/25 live</span></div>
+                <button class="sg-edit-btn" onclick="showToast('Brand config — coming in v1.2')"><i data-lucide="edit-2"></i> Configure</button>
+              </div>
+            </div>
+
+            <div class="sg-group" style="margin-top:20px">
+              <div class="sg-label">DMS Platform (All Brands)</div>
+              <select class="sg-select">
+                <option selected>Mitchell 1 (Primary)</option>
+                <option>Shop-Ware</option>
+                <option>Tekmetric</option>
+                <option>AutoFluent</option>
+                <option>Mixed — per brand</option>
+              </select>
+            </div>
+            <div class="sg-group">
+              <div class="sg-label">Appointment Slot Duration Defaults</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px">
+                <div class="sg-info-card"><div class="sg-ic-lbl">Oil Change</div><select class="sg-select" style="margin-top:4px;font-size:12px"><option>30 min</option><option selected>45 min</option><option>60 min</option></select></div>
+                <div class="sg-info-card"><div class="sg-ic-lbl">Brake Service</div><select class="sg-select" style="margin-top:4px;font-size:12px"><option>60 min</option><option selected>90 min</option><option>120 min</option></select></div>
+                <div class="sg-info-card"><div class="sg-ic-lbl">Tire Replacement</div><select class="sg-select" style="margin-top:4px;font-size:12px"><option>45 min</option><option selected>60 min</option><option>90 min</option></select></div>
+                <div class="sg-info-card"><div class="sg-ic-lbl">Alignment</div><select class="sg-select" style="margin-top:4px;font-size:12px"><option selected>45 min</option><option>60 min</option></select></div>
+                <div class="sg-info-card"><div class="sg-ic-lbl">Diagnostic</div><select class="sg-select" style="margin-top:4px;font-size:12px"><option selected>60 min</option><option>90 min</option></select></div>
+                <div class="sg-info-card"><div class="sg-ic-lbl">Major Service</div><select class="sg-select" style="margin-top:4px;font-size:12px"><option>90 min</option><option selected>120 min</option><option>180 min</option></select></div>
+              </div>
+            </div>
+            <div class="sg-save-row"><button class="sg-save-btn" onclick="showToast('Brand settings saved')">Save Changes</button></div>
+          </div>
+
+          <!-- ── INTEGRATIONS ── -->
+          <div class="settings-panel" id="sp-integrations">
+            <div class="sp-title">Integrations</div>
+            <div class="sg-desc" style="margin-bottom:16px">Connected systems and API credentials. All keys are encrypted at rest (AES-256) and never exposed in the UI.</div>
+
+            <div class="sg-int-card connected">
+              <div class="sgi-left">
+                <div class="sgi-icon" style="background:rgba(5,150,105,.08);color:var(--success)"><i data-lucide="database"></i></div>
+                <div><div class="sgi-name">Mitchell 1 DMS</div><div class="sgi-sub">Appointment write · Service history · Bay availability</div></div>
+              </div>
+              <div class="sgi-right"><span class="sgi-badge connected">Connected</span><button class="sg-edit-btn" onclick="showToast('DMS config — contact Neuralogic support to update credentials')">Configure</button></div>
+            </div>
+
+            <div class="sg-int-card connected">
+              <div class="sgi-left">
+                <div class="sgi-icon" style="background:rgba(37,99,235,.08);color:var(--blue)"><i data-lucide="users"></i></div>
+                <div><div class="sgi-name">CRM — Salesforce Service Cloud</div><div class="sgi-sub">Customer records · Call logging · Ticket creation · Screen pop</div></div>
+              </div>
+              <div class="sgi-right"><span class="sgi-badge connected">Connected</span><button class="sg-edit-btn" onclick="showToast('CRM config — contact Neuralogic support to update credentials')">Configure</button></div>
+            </div>
+
+            <div class="sg-int-card connected">
+              <div class="sgi-left">
+                <div class="sgi-icon" style="background:rgba(217,119,6,.08);color:var(--warning)"><i data-lucide="message-square"></i></div>
+                <div><div class="sgi-name">Twilio — SMS &amp; Voice</div><div class="sgi-sub">Outbound SMS confirmation · Recall campaign calling · Call recording</div></div>
+              </div>
+              <div class="sgi-right"><span class="sgi-badge connected">Connected</span><button class="sg-edit-btn" onclick="showToast('Twilio config — contact Neuralogic support to update credentials')">Configure</button></div>
+            </div>
+
+            <div class="sg-int-card connected">
+              <div class="sgi-left">
+                <div class="sgi-icon" style="background:rgba(11,37,69,.08);color:var(--navy)"><i data-lucide="mic"></i></div>
+                <div><div class="sgi-name">OpenAI Whisper — Transcription</div><div class="sgi-sub">Real-time call transcription · Voicemail-to-text · Sentiment scoring</div></div>
+              </div>
+              <div class="sgi-right"><span class="sgi-badge connected">Connected</span><button class="sg-edit-btn" onclick="showToast('Whisper config — contact Neuralogic support')">Configure</button></div>
+            </div>
+
+            <div class="sg-int-card">
+              <div class="sgi-left">
+                <div class="sgi-icon" style="background:var(--canvas);color:var(--t3)"><i data-lucide="hash"></i></div>
+                <div><div class="sgi-name">Slack</div><div class="sgi-sub">Escalation alerts · Campaign milestone notifications · On-call paging</div></div>
+              </div>
+              <div class="sgi-right"><span class="sgi-badge">Not Connected</span><button class="sg-edit-btn" onclick="showToast('Slack integration — coming in v1.2')"><i data-lucide="plus"></i> Connect</button></div>
+            </div>
+
+            <div class="sg-int-card">
+              <div class="sgi-left">
+                <div class="sgi-icon" style="background:var(--canvas);color:var(--t3)"><i data-lucide="bar-chart"></i></div>
+                <div><div class="sgi-name">Google Analytics / GA4</div><div class="sgi-sub">Booking funnel tracking · Campaign attribution · Conversion events</div></div>
+              </div>
+              <div class="sgi-right"><span class="sgi-badge">Not Connected</span><button class="sg-edit-btn" onclick="showToast('GA4 integration — coming in v1.2')"><i data-lucide="plus"></i> Connect</button></div>
+            </div>
+
+            <div class="sg-group" style="margin-top:20px">
+              <div class="sg-label">Webhook — Booking Confirmed Event</div>
+              <div class="sg-desc">POST to this URL every time AI books an appointment.</div>
+              <input class="sg-input" placeholder="https://your-endpoint.example.com/webhooks/booking" value="">
+            </div>
+            <div class="sg-group">
+              <div class="sg-label">Webhook — Escalation Event</div>
+              <div class="sg-desc">POST to this URL every time a call is escalated to a human.</div>
+              <input class="sg-input" placeholder="https://your-endpoint.example.com/webhooks/escalation" value="">
+            </div>
+            <div class="sg-save-row"><button class="sg-save-btn" onclick="showToast('Integration settings saved')">Save Changes</button></div>
+          </div>
+
+          <!-- ── NOTIFICATIONS ── -->
+          <div class="settings-panel" id="sp-notifications">
+            <div class="sp-title">Notifications</div>
+
+            <div class="sg-group">
+              <div class="sg-label">Alert Delivery Channels</div>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+                <div class="sg-row-split"><div><div class="sg-label" style="font-size:12.5px">Email Alerts</div><div class="sg-desc">Send escalation and campaign milestone alerts by email.</div></div><label class="sg-toggle"><input type="checkbox" checked onchange="showToast('Preference saved')"><span class="sg-track"><span class="sg-thumb"></span></span></label></div>
+                <div class="sg-row-split"><div><div class="sg-label" style="font-size:12.5px">SMS Alerts (On-Call)</div><div class="sg-desc">Text the on-call advisor when a high-severity escalation occurs.</div></div><label class="sg-toggle"><input type="checkbox" checked onchange="showToast('Preference saved')"><span class="sg-track"><span class="sg-thumb"></span></span></label></div>
+                <div class="sg-row-split"><div><div class="sg-label" style="font-size:12.5px">In-App Notifications</div><div class="sg-desc">Push notification badge in the dashboard header.</div></div><label class="sg-toggle"><input type="checkbox" checked onchange="showToast('Preference saved')"><span class="sg-track"><span class="sg-thumb"></span></span></label></div>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">Escalation Alert Recipients</div>
+              <div class="sg-desc">Comma-separated email addresses. These contacts receive all high-severity escalation notifications.</div>
+              <input class="sg-input" value="ops@straightaway.com, service-manager@straightaway.com">
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">Campaign Milestone Alerts</div>
+              <div class="sg-desc">Send notification when a campaign reaches these completion thresholds.</div>
+              <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                <label class="sg-check-pill"><input type="checkbox" checked> 25%</label>
+                <label class="sg-check-pill"><input type="checkbox" checked> 50%</label>
+                <label class="sg-check-pill"><input type="checkbox"> 75%</label>
+                <label class="sg-check-pill"><input type="checkbox" checked> 100%</label>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">High Call Volume Alert</div>
+              <div class="sg-desc">Trigger an alert when queue exceeds this size for more than 5 minutes.</div>
+              <div class="sg-slider-row">
+                <input type="range" class="sg-slider" min="5" max="50" value="15" id="sliderQueue" oninput="document.getElementById('sliderQueueVal').textContent=this.value+' calls'">
+                <span class="sg-slider-val" id="sliderQueueVal">15 calls</span>
+              </div>
+            </div>
+
+            <div class="sg-group">
+              <div class="sg-label">Daily Summary Report</div>
+              <div class="sg-desc">Send a daily performance summary at the end of each business day.</div>
+              <div class="sg-row-split" style="margin-top:8px">
+                <select class="sg-select" style="flex:1">
+                  <option selected>Every day</option>
+                  <option>Weekdays only</option>
+                  <option>Weekly (Monday)</option>
+                  <option>Off</option>
+                </select>
+                <select class="sg-select" style="flex:1">
+                  <option>5:00 PM</option>
+                  <option selected>6:30 PM</option>
+                  <option>8:00 PM</option>
+                  <option>9:00 PM</option>
+                </select>
+              </div>
+            </div>
+            <div class="sg-save-row"><button class="sg-save-btn" onclick="showToast('Notification settings saved')">Save Changes</button></div>
+          </div>
+
+          <!-- ── USERS & ROLES ── -->
+          <div class="settings-panel" id="sp-users">
+            <div class="sp-title">Users &amp; Roles</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+              <div class="sg-desc">Manage who can access the dashboard and what they can do.</div>
+              <button class="camp-btn camp-btn-primary" onclick="showToast('User invite — coming in v1.2')"><i data-lucide="user-plus"></i> Invite User</button>
+            </div>
+
+            <table class="sg-users-table">
+              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Brands</th><th>Last Login</th><th></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><div class="sgu-name">Jordan Walsh</div><div class="sgu-sub">Account Owner</div></td>
+                  <td class="sgu-email">jordan@straightaway.com</td>
+                  <td><span class="sgu-role role-admin">Admin</span></td>
+                  <td class="sgu-brands">All Brands</td>
+                  <td class="sgu-last">Today, 9:14 AM</td>
+                  <td><button class="sg-edit-btn" onclick="showToast('User management — coming in v1.2')">Edit</button></td>
+                </tr>
+                <tr>
+                  <td><div class="sgu-name">Marcus Rivera</div></td>
+                  <td class="sgu-email">marcus@straightaway.com</td>
+                  <td><span class="sgu-role role-manager">Manager</span></td>
+                  <td class="sgu-brands">All County, EAS</td>
+                  <td class="sgu-last">Yesterday</td>
+                  <td><button class="sg-edit-btn" onclick="showToast('User management — coming in v1.2')">Edit</button></td>
+                </tr>
+                <tr>
+                  <td><div class="sgu-name">Priya Nair</div></td>
+                  <td class="sgu-email">priya@straightaway.com</td>
+                  <td><span class="sgu-role role-manager">Manager</span></td>
+                  <td class="sgu-brands">Auto Care Plus, Victory</td>
+                  <td class="sgu-last">Apr 14</td>
+                  <td><button class="sg-edit-btn" onclick="showToast('User management — coming in v1.2')">Edit</button></td>
+                </tr>
+                <tr>
+                  <td><div class="sgu-name">Derek Hollis</div></td>
+                  <td class="sgu-email">derek@straightaway.com</td>
+                  <td><span class="sgu-role role-viewer">Viewer</span></td>
+                  <td class="sgu-brands">Silverlake</td>
+                  <td class="sgu-last">Apr 12</td>
+                  <td><button class="sg-edit-btn" onclick="showToast('User management — coming in v1.2')">Edit</button></td>
+                </tr>
+                <tr>
+                  <td><div class="sgu-name">Neuralogic Support</div><div class="sgu-sub">Technical access</div></td>
+                  <td class="sgu-email">support@neuralogic.ai</td>
+                  <td><span class="sgu-role role-support">Support</span></td>
+                  <td class="sgu-brands">All Brands</td>
+                  <td class="sgu-last">Apr 15</td>
+                  <td><button class="sg-edit-btn" onclick="showToast('User management — coming in v1.2')">Edit</button></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="sg-group" style="margin-top:20px">
+              <div class="sg-label">Session Timeout</div>
+              <select class="sg-select">
+                <option>30 minutes</option>
+                <option selected>2 hours</option>
+                <option>8 hours</option>
+                <option>Never (not recommended)</option>
+              </select>
+            </div>
+            <div class="sg-group">
+              <div class="sg-row-split">
+                <div>
+                  <div class="sg-label">Require Two-Factor Authentication</div>
+                  <div class="sg-desc">Require 2FA for all Admin and Manager accounts.</div>
+                </div>
+                <label class="sg-toggle"><input type="checkbox" checked onchange="showToast('Preference saved')"><span class="sg-track"><span class="sg-thumb"></span></span></label>
+              </div>
+            </div>
+            <div class="sg-save-row"><button class="sg-save-btn" onclick="showToast('User settings saved')">Save Changes</button></div>
+          </div>
+
+          <!-- ── BILLING & USAGE ── -->
+          <div class="settings-panel" id="sp-billing">
+            <div class="sp-title">Billing &amp; Usage</div>
+
+            <div class="sg-billing-hero">
+              <div class="sgbh-plan">
+                <div class="sgbh-plan-name">Enterprise Plan</div>
+                <div class="sgbh-plan-detail">90 Locations · Unlimited Calls · All AI Agents Included</div>
+              </div>
+              <div class="sgbh-price"><span class="sgbh-amount">$4,500</span><span class="sgbh-period">/month</span></div>
+            </div>
+
+            <div class="sg-usage-grid">
+              <div class="sg-usage-card">
+                <div class="sguc-label">Inbound Calls This Month</div>
+                <div class="sguc-val">6,841</div>
+                <div class="sguc-bar-track"><div class="sguc-bar" style="width:76%"></div></div>
+                <div class="sguc-sub">Unlimited · 76% of typical usage</div>
+              </div>
+              <div class="sg-usage-card">
+                <div class="sguc-label">Outbound Recall Calls</div>
+                <div class="sguc-val">1,203</div>
+                <div class="sguc-bar-track"><div class="sguc-bar" style="width:48%"></div></div>
+                <div class="sguc-sub">Unlimited · 48% of typical usage</div>
+              </div>
+              <div class="sg-usage-card">
+                <div class="sguc-label">SMS Confirmations Sent</div>
+                <div class="sguc-val">2,891</div>
+                <div class="sguc-bar-track"><div class="sguc-bar" style="width:58%"></div></div>
+                <div class="sguc-sub">Unlimited · 58% of typical usage</div>
+              </div>
+              <div class="sg-usage-card">
+                <div class="sguc-label">Active Locations</div>
+                <div class="sguc-val">90 / 90</div>
+                <div class="sguc-bar-track"><div class="sguc-bar" style="width:100%;background:var(--navy)"></div></div>
+                <div class="sguc-sub">At plan limit — contact sales to expand</div>
+              </div>
+            </div>
+
+            <div class="sg-group" style="margin-top:20px">
+              <div class="sg-label">Billing Contact</div>
+              <input class="sg-input" value="billing@straightaway.com">
+            </div>
+            <div class="sg-group">
+              <div class="sg-label">Billing Cycle</div>
+              <div class="sg-info-card" style="display:flex;justify-content:space-between;align-items:center">
+                <div><div style="font-size:12.5px;font-weight:600;color:var(--t1)">Next invoice: May 1, 2026</div><div style="font-size:11.5px;color:var(--t3);margin-top:2px">Auto-pay · Visa ending 4411</div></div>
+                <button class="sg-edit-btn" onclick="showToast('Billing portal — contact billing@neuralogic.ai')">Manage Billing</button>
+              </div>
+            </div>
+            <div class="sg-group">
+              <div class="sg-label">Contract &amp; SLA</div>
+              <div class="sg-info-card" style="display:flex;justify-content:space-between;align-items:center">
+                <div><div style="font-size:12.5px;font-weight:600;color:var(--t1)">Annual contract · Expires Jan 31, 2027</div><div style="font-size:11.5px;color:var(--t3);margin-top:2px">99.9% uptime SLA · 24/7 support included</div></div>
+                <button class="sg-edit-btn" onclick="showToast('Contract documents — contact support@neuralogic.ai')">View Contract</button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /settings-content -->
+      </div><!-- /settings-layout -->
+    </div><!-- /view-settings -->
 
   </main>
 </div>
@@ -1743,7 +2348,7 @@ select{font-family:var(--sans)}
     <div class="modal-header">
       <div>
         <div class="modal-title">Listening In — David Sullivan</div>
-        <div class="modal-subtitle">Auto Care Plus — Derry, NH · 2017 Subaru Outback · MILES-INTAKE → MILES-BOOK</div>
+        <div class="modal-subtitle">Auto Care Plus — Derry, NH · 2017 Subaru Outback · AI-INTAKE → AI-BOOK</div>
       </div>
       <button class="modal-close" onclick="closeModal('listenModal')">
         <i data-lucide="x"></i>
@@ -1751,15 +2356,15 @@ select{font-family:var(--sans)}
     </div>
     <div class="modal-body">
       <div class="modal-transcript" id="modalTranscript">
-        <div class="tline"><span class="tspeaker ts-miles">MILES</span><span class="ttext">Thanks for calling Auto Care Plus in Derry. This is the after-hours service line. May I have your name?</span></div>
+        <div class="tline"><span class="tspeaker ts-miles">AI</span><span class="ttext">Thanks for calling Auto Care Plus in Derry. This is the after-hours service line. May I have your name?</span></div>
         <div class="tline"><span class="tspeaker ts-caller">CALLER</span><span class="ttext">Yeah, hi, this is David Sullivan.</span></div>
-        <div class="tline"><span class="tspeaker ts-miles">MILES</span><span class="ttext">Hi David — I see you've been a customer with us since 2019. Are you calling about your 2017 Subaru Outback?</span></div>
+        <div class="tline"><span class="tspeaker ts-miles">AI</span><span class="ttext">Hi David — I see you've been a customer with us since 2019. Are you calling about your 2017 Subaru Outback?</span></div>
         <div class="tline"><span class="tspeaker ts-caller">CALLER</span><span class="ttext">Yeah, exactly. I've got this grinding noise when I brake. Started today.</span></div>
-        <div class="tline"><span class="tspeaker ts-miles">MILES</span><span class="ttext">That's something we definitely want to look at — grinding on brakes can mean the pads have worn through to the rotors. I'd recommend bringing it in as soon as possible. Are you comfortable driving short distances?</span></div>
+        <div class="tline"><span class="tspeaker ts-miles">AI</span><span class="ttext">That's something we definitely want to look at — grinding on brakes can mean the pads have worn through to the rotors. I'd recommend bringing it in as soon as possible. Are you comfortable driving short distances?</span></div>
         <div class="tline"><span class="tspeaker ts-caller">CALLER</span><span class="ttext">Yeah, it's not bad yet, just started.</span></div>
-        <div class="tline"><span class="tspeaker ts-miles">MILES</span><span class="ttext">Okay. I have an opening tomorrow at 7:30 AM, or 11:00 AM if you'd prefer later. Which works better?</span></div>
+        <div class="tline"><span class="tspeaker ts-miles">AI</span><span class="ttext">Okay. I have an opening tomorrow at 7:30 AM, or 11:00 AM if you'd prefer later. Which works better?</span></div>
         <div class="tline"><span class="tspeaker ts-caller">CALLER</span><span class="ttext">7:30 works.</span></div>
-        <div class="tline"><span class="tspeaker ts-miles">MILES</span><span class="ttext">Booked. I'll text you a confirmation right now. We'll do a full brake inspection — that's complimentary — and call you with findings before any work starts. Anything else I can help with?</span></div>
+        <div class="tline"><span class="tspeaker ts-miles">AI</span><span class="ttext">Booked. I'll text you a confirmation right now. We'll do a full brake inspection — that's complimentary — and call you with findings before any work starts. Anything else I can help with?</span></div>
         <div class="stream-indicator" style="display:flex">
           <div class="thinking-dots"><span></span><span></span><span></span></div>
           <span class="stream-label">Streaming — call in progress</span>
@@ -1787,8 +2392,8 @@ select{font-family:var(--sans)}
     </div>
     <div class="confirm-body">
       <p class="confirm-msg">
-        Taking over this call will <strong>pause MILES-INTAKE</strong> for this interaction and route the call to your device. The customer will hear a brief hold tone during transfer.<br><br>
-        MILES will remain active for all other incoming calls.
+        Taking over this call will <strong>pause AI-INTAKE</strong> for this interaction and route the call to your device. The customer will hear a brief hold tone during transfer.<br><br>
+        AI will remain active for all other incoming calls.
       </p>
       <div style="display:flex;gap:10px">
         <button class="btn-primary" onclick="confirmTakeover()">
@@ -1888,9 +2493,9 @@ setInterval(updateCallTimer, 1000);
 
 // ─── TYPEWRITER ───────────────────────────────────────────────────
 const twLines = [
-  { speaker: 'MILES',  text: "Okay. I have an opening tomorrow at 7:30 AM, or 11:00 AM if you'd prefer later. Which works better?" },
+  { speaker: 'AI', text: "Okay. I have an opening tomorrow at 7:30 AM, or 11:00 AM if you'd prefer later. Which works better?" },
   { speaker: 'CALLER', text: "7:30 works." },
-  { speaker: 'MILES',  text: "Booked. I'll text you a confirmation right now. We'll do a full brake inspection — that's complimentary — and call you with findings before any work starts. Anything else I can help with?" },
+  { speaker: 'AI', text: "Booked. I'll text you a confirmation right now. We'll do a full brake inspection — that's complimentary — and call you with findings before any work starts. Anything else I can help with?" },
 ];
 
 let twLineIdx = 0;
@@ -1908,7 +2513,7 @@ function twNextLine() {
   const line = twLines[twLineIdx];
   const div = document.createElement('div');
   div.className = 'tline';
-  const spClass = line.speaker === 'MILES' ? 'ts-miles' : 'ts-caller';
+  const spClass = line.speaker === 'AI' ? 'ts-miles' : 'ts-caller';
   div.innerHTML = `<span class="tspeaker ${spClass}">${line.speaker}</span><span class="ttext" id="twText${twLineIdx}"></span>`;
   twTarget.appendChild(div);
   twCurrentEl = document.getElementById('twText' + twLineIdx);
@@ -1941,7 +2546,7 @@ const reasoningSteps = [
   { done: true,  text: 'Vehicle confirmed: 2017 Subaru Outback' },
   { done: true,  text: '"grinding" + "brake" → Brake Inspection (94%)' },
   { done: true,  text: 'Severity: Moderate — safe to drive short dist.' },
-  { done: true,  text: 'Routing to MILES-BOOK — querying Derry bay slots' },
+  { done: true,  text: 'Routing to AI-BOOK — querying Derry bay slots' },
   { done: true,  text: 'Slots found: Tomorrow 7:30 AM · 11:00 AM' },
   { done: true,  text: 'Appointment confirmed: Tomorrow 7:30 AM' },
   { done: false, text: 'Sending SMS confirmation to (603) 555-0291...' },
@@ -2042,7 +2647,7 @@ function confirmTakeover() {
       <span style="font-size:12px;font-weight:600;color:var(--warning)">AI PAUSED — Call transferred to your device</span>
     </div>
     <button class="btn-sm btn-listen" style="margin-left:auto" onclick="resumeAI()">
-      <i data-lucide="play"></i> Resume MILES
+      <i data-lucide="play"></i> Resume AI
     </button>`;
   lucide.createIcons();
 }
@@ -2220,7 +2825,7 @@ function buildLineChart() {
 
   // MILES launch annotation
   html += `<line x1="${scaleX(0).toFixed(1)}" y1="${pad.t}" x2="${scaleX(0).toFixed(1)}" y2="${(pad.t+ch).toFixed(1)}" stroke="#0B2545" stroke-width="1" stroke-dasharray="3,3"/>`;
-  html += `<text x="${(scaleX(0)+4).toFixed(1)}" y="${(pad.t+10).toFixed(1)}" font-size="9" fill="#0B2545" font-weight="700" font-family="sans-serif">MILES Go-Live</text>`;
+  html += `<text x="${(scaleX(0)+4).toFixed(1)}" y="${(pad.t+10).toFixed(1)}" font-size="9" fill="#0B2545" font-weight="700" font-family="sans-serif">AI Go-Live</text>`;
 
   svg.innerHTML = html;
 }
@@ -2239,72 +2844,72 @@ setInterval(() => {
 // ─── CALL QUEUE DATA ──────────────────────────────────────────────
 const CQ = [
   { time:'11:52 PM', caller:'David Sullivan', phone:'(603) 555-0291', vehicle:'2017 Subaru Outback', shop:'Auto Care Plus — Derry, NH', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Mon 7:30 AM — Brake Inspection', conf:94,
-    tx:[{s:'MILES',t:"Thanks for calling Auto Care Plus in Derry. This is the after-hours service line. May I have your name?"},{s:'CALLER',t:"Yeah, hi, this is David Sullivan."},{s:'MILES',t:"Hi David — I see you've been a customer with us since 2019. Are you calling about your 2017 Subaru Outback?"},{s:'CALLER',t:"Yeah, exactly. I've got this grinding noise when I brake. Started today."},{s:'MILES',t:"That's something we definitely want to look at — grinding on brakes can mean the pads have worn through to the rotors. I'd recommend bringing it in as soon as possible. Are you comfortable driving short distances?"},{s:'CALLER',t:"Yeah, it's not bad yet, just started."},{s:'MILES',t:"Okay. I have an opening tomorrow at 7:30 AM, or 11:00 AM if you'd prefer later. Which works better?"},{s:'CALLER',t:"7:30 works."},{s:'MILES',t:"Booked. I'll text you a confirmation right now. We'll do a full brake inspection — that's complimentary — and call you with findings before any work starts. Anything else I can help with?"},{s:'CALLER',t:"No, that's great. Thanks."},{s:'MILES',t:"Perfect. See you tomorrow at 7:30, David. Drive safely tonight."}],
+    tx:[{s:'AI',t:"Thanks for calling Auto Care Plus in Derry. This is the after-hours service line. May I have your name?"},{s:'CALLER',t:"Yeah, hi, this is David Sullivan."},{s:'AI',t:"Hi David — I see you've been a customer with us since 2019. Are you calling about your 2017 Subaru Outback?"},{s:'CALLER',t:"Yeah, exactly. I've got this grinding noise when I brake. Started today."},{s:'AI',t:"That's something we definitely want to look at — grinding on brakes can mean the pads have worn through to the rotors. I'd recommend bringing it in as soon as possible. Are you comfortable driving short distances?"},{s:'CALLER',t:"Yeah, it's not bad yet, just started."},{s:'AI',t:"Okay. I have an opening tomorrow at 7:30 AM, or 11:00 AM if you'd prefer later. Which works better?"},{s:'CALLER',t:"7:30 works."},{s:'AI',t:"Booked. I'll text you a confirmation right now. We'll do a full brake inspection — that's complimentary — and call you with findings before any work starts. Anything else I can help with?"},{s:'CALLER',t:"No, that's great. Thanks."},{s:'AI',t:"Perfect. See you tomorrow at 7:30, David. Drive safely tonight."}],
     reasoning:['ANI lookup: David Sullivan — customer since 2019','Vehicle confirmed: 2017 Subaru Outback','Keywords: "grinding" + "brake" → Brake Inspection (94%)','Severity: Moderate — safe short-distance driving','Bay query: Derry — slots found for tomorrow','Customer selected 7:30 AM slot','Booking confirmed in shop management system','SMS confirmation sent to (603) 555-0291'],
     bk:{service:'Brake Inspection (Complimentary)',date:'Monday, April 14, 2026',time:'7:30 AM',shop:'Auto Care Plus — Derry, NH',addr:'14 Manning St, Derry, NH 03038',note:'We will call with findings before any work begins.',sms:'Your appt at Auto Care Plus Derry is confirmed: Mon Apr 14 @ 7:30 AM — Brake Inspection. Questions? Call (603) 555-0100.'}},
 
   { time:'11:47 PM', caller:'Maria Hernandez', phone:'(561) 555-0142', vehicle:'2018 Honda CR-V', shop:'All County — Boca Raton, FL', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Wed 8:00 AM — Oil Change + Tire Rotation', conf:98,
-    tx:[{s:'MILES',t:"Thank you for calling All County Tire and Auto in Boca Raton. After-hours service line — may I have your name?"},{s:'CALLER',t:"Hi, Maria Hernandez."},{s:'MILES',t:"Hi Maria! I have your 2018 Honda CR-V on file. How can I help tonight?"},{s:'CALLER',t:"I need an oil change and maybe a tire rotation — it's been about 5,000 miles."},{s:'MILES',t:"Perfect timing. I have Wednesday at 8:00 AM or 10:30 AM available. Which works better for you?"},{s:'CALLER',t:"8 AM is great."},{s:'MILES',t:"Booked! You'll get a text confirmation shortly. See you Wednesday, Maria."}],
+    tx:[{s:'AI',t:"Thank you for calling All County Tire and Auto in Boca Raton. After-hours service line — may I have your name?"},{s:'CALLER',t:"Hi, Maria Hernandez."},{s:'AI',t:"Hi Maria! I have your 2018 Honda CR-V on file. How can I help tonight?"},{s:'CALLER',t:"I need an oil change and maybe a tire rotation — it's been about 5,000 miles."},{s:'AI',t:"Perfect timing. I have Wednesday at 8:00 AM or 10:30 AM available. Which works better for you?"},{s:'CALLER',t:"8 AM is great."},{s:'AI',t:"Booked! You'll get a text confirmation shortly. See you Wednesday, Maria."}],
     reasoning:['ANI match: Maria Hernandez — customer since 2021','Vehicle: 2018 Honda CR-V on file','Intent: Routine maintenance — Oil Change + Tire Rotation (98%)','Mileage interval confirmed: 5,000 mi — service due','Bay query: Boca Raton — Wednesday slots available','Booking confirmed · SMS sent to (561) 555-0142'],
     bk:{service:'Oil Change + Tire Rotation',date:'Wednesday, April 16, 2026',time:'8:00 AM',shop:'All County — Boca Raton, FL',addr:'2301 N Federal Hwy, Boca Raton, FL 33431',note:'Estimated duration: 1 hour.',sms:'Appt confirmed at All County Boca Raton: Wed Apr 16 @ 8:00 AM — Oil Change + Tire Rotation.'}},
 
   { time:'11:32 PM', caller:'Robert Chen', phone:'(303) 555-0188', vehicle:'2015 Ford F-150', shop:'EAS — Aurora, CO', type:'ah', agents:'INTAKE → HANDOFF', outcomeType:'escalated', outcome:'Escalated: Warranty dispute on prior brake work', conf:72,
-    tx:[{s:'MILES',t:"EAS Tire and Auto Aurora, after-hours line. May I have your name?"},{s:'CALLER',t:"Robert Chen. I need to talk to someone about work you guys did on my brakes 6 months ago. I'm having problems again and I think it should be covered under warranty."},{s:'MILES',t:"I understand, Robert — I can see the brake service from October on your account. Warranty questions are best handled by one of our advisors so they can review the full work order with you. I'm going to connect you with our on-call advisor — they'll reach out within the hour. Is that okay?"},{s:'CALLER',t:"I'd prefer to talk tonight if possible."},{s:'MILES',t:"I completely understand. Let me escalate this now and have the on-call advisor reach out within the hour. I'm also leaving a detailed note on your account."}],
-    reasoning:['ANI match: Robert Chen — customer since 2020','Vehicle: 2015 Ford F-150 confirmed','Keywords: "warranty" + "brakes" + "covered" → Escalation trigger','Confidence dropped to 72% — warranty dispute outside AI scope','Routing to MILES-HANDOFF — escalated to on-call advisor','SMS notification sent to on-call advisor'],
+    tx:[{s:'AI',t:"EAS Tire and Auto Aurora, after-hours line. May I have your name?"},{s:'CALLER',t:"Robert Chen. I need to talk to someone about work you guys did on my brakes 6 months ago. I'm having problems again and I think it should be covered under warranty."},{s:'AI',t:"I understand, Robert — I can see the brake service from October on your account. Warranty questions are best handled by one of our advisors so they can review the full work order with you. I'm going to connect you with our on-call advisor — they'll reach out within the hour. Is that okay?"},{s:'CALLER',t:"I'd prefer to talk tonight if possible."},{s:'AI',t:"I completely understand. Let me escalate this now and have the on-call advisor reach out within the hour. I'm also leaving a detailed note on your account."}],
+    reasoning:['ANI match: Robert Chen — customer since 2020','Vehicle: 2015 Ford F-150 confirmed','Keywords: "warranty" + "brakes" + "covered" → Escalation trigger','Confidence dropped to 72% — warranty dispute outside AI scope','Routing to AI-HANDOFF — escalated to on-call advisor','SMS notification sent to on-call advisor'],
     bk:{service:'N/A — Escalated',date:'—',time:'—',shop:'EAS — Aurora, CO',addr:'—',note:'Escalated to on-call advisor. Customer requesting warranty review on Oct 2025 brake service.',sms:'N/A — call escalated to human advisor.'}},
 
   { time:'10:18 PM', caller:'Karen Walsh', phone:'(603) 555-0167', vehicle:'2020 Toyota RAV4', shop:'Auto Care Plus — Derry, NH', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Sat 10:30 AM — 60K Mile Service', conf:99,
-    tx:[{s:'MILES',t:"Auto Care Plus Derry, after-hours. How can I help you tonight?"},{s:'CALLER',t:"Karen Walsh — I need to schedule my 60,000 mile service."},{s:'MILES',t:"Hi Karen! I see you're at 58,400 miles on your 2020 RAV4 from your last visit. Great timing. I have Saturday at 10:30 AM available. The 60K service typically takes about 2.5 hours. Does that work?"},{s:'CALLER',t:"Yes, Saturday is perfect."},{s:'MILES',t:"Confirmed. You'll get a full rundown of what's included in a text shortly. See you Saturday, Karen!"}],
+    tx:[{s:'AI',t:"Auto Care Plus Derry, after-hours. How can I help you tonight?"},{s:'CALLER',t:"Karen Walsh — I need to schedule my 60,000 mile service."},{s:'AI',t:"Hi Karen! I see you're at 58,400 miles on your 2020 RAV4 from your last visit. Great timing. I have Saturday at 10:30 AM available. The 60K service typically takes about 2.5 hours. Does that work?"},{s:'CALLER',t:"Yes, Saturday is perfect."},{s:'AI',t:"Confirmed. You'll get a full rundown of what's included in a text shortly. See you Saturday, Karen!"}],
     reasoning:['ANI match: Karen Walsh — customer since 2022','Vehicle: 2020 Toyota RAV4 (58,400 mi at last visit)','Intent: 60K Mile Service — 99% confidence','Mileage milestone confirmed — full service bundle applicable','Slot confirmed: Saturday 10:30 AM · Est. 2.5 hrs','SMS sent to (603) 555-0167'],
     bk:{service:'60K Mile Service (Full Bundle)',date:'Saturday, April 19, 2026',time:'10:30 AM',shop:'Auto Care Plus — Derry, NH',addr:'14 Manning St, Derry, NH 03038',note:'Estimated duration: 2.5 hours. Includes oil change, filters, fluids, inspection.',sms:'Confirmed at Auto Care Plus Derry: Sat Apr 19 @ 10:30 AM — 60K Mile Service. Est. 2.5 hrs.'}},
 
   { time:'10:01 PM', caller:'James Lindqvist', phone:'(612) 555-0234', vehicle:'2019 Chevy Silverado', shop:'Victory — Plymouth, MN', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Thu 9:00 AM — Wheel Alignment', conf:97,
-    tx:[{s:'MILES',t:"Victory Tire and Auto Plymouth, after-hours. May I help you?"},{s:'CALLER',t:"Yeah, James Lindqvist. My truck's pulling left really bad after I hit a pothole on 494 tonight."},{s:'MILES',t:"That sounds like an alignment issue, James — pretty common after a pothole impact. I want to get you in soon. I have Thursday at 9 AM — would that work?"},{s:'CALLER',t:"Yeah, Thursday morning is fine."},{s:'MILES',t:"Perfect. Booked for a 4-wheel alignment Thursday at 9 AM. We'll also check for any suspension or tire damage from the impact while you're in. Text confirmation on its way."}],
+    tx:[{s:'AI',t:"Victory Tire and Auto Plymouth, after-hours. May I help you?"},{s:'CALLER',t:"Yeah, James Lindqvist. My truck's pulling left really bad after I hit a pothole on 494 tonight."},{s:'AI',t:"That sounds like an alignment issue, James — pretty common after a pothole impact. I want to get you in soon. I have Thursday at 9 AM — would that work?"},{s:'CALLER',t:"Yeah, Thursday morning is fine."},{s:'AI',t:"Perfect. Booked for a 4-wheel alignment Thursday at 9 AM. We'll also check for any suspension or tire damage from the impact while you're in. Text confirmation on its way."}],
     reasoning:['ANI match: James Lindqvist — customer since 2020','Vehicle: 2019 Chevy Silverado','Keywords: "pulling" + "pothole" → Alignment workflow (97%)','Urgency: Moderate — alignment drift, drive safe until appt','Bay query: Plymouth — Thursday 9 AM available','Booking confirmed · SMS sent'],
     bk:{service:'4-Wheel Alignment + Impact Inspection',date:'Thursday, April 17, 2026',time:'9:00 AM',shop:'Victory — Plymouth, MN',addr:'3300 Fernbrook Ln N, Plymouth, MN 55441',note:'Technician will inspect for suspension or tire damage from pothole impact.',sms:'Confirmed at Victory Plymouth: Thu Apr 17 @ 9:00 AM — Alignment + Inspection.'}},
 
   { time:'9:44 PM', caller:'Patricia Kowalski', phone:'(208) 555-0176', vehicle:'2016 Toyota Camry', shop:'Silverlake — Boise, ID', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Fri 11:00 AM — Brake Pad Replacement', conf:96,
-    tx:[{s:'MILES',t:"Silverlake Automotive Boise, after-hours line."},{s:'CALLER',t:"Patricia Kowalski — my brakes are squealing every time I stop. Been going on for a week."},{s:'MILES',t:"That's a classic sign the pads are getting thin, Patricia. Good that you're calling now — I'd rather you get those checked before it becomes a rotor issue. I have Friday at 11 AM. Does that work?"},{s:'CALLER',t:"Yes, perfect."},{s:'MILES',t:"Booked. See you Friday at 11 for a brake inspection and pad replacement."}],
+    tx:[{s:'AI',t:"Silverlake Automotive Boise, after-hours line."},{s:'CALLER',t:"Patricia Kowalski — my brakes are squealing every time I stop. Been going on for a week."},{s:'AI',t:"That's a classic sign the pads are getting thin, Patricia. Good that you're calling now — I'd rather you get those checked before it becomes a rotor issue. I have Friday at 11 AM. Does that work?"},{s:'CALLER',t:"Yes, perfect."},{s:'AI',t:"Booked. See you Friday at 11 for a brake inspection and pad replacement."}],
     reasoning:['New customer intake — Patricia Kowalski','Vehicle: 2016 Toyota Camry (entered during call)','Keywords: "squealing" + "brakes" + "week" → Brake Pad workflow (96%)','Duration: 1 week — moderate urgency, pads likely worn','Booking: Friday 11:00 AM · Silverlake Boise'],
     bk:{service:'Brake Pad Replacement (Front)',date:'Friday, April 18, 2026',time:'11:00 AM',shop:'Silverlake — Boise, ID',addr:'8150 W Emerald St, Boise, ID 83704',note:'Full brake inspection included. Rotors checked at no additional charge.',sms:'Confirmed at Silverlake Boise: Fri Apr 18 @ 11:00 AM — Brake Service.'}},
 
   { time:'9:28 PM', caller:'Thomas Bergstrom', phone:'(612) 555-0315', vehicle:'2021 Subaru Outback', shop:'Victory — Eden Prairie, MN', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Wed 2:00 PM — AC Diagnostic', conf:91,
-    tx:[{s:'MILES',t:"Victory Tire and Auto Eden Prairie, after-hours."},{s:'CALLER',t:"Hey, Thomas Bergstrom. My AC stopped blowing cold yesterday. Just warm air."},{s:'MILES',t:"That's frustrating — could be a refrigerant issue or a compressor problem. Either way we'll figure it out. I have Wednesday at 2 PM for a diagnostic. Does that work for you?"},{s:'CALLER',t:"Wednesday's fine."},{s:'MILES',t:"Booked! AC diagnostic Wednesday at 2. We'll call with findings and an estimate before any work starts."}],
+    tx:[{s:'AI',t:"Victory Tire and Auto Eden Prairie, after-hours."},{s:'CALLER',t:"Hey, Thomas Bergstrom. My AC stopped blowing cold yesterday. Just warm air."},{s:'AI',t:"That's frustrating — could be a refrigerant issue or a compressor problem. Either way we'll figure it out. I have Wednesday at 2 PM for a diagnostic. Does that work for you?"},{s:'CALLER',t:"Wednesday's fine."},{s:'AI',t:"Booked! AC diagnostic Wednesday at 2. We'll call with findings and an estimate before any work starts."}],
     reasoning:['ANI match: Thomas Bergstrom — customer since 2023','Vehicle: 2021 Subaru Outback confirmed','Keywords: "AC" + "warm air" → AC Diagnostic workflow (91%)','Season context: Spring — AC issues common, high demand','Booking: Wednesday 2:00 PM · Victory Eden Prairie'],
     bk:{service:'AC System Diagnostic',date:'Wednesday, April 16, 2026',time:'2:00 PM',shop:'Victory — Eden Prairie, MN',addr:'12100 Anderson Lakes Pkwy, Eden Prairie, MN 55344',note:'No-charge diagnostic. Estimate provided before any repair work.',sms:'Confirmed at Victory Eden Prairie: Wed Apr 16 @ 2:00 PM — AC Diagnostic.'}},
 
   { time:'8:55 PM', caller:'Jennifer Okafor', phone:'(561) 555-0248', vehicle:'2019 Nissan Rogue', shop:'All County — Delray Beach, FL', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Tue 9:30 AM — Tire Rotation + Balance', conf:98,
-    tx:[{s:'MILES',t:"All County Tire and Auto Delray Beach — after-hours."},{s:'CALLER',t:"Jennifer Okafor. I need a tire rotation and balance."},{s:'MILES',t:"Absolutely, Jennifer. I have your 2019 Nissan Rogue on file. How's Tuesday at 9:30 AM?"},{s:'CALLER',t:"Perfect."},{s:'MILES',t:"Done! Tire rotation and balance Tuesday at 9:30. Takes about 45 minutes."}],
+    tx:[{s:'AI',t:"All County Tire and Auto Delray Beach — after-hours."},{s:'CALLER',t:"Jennifer Okafor. I need a tire rotation and balance."},{s:'AI',t:"Absolutely, Jennifer. I have your 2019 Nissan Rogue on file. How's Tuesday at 9:30 AM?"},{s:'CALLER',t:"Perfect."},{s:'AI',t:"Done! Tire rotation and balance Tuesday at 9:30. Takes about 45 minutes."}],
     reasoning:['ANI match: Jennifer Okafor — customer since 2021','Vehicle: 2019 Nissan Rogue confirmed','Intent: Tire Rotation + Balance (98%)','Quick booking — no ambiguity, direct service request','Slot: Tuesday 9:30 AM · All County Delray Beach'],
     bk:{service:'Tire Rotation + Balance',date:'Tuesday, April 15, 2026',time:'9:30 AM',shop:'All County — Delray Beach, FL',addr:'1401 N Federal Hwy, Delray Beach, FL 33483',note:'Est. 45 minutes.',sms:'Confirmed at All County Delray Beach: Tue Apr 15 @ 9:30 AM — Tire Rotation + Balance.'}},
 
   { time:'8:33 PM', caller:'Michael Bouchard', phone:'(603) 555-0392', vehicle:'2014 Jeep Grand Cherokee', shop:'Auto Care Plus — Manchester, NH', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Mon 8:00 AM — Check Engine Diagnostic', conf:88,
-    tx:[{s:'MILES',t:"Auto Care Plus Manchester, after-hours service."},{s:'CALLER',t:"Michael Bouchard. My check engine light came on today."},{s:'MILES',t:"Got it, Michael. That could be a lot of things — we'll do a full scan to figure it out. I have Monday at 8 AM available. Does that work?"},{s:'CALLER',t:"Yeah, Monday morning is fine."},{s:'MILES',t:"Booked. Monday at 8 for a diagnostic scan. We'll call you with results before doing any work."}],
+    tx:[{s:'AI',t:"Auto Care Plus Manchester, after-hours service."},{s:'CALLER',t:"Michael Bouchard. My check engine light came on today."},{s:'AI',t:"Got it, Michael. That could be a lot of things — we'll do a full scan to figure it out. I have Monday at 8 AM available. Does that work?"},{s:'CALLER',t:"Yeah, Monday morning is fine."},{s:'AI',t:"Booked. Monday at 8 for a diagnostic scan. We'll call you with results before doing any work."}],
     reasoning:['ANI match: Michael Bouchard — customer since 2019','Vehicle: 2014 Jeep Grand Cherokee confirmed','Keywords: "check engine light" → Diagnostic workflow (88%)','Confidence slightly lower — CEL can vary widely in cause','Booking: Monday 8:00 AM · Auto Care Plus Manchester'],
     bk:{service:'Check Engine Diagnostic (Full Scan)',date:'Monday, April 14, 2026',time:'8:00 AM',shop:'Auto Care Plus — Manchester, NH',addr:'875 Second St, Manchester, NH 03102',note:'No charge for scan. Estimate provided before any repair.',sms:'Confirmed at Auto Care Plus Manchester: Mon Apr 14 @ 8:00 AM — Check Engine Diagnostic.'}},
 
   { time:'8:15 PM', caller:'Derek Hoffman', phone:'(720) 555-0127', vehicle:'2017 Honda Pilot', shop:'EAS — Denver, CO', type:'missed', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Tue 10:00 AM — 4-Wheel Alignment', conf:95,
-    tx:[{s:'MILES',t:"Hi, this is MILES from EAS Tire and Auto — I'm returning a missed call from this number. Is this Derek?"},{s:'CALLER',t:"Yeah, hey. I called earlier about getting an alignment."},{s:'MILES',t:"I'm glad I caught you, Derek. I have your 2017 Honda Pilot on file. I've got Tuesday at 10 AM for a 4-wheel alignment — does that work?"},{s:'CALLER',t:"Yeah that works great."},{s:'MILES',t:"Confirmed! Tuesday at 10 for alignment. Text confirmation is on its way."}],
+    tx:[{s:'AI',t:"Hi, this is the AI assistant from EAS Tire and Auto — I'm returning a missed call from this number. Is this Derek?"},{s:'CALLER',t:"Yeah, hey. I called earlier about getting an alignment."},{s:'AI',t:"I'm glad I caught you, Derek. I have your 2017 Honda Pilot on file. I've got Tuesday at 10 AM for a 4-wheel alignment — does that work?"},{s:'CALLER',t:"Yeah that works great."},{s:'AI',t:"Confirmed! Tuesday at 10 for alignment. Text confirmation is on its way."}],
     reasoning:['Missed call recovery — outbound callback to (720) 555-0127','ANI match: Derek Hoffman — customer since 2022','Vehicle: 2017 Honda Pilot confirmed','Intent confirmed on callback: Alignment (95%)','Booking: Tuesday 10:00 AM · EAS Denver'],
     bk:{service:'4-Wheel Alignment',date:'Tuesday, April 15, 2026',time:'10:00 AM',shop:'EAS — Denver, CO',addr:'4200 E Colfax Ave, Denver, CO 80220',note:'Est. 1 hour.',sms:'Confirmed at EAS Denver: Tue Apr 15 @ 10:00 AM — 4-Wheel Alignment.'}},
 
   { time:'7:52 PM', caller:'Sandra Nguyen', phone:'(720) 555-0289', vehicle:'2020 Ford Escape', shop:'EAS — Lakewood, CO', type:'missed', agents:'INTAKE → HANDOFF', outcomeType:'voicemail', outcome:'Voicemail: Transmission quote inquiry', conf:81,
-    tx:[{s:'MILES',t:"Hi, MILES from EAS Tire and Auto calling back — may I speak with Sandra?"},{s:'CALLER',t:"This is Sandra."},{s:'MILES',t:"Hi Sandra, returning your earlier call. How can I help?"},{s:'CALLER',t:"I wanted to get a quote on a transmission rebuild. My car's been slipping gears."},{s:'MILES',t:"Transmission work is definitely something our technicians can help with — I want to make sure you get an accurate quote rather than a rough estimate. I'm going to connect you with our service team first thing tomorrow morning. I'll leave a detailed note. Is 8 AM okay for them to call?"}],
+    tx:[{s:'AI',t:"Hi, this is the AI assistant from EAS Tire and Auto calling back — may I speak with Sandra?"},{s:'CALLER',t:"This is Sandra."},{s:'AI',t:"Hi Sandra, returning your earlier call. How can I help?"},{s:'CALLER',t:"I wanted to get a quote on a transmission rebuild. My car's been slipping gears."},{s:'AI',t:"Transmission work is definitely something our technicians can help with — I want to make sure you get an accurate quote rather than a rough estimate. I'm going to connect you with our service team first thing tomorrow morning. I'll leave a detailed note. Is 8 AM okay for them to call?"}],
     reasoning:['Missed call recovery — (720) 555-0289','ANI match: Sandra Nguyen — new customer','Keywords: "transmission" + "slipping gears" → Escalation flag','Transmission quotes require technician assessment — outside AI scope','Confidence: 81% — routing to human advisor for follow-up'],
     bk:{service:'N/A — Pending Human Callback',date:'—',time:'—',shop:'EAS — Lakewood, CO',addr:'—',note:'Transmission inquiry — advisor callback scheduled for 8 AM.',sms:'N/A — voicemail left, advisor follow-up scheduled.'}},
 
   { time:'7:30 PM', caller:'Erik Nylander', phone:'(651) 555-0143', vehicle:'2018 GMC Sierra', shop:'Victory — Woodbury, MN', type:'recall', agents:'RECALL → BOOK', outcomeType:'booked', outcome:'Booked: Sat 8:00 AM — Tire Replacement (4)', conf:97,
-    tx:[{s:'MILES',t:"Hi Erik, this is MILES from Victory Tire and Auto. We're following up — when you were in last November, our technician noted your tires were at about 3/32 tread depth and recommended replacement. Wanted to check if you'd like to get those taken care of."},{s:'CALLER',t:"Yeah I've been meaning to do that. My wife's been on me about it actually."},{s:'MILES',t:"Ha — well she's right! Winter's over but that tread depth is getting unsafe. I can get you in Saturday at 8 AM. We have your tire size on file. Want me to lock that in?"},{s:'CALLER',t:"Yeah let's do it."},{s:'MILES',t:"Booked! Saturday at 8 for a full set of 4 tires. We'll have them ordered and ready."}],
+    tx:[{s:'AI',t:"Hi Erik, this is the AI assistant from Victory Tire and Auto. We're following up — when you were in last November, our technician noted your tires were at about 3/32 tread depth and recommended replacement. Wanted to check if you'd like to get those taken care of."},{s:'CALLER',t:"Yeah I've been meaning to do that. My wife's been on me about it actually."},{s:'AI',t:"Ha — well she's right! Winter's over but that tread depth is getting unsafe. I can get you in Saturday at 8 AM. We have your tire size on file. Want me to lock that in?"},{s:'CALLER',t:"Yeah let's do it."},{s:'AI',t:"Booked! Saturday at 8 for a full set of 4 tires. We'll have them ordered and ready."}],
     reasoning:['Outbound recall campaign: Tire Replacement — 70%+ worn','Customer: Erik Nylander — visit Nov 2025, tread at 3/32"','Deferred service confirmed via outbound call','Customer receptive — booked on first contact (97%)','Estimated revenue: $680 — 4 tires + install'],
     bk:{service:'Tire Replacement (Set of 4)',date:'Saturday, April 19, 2026',time:'8:00 AM',shop:'Victory — Woodbury, MN',addr:'8000 Tamarack Village, Woodbury, MN 55125',note:'Tires ordered — LT265/70R17. Est. 1.5 hours.',sms:'Confirmed at Victory Woodbury: Sat Apr 19 @ 8:00 AM — Tire Replacement (4). Tires pre-ordered.'}},
 
   { time:'7:15 PM', caller:'Linda Christophersen', phone:'(208) 555-0214', vehicle:'2019 Ford Edge', shop:'Silverlake — Nampa, ID', type:'recall', agents:'RECALL → BOOK', outcomeType:'booked', outcome:'Booked: Thu 1:00 PM — Brake Service', conf:96,
-    tx:[{s:'MILES',t:"Hi Linda, MILES from Silverlake Automotive. We're following up on your visit in January — our tech recommended front brake service when you were in for your oil change. Wanted to see if you'd like to get that scheduled."},{s:'CALLER',t:"Oh, I meant to do that. Is it urgent?"},{s:'MILES',t:"It was borderline in January, so 3 months later I'd say yes — worth getting in soon. I can do Thursday at 1 PM. About 2 hours."},{s:'CALLER',t:"Thursday works."},{s:'MILES',t:"Booked! Thursday at 1 for brake service. See you then, Linda."}],
+    tx:[{s:'AI',t:"Hi Linda, this is the AI assistant from Silverlake Automotive. We're following up on your visit in January — our tech recommended front brake service when you were in for your oil change. Wanted to see if you'd like to get that scheduled."},{s:'CALLER',t:"Oh, I meant to do that. Is it urgent?"},{s:'AI',t:"It was borderline in January, so 3 months later I'd say yes — worth getting in soon. I can do Thursday at 1 PM. About 2 hours."},{s:'CALLER',t:"Thursday works."},{s:'AI',t:"Booked! Thursday at 1 for brake service. See you then, Linda."}],
     reasoning:['Outbound recall: Brake Service — recommended Jan 2026','Customer: Linda Christophersen — 3 months deferred','Deferred service urgency elevated with time','Booked first contact — high receptivity (96%)','Estimated revenue: $320 — front brake pads + inspection'],
     bk:{service:'Front Brake Service (Pads + Inspection)',date:'Thursday, April 17, 2026',time:'1:00 PM',shop:'Silverlake — Nampa, ID',addr:'315 Caldwell Blvd, Nampa, ID 83651',note:'Est. 1.5-2 hours.',sms:'Confirmed at Silverlake Nampa: Thu Apr 17 @ 1:00 PM — Brake Service.'}},
 
   { time:'6:58 PM', caller:'Carlos Mendoza', phone:'(954) 555-0167', vehicle:'2016 Toyota Camry', shop:'All County — Pembroke Pines, FL', type:'missed', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Mon 7:30 AM — State Inspection', conf:99,
-    tx:[{s:'MILES',t:"Hi, MILES returning a missed call from All County Pembroke Pines. Is this Carlos?"},{s:'CALLER',t:"Yeah, I need to get my inspection sticker — it expires end of the month."},{s:'MILES',t:"Perfect timing, Carlos. I have Monday at 7:30 AM — that's first slot of the day, in and out in about 30 minutes. Want that?"},{s:'CALLER',t:"Yes, 7:30 is great."},{s:'MILES',t:"Done! Monday at 7:30 for your state inspection. Confirmation text is on its way."}],
+    tx:[{s:'AI',t:"Hi, AI assistant returning a missed call from All County Pembroke Pines. Is this Carlos?"},{s:'CALLER',t:"Yeah, I need to get my inspection sticker — it expires end of the month."},{s:'AI',t:"Perfect timing, Carlos. I have Monday at 7:30 AM — that's first slot of the day, in and out in about 30 minutes. Want that?"},{s:'CALLER',t:"Yes, 7:30 is great."},{s:'AI',t:"Done! Monday at 7:30 for your state inspection. Confirmation text is on its way."}],
     reasoning:['Missed call recovery — (954) 555-0167','ANI match: Carlos Mendoza — customer since 2023','Vehicle: 2016 Toyota Camry confirmed','Intent: State Inspection — expiring end of April (99%)','Urgency: High — expiration imminent','Booking: Monday 7:30 AM first slot · All County Pembroke Pines'],
     bk:{service:'Florida State Safety Inspection',date:'Monday, April 14, 2026',time:'7:30 AM',shop:'All County — Pembroke Pines, FL',addr:'11411 Pines Blvd, Pembroke Pines, FL 33026',note:'Est. 30 minutes. Please bring current registration.',sms:'Confirmed at All County Pembroke Pines: Mon Apr 14 @ 7:30 AM — State Inspection.'}}
 ];
@@ -2403,7 +3008,7 @@ function renderSOTab(tab) {
   const body = document.getElementById('soBody');
   const c = currentSOCall;
   if (tab === 'transcript') {
-    body.innerHTML = `<div class="so-transcript">${c.tx.map(l=>`<div class="so-tline"><span class="so-tspeaker ${l.s==='MILES'?'so-ts-miles':'so-ts-caller'}">${l.s}</span><span class="so-ttext">${l.t}</span></div>`).join('')}</div>`;
+    body.innerHTML = `<div class="so-transcript">${c.tx.map(l=>`<div class="so-tline"><span class="so-tspeaker ${l.s==='AI'?'so-ts-miles':'so-ts-caller'}">${l.s}</span><span class="so-ttext">${l.t}</span></div>`).join('')}</div>`;
   } else if (tab === 'reasoning') {
     body.innerHTML = `<div class="so-reasoning">${c.reasoning.map((r,i)=>`<div class="so-r-step so-r-done"><i data-lucide="check"></i><span class="so-r-text">${r}</span></div>`).join('')}</div>`;
   } else {
@@ -2519,7 +3124,7 @@ function buildCalendar() {
     const top = slotTop(a.h, a.m);
     const height = slotH(a.dur);
     el.style.cssText = `top:${top+2}px;height:${height-4}px`;
-    const srcTag = a.src === 'miles' ? 'MILES-BOOKED' : 'STAFF-BOOKED';
+    const srcTag = a.src === 'miles' ? 'AI-BOOKED' : 'STAFF-BOOKED';
     el.innerHTML = `<div class="appt-name">${a.name}</div><div class="appt-svc">${a.svc}</div>${height > 56 ? `<div class="appt-src-tag">${srcTag}</div>` : ''}`;
     el.addEventListener('mouseenter', (e) => showTip(e, a));
     el.addEventListener('mouseleave', hideTip);
@@ -2541,7 +3146,7 @@ function showTip(e, a) {
   const fmt = (h,m) => `${h<=12?h:h-12}:${m.toString().padStart(2,'0')} ${h<12?'AM':'PM'}`;
   document.getElementById('tipTime').textContent = `${days[a.d]} · ${fmt(a.h,a.m)} – ${fmt(endH,endM)}`;
   const src = document.getElementById('tipSrc');
-  src.textContent = a.src === 'miles' ? 'MILES-BOOKED' : 'STAFF-BOOKED';
+  src.textContent = a.src === 'miles' ? 'AI-BOOKED' : 'STAFF-BOOKED';
   src.className = `at-src ${a.src === 'miles' ? 'at-miles' : 'at-staff'}`;
   moveTip(e);
   tip.classList.add('on');
@@ -2557,7 +3162,7 @@ function moveTip(e) {
 
 const WF_NODES = {
   start:    {x:360, y:20,  w:160, h:36, label:'Inbound Call',          type:'start'},
-  greet:    {x:350, y:94,  w:180, h:44, label:'MILES Greeting',        sub:'Brand + location ID',   type:'agent'},
+  greet:    {x:350, y:94,  w:180, h:44, label:'AI Greeting',        sub:'Brand + location ID',   type:'agent'},
   intent:   {x:350, y:178, w:180, h:44, label:'Intent Detection',      sub:'NLP Classification',    type:'intent'},
   svcBr:    {x:110, y:266, w:148, h:44, label:'Service Request',       type:'branch'},
   hrBr:     {x:376, y:266, w:148, h:44, label:'Hours / Pricing',       type:'branch'},
@@ -2629,26 +3234,26 @@ const WF_PATHS = [
 ];
 
 const WF_DETAIL = {
-  start:    {title:'Inbound Call Detected', type:'TRIGGER', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'MILES intercepts the inbound call after 2 rings if no agent answers. Call metadata (ANI, DNIS, brand mapping) is captured before the greeting begins.', keywords:'After-hours trigger · Ring threshold: 2 · Brand routing via DNIS', stat:'Avg. intercept latency: 0.3s'},
-  greet:    {title:'MILES Greeting', type:'AGENT ACTION', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'MILES plays a branded greeting, addresses the caller by name if a CRM record matches the ANI, and asks an open-ended question to capture intent naturally.', keywords:'ANI lookup · CRM match rate: 81% · Greeting variant: B (after-hours)', stat:'Avg. greeting duration: 8.2s'},
-  intent:   {title:'Intent Detection', type:'NLP ENGINE', typeColor:'#7C3AED', typeBg:'rgba(124,58,237,.08)', desc:'MILES NLP classifies caller intent into Service Request, Hours/Pricing, Complaint/Warranty, or Other. Confidence threshold: 82% — below threshold routes to human immediately.', keywords:'"appointment", "oil change", "brakes", "hours", "cost", "warranty", "problem"', stat:'Classification accuracy: 96.3%'},
+  start:    {title:'Inbound Call Detected', type:'TRIGGER', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'The AI intercepts the inbound call after 2 rings if no agent answers. Call metadata (ANI, DNIS, brand mapping) is captured before the greeting begins.', keywords:'After-hours trigger · Ring threshold: 2 · Brand routing via DNIS', stat:'Avg. intercept latency: 0.3s'},
+  greet:    {title:'AI Greeting', type:'AGENT ACTION', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'The AI plays a branded greeting, addresses the caller by name if a CRM record matches the ANI, and asks an open-ended question to capture intent naturally.', keywords:'ANI lookup · CRM match rate: 81% · Greeting variant: B (after-hours)', stat:'Avg. greeting duration: 8.2s'},
+  intent:   {title:'Intent Detection', type:'NLP ENGINE', typeColor:'#7C3AED', typeBg:'rgba(124,58,237,.08)', desc:'The AI NLP classifies caller intent into Service Request, Hours/Pricing, Complaint/Warranty, or Other. Confidence threshold: 82% — below threshold routes to human immediately.', keywords:'"appointment", "oil change", "brakes", "hours", "cost", "warranty", "problem"', stat:'Classification accuracy: 96.3%'},
   svcBr:    {title:'Service Request Branch', type:'ROUTER', typeColor:'#D97706', typeBg:'rgba(217,119,6,.08)', desc:'Routes calls where intent maps to service scheduling. Top triggers: oil change (34%), brakes (22%), tires (18%), diagnostics (14%), other (12%).', keywords:'"appointment", "schedule", "oil", "brakes", "tires", "check engine"', stat:'Service intent rate: 71% of all calls'},
-  hrBr:     {title:'Hours / Pricing Branch', type:'ROUTER', typeColor:'#D97706', typeBg:'rgba(217,119,6,.08)', desc:'Routes calls where intent is informational — hours, pricing, service availability. MILES answers from a per-brand knowledge base and offers to convert to a booking.', keywords:'"hours", "open", "close", "price", "cost", "how much"', stat:'Booking conversion from info calls: 38%'},
-  cmpBr:    {title:'Complaint / Warranty Branch', type:'ROUTER', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'Routes calls containing complaint or warranty language. MILES gathers details and assesses severity before deciding on immediate escalation or voicemail + CRM ticket.', keywords:'"complaint", "warranty", "fix", "broken", "not working", "refund"', stat:'Escalation rate: 61% of complaint calls'},
-  slotChk:  {title:'Slot Availability Check', type:'DMS QUERY', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'MILES queries the shop DMS calendar in real time to retrieve available appointment slots for the requested service type. Returns the next 5 available windows.', keywords:'DMS: Mitchell1 / Shop-Ware / Tekmetric · Service duration lookup · Bay availability', stat:'Avg. query time: 0.4s'},
-  faqLkp:   {title:'FAQ Knowledge Lookup', type:'KNOWLEDGE BASE', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'MILES retrieves relevant information from the brand knowledge base — current hours, pricing tiers, promotions, and certifications. Updated automatically from DMS and configured schedules.', keywords:'Brand: Straightaway Tire · KB version: 2.4.1 · Last updated: 2 days ago', stat:'Answer confidence: avg 94.1%'},
-  severity: {title:'Severity Scoring', type:'ML SCORING', typeColor:'#7C3AED', typeBg:'rgba(124,58,237,.08)', desc:'MILES scores the complaint 0–100 using keyword presence, caller sentiment analysis, and CRM history. Score ≥ 65 triggers an immediate warm transfer to the on-duty SA or manager.', keywords:'High-severity keywords: "unsafe", "injury", "attorney", "leak", "fire"', stat:'High-severity detection accuracy: 97.8%'},
+  hrBr:     {title:'Hours / Pricing Branch', type:'ROUTER', typeColor:'#D97706', typeBg:'rgba(217,119,6,.08)', desc:'Routes calls where intent is informational — hours, pricing, service availability. The AI answers from a per-brand knowledge base and offers to convert to a booking.', keywords:'"hours", "open", "close", "price", "cost", "how much"', stat:'Booking conversion from info calls: 38%'},
+  cmpBr:    {title:'Complaint / Warranty Branch', type:'ROUTER', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'Routes calls containing complaint or warranty language. The AI gathers details and assesses severity before deciding on immediate escalation or voicemail + CRM ticket.', keywords:'"complaint", "warranty", "fix", "broken", "not working", "refund"', stat:'Escalation rate: 61% of complaint calls'},
+  slotChk:  {title:'Slot Availability Check', type:'DMS QUERY', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'The AI queries the shop DMS calendar in real time to retrieve available appointment slots for the requested service type. Returns the next 5 available windows.', keywords:'DMS: Mitchell1 / Shop-Ware / Tekmetric · Service duration lookup · Bay availability', stat:'Avg. query time: 0.4s'},
+  faqLkp:   {title:'FAQ Knowledge Lookup', type:'KNOWLEDGE BASE', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'The AI retrieves relevant information from the brand knowledge base — current hours, pricing tiers, promotions, and certifications. Updated automatically from DMS and configured schedules.', keywords:'Brand: Straightaway Tire · KB version: 2.4.1 · Last updated: 2 days ago', stat:'Answer confidence: avg 94.1%'},
+  severity: {title:'Severity Scoring', type:'ML SCORING', typeColor:'#7C3AED', typeBg:'rgba(124,58,237,.08)', desc:'The AI scores the complaint 0–100 using keyword presence, caller sentiment analysis, and CRM history. Score ≥ 65 triggers an immediate warm transfer to the on-duty SA or manager.', keywords:'High-severity keywords: "unsafe", "injury", "attorney", "leak", "fire"', stat:'High-severity detection accuracy: 97.8%'},
   slotAvail:{title:'Slots Available', type:'CONDITION', typeColor:'#D97706', typeBg:'rgba(217,119,6,.08)', desc:'Condition: one or more appointment slots returned from the DMS query within the caller\'s requested window (3 days default, extended to 7 if no results).', keywords:'Slot window: 3 days default · Preference capture: morning / afternoon / weekend', stat:'Slots available rate: 76% of service calls'},
-  slotFull: {title:'No Availability', type:'CONDITION', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'Condition: no slots within the default window. MILES widens search to 7 days and presents the next 3 available options. Waitlist registration offered if all declined.', keywords:'Fallback window: 7 days · Max alternatives: 3 · Waitlist offer enabled', stat:'Alt-slot acceptance rate: 54%'},
-  infoAns:  {title:'Provide Answer', type:'AGENT ACTION', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'MILES synthesizes the knowledge base result into a natural TTS response and proactively offers to book an appointment at the end of the answer.', keywords:'TTS engine: ElevenLabs · Voice: Alex-Straightaway · Speaking rate: 1.0x', stat:'Caller satisfaction: 4.7/5.0'},
-  urgEsc:   {title:'High Severity Route', type:'CONDITION', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'Condition: severity score ≥ 65. MILES attempts a warm transfer to the on-duty SA or manager. If unavailable, escalates to voicemail with mandatory callback flag.', keywords:'Severity threshold: 65 · Transfer target: SA-on-duty · Fallback: manager queue', stat:'Transfer success rate: 73%'},
+  slotFull: {title:'No Availability', type:'CONDITION', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'Condition: no slots within the default window. The AI widens search to 7 days and presents the next 3 available options. Waitlist registration offered if all declined.', keywords:'Fallback window: 7 days · Max alternatives: 3 · Waitlist offer enabled', stat:'Alt-slot acceptance rate: 54%'},
+  infoAns:  {title:'Provide Answer', type:'AGENT ACTION', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'The AI synthesizes the knowledge base result into a natural TTS response and proactively offers to book an appointment at the end of the answer.', keywords:'TTS engine: ElevenLabs · Voice: Alex-Straightaway · Speaking rate: 1.0x', stat:'Caller satisfaction: 4.7/5.0'},
+  urgEsc:   {title:'High Severity Route', type:'CONDITION', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'Condition: severity score ≥ 65. The AI attempts a warm transfer to the on-duty SA or manager. If unavailable, escalates to voicemail with mandatory callback flag.', keywords:'Severity threshold: 65 · Transfer target: SA-on-duty · Fallback: manager queue', stat:'Transfer success rate: 73%'},
   routDec:  {title:'Routine Route', type:'CONDITION', typeColor:'#D97706', typeBg:'rgba(217,119,6,.08)', desc:'Condition: severity score < 65. Complaint is captured to voicemail, transcribed, and auto-logged as a CRM ticket tagged "Complaint — Review Required".', keywords:'CRM ticket type: complaint · Priority: medium · Auto-assign: service manager', stat:'Response SLA: 4 business hours'},
-  bookAppt: {title:'Book Appointment', type:'AGENT ACTION', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'MILES confirms the slot, captures vehicle year/make/model, confirms service type, and simultaneously writes the appointment to the DMS and CRM systems.', keywords:'DMS write: confirmed · CRM record update: confirmed · Consent: recorded', stat:'Booking write time: 1.1s avg · Success rate: 99.2%'},
-  altOffer: {title:'Offer Alternatives', type:'AGENT ACTION', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'MILES presents the next 3 available slots and asks the caller to choose. If the caller declines all, offers a waitlist registration and callback preference.', keywords:'Max alternatives: 3 · Waitlist offer: enabled · SMS follow-up: enabled', stat:'Acceptance rate from alt-offer: 54%'},
-  offerBk:  {title:'Offer to Book', type:'DECISION', typeColor:'#D97706', typeBg:'rgba(217,119,6,.08)', desc:'After answering the inquiry, MILES offers to schedule an appointment. If accepted, routes into the booking flow. If declined, logs the inquiry in CRM and closes the call.', keywords:'Offer trigger: post-answer · Decline handling: log inquiry + end call', stat:'Booking conversion from info: 38%'},
-  handoff:  {title:'Live Handoff', type:'ESCALATION', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'MILES initiates a warm transfer to the available SA or manager. Before connecting, MILES provides the agent a 6-second briefing: caller name, issue, sentiment score, and CRM history.', keywords:'Warm transfer: enabled · Pre-briefing: 6s summary · CRM screen pop: enabled', stat:'Agent satisfaction with handoffs: 4.8/5.0'},
-  vmTicket: {title:'Voicemail + CRM Ticket', type:'AUTOMATION', typeColor:'#7C3AED', typeBg:'rgba(124,58,237,.08)', desc:'MILES captures voicemail, transcribes via Whisper, creates a CRM ticket tagged "Complaint — Review Required", and sends an internal alert to the service manager via Slack and email.', keywords:'Transcription: Whisper v3 · Ticket type: complaint · Alert: Slack + email', stat:'Avg. transcription time: 4.2s'},
-  smsConf:  {title:'SMS Confirmation', type:'AUTOMATION', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'MILES sends a confirmation SMS with appointment date/time, shop address, service description, a calendar invite link, and a 2-tap confirm/cancel reply option. Reminders at 24h and 2h prior.', keywords:'SMS provider: Twilio · Confirmation rate: 89% · Reminders: 24h + 2h', stat:'No-show rate with SMS: 8.1% vs. 23% industry avg'},
+  bookAppt: {title:'Book Appointment', type:'AGENT ACTION', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'The AI confirms the slot, captures vehicle year/make/model, confirms service type, and simultaneously writes the appointment to the DMS and CRM systems.', keywords:'DMS write: confirmed · CRM record update: confirmed · Consent: recorded', stat:'Booking write time: 1.1s avg · Success rate: 99.2%'},
+  altOffer: {title:'Offer Alternatives', type:'AGENT ACTION', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'The AI presents the next 3 available slots and asks the caller to choose. If the caller declines all, offers a waitlist registration and callback preference.', keywords:'Max alternatives: 3 · Waitlist offer: enabled · SMS follow-up: enabled', stat:'Acceptance rate from alt-offer: 54%'},
+  offerBk:  {title:'Offer to Book', type:'DECISION', typeColor:'#D97706', typeBg:'rgba(217,119,6,.08)', desc:'After answering the inquiry, the AI offers to schedule an appointment. If accepted, routes into the booking flow. If declined, logs the inquiry in CRM and closes the call.', keywords:'Offer trigger: post-answer · Decline handling: log inquiry + end call', stat:'Booking conversion from info: 38%'},
+  handoff:  {title:'Live Handoff', type:'ESCALATION', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'The AI initiates a warm transfer to the available SA or manager. Before connecting, the AI provides the agent a 6-second briefing: caller name, issue, sentiment score, and CRM history.', keywords:'Warm transfer: enabled · Pre-briefing: 6s summary · CRM screen pop: enabled', stat:'Agent satisfaction with handoffs: 4.8/5.0'},
+  vmTicket: {title:'Voicemail + CRM Ticket', type:'AUTOMATION', typeColor:'#7C3AED', typeBg:'rgba(124,58,237,.08)', desc:'The AI captures voicemail, transcribes via Whisper, creates a CRM ticket tagged "Complaint — Review Required", and sends an internal alert to the service manager via Slack and email.', keywords:'Transcription: Whisper v3 · Ticket type: complaint · Alert: Slack + email', stat:'Avg. transcription time: 4.2s'},
+  smsConf:  {title:'SMS Confirmation', type:'AUTOMATION', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'The AI sends a confirmation SMS with appointment date/time, shop address, service description, a calendar invite link, and a 2-tap confirm/cancel reply option. Reminders at 24h and 2h prior.', keywords:'SMS provider: Twilio · Confirmation rate: 89% · Reminders: 24h + 2h', stat:'No-show rate with SMS: 8.1% vs. 23% industry avg'},
   infoEnd:  {title:'Call Complete — Informed', type:'TERMINAL', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'Call concluded after answering the inquiry. CRM log entry created with inquiry type, answer provided, booking offer outcome, and call duration.', keywords:'CRM log: created · Duration: avg 1m 42s · Booking offer: declined', stat:'Info calls: 14.2% of all handled calls'},
   escEnd:   {title:'Call Complete — Escalated', type:'TERMINAL', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'Call concluded via escalation. CRM ticket created, severity score logged, and transfer outcome recorded. All escalated calls reviewed by service manager within 4 business hours.', keywords:'CRM ticket: created · Severity logged · Review SLA: 4 hours', stat:'Escalated calls: 4.9% of all handled calls'},
   bookEnd:  {title:'Call Complete — Booked', type:'TERMINAL', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'Call concluded with appointment successfully booked. DMS and CRM updated, SMS confirmation sent, revenue attribution logged for ROI reporting, and call recording archived.', keywords:'DMS status: confirmed · CRM revenue: attributed · Recording: archived', stat:'Booked calls: 72.3% of all service-intent calls'},
@@ -2934,7 +3539,7 @@ function openApptPanel(a) {
   const endH = Math.floor((a.h*60+a.m+a.dur)/60);
   const endM = (a.h*60+a.m+a.dur)%60;
   const endStr = endH > 12 ? `${endH-12}:${String(endM).padStart(2,'0')} PM` : `${endH}:${String(endM).padStart(2,'0')} AM`;
-  const srcLabel = a.src === 'miles' ? 'MILES AI' : 'Staff';
+  const srcLabel = a.src === 'miles' ? 'Service AI' : 'Staff';
   const srcColor = a.src === 'miles' ? '#2563EB' : '#64748B';
 
   document.getElementById('apptPanelTitle').textContent = a.name;
@@ -3533,13 +4138,13 @@ const LIVE_SCENARIOS = [
     brand:'Auto Care Plus', shop:'Salem, NH', intent:'Brake Inspection — Spongy Pedal',
     outcome:'booked', slot:'Thu Apr 17 — 9:00 AM',
     lines:[
-      {spk:'MILES', txt:"Thank you for calling Auto Care Plus in Salem. I'm MILES, the after-hours assistant. Who am I speaking with tonight?", stage:1, conf:94, thinkLbl:'Identifying shop · greeting caller…', thinkMs:900, pauseMs:1400},
+      {spk:'AI', txt:"Thank you for calling Auto Care Plus in Salem. I'm your after-hours AI assistant. Who am I speaking with tonight?", stage:1, conf:94, thinkLbl:'Identifying shop · greeting caller…', thinkMs:900, pauseMs:1400},
       {spk:'CALLER', txt:"Hi, this is Jennifer Park.", pauseMs:1000},
-      {spk:'MILES', txt:"Hi Jennifer — I see you're a customer with us. Are you calling about your 2019 Honda CR-V?", conf:95, thinkLbl:'Looking up customer record…', thinkMs:1000, pauseMs:1300},
+      {spk:'AI', txt:"Hi Jennifer — I see you're a customer with us. Are you calling about your 2019 Honda CR-V?", conf:95, thinkLbl:'Looking up customer record…', thinkMs:1000, pauseMs:1300},
       {spk:'CALLER', txt:"Yeah. My brake pedal has been feeling really spongy lately — kind of going to the floor. I'm nervous about it.", pauseMs:1100},
-      {spk:'MILES', txt:"That's definitely something we want to address right away — a spongy pedal can mean low brake fluid or air in the brake lines. I'd recommend an inspection as soon as possible. I have Thursday at 9:00 AM available. Does that work?", stage:2, conf:97, intent:'Brake Inspection — Urgent', thinkLbl:'Checking schedule · analyzing urgency…', thinkMs:1100, pauseMs:1500},
+      {spk:'AI', txt:"That's definitely something we want to address right away — a spongy pedal can mean low brake fluid or air in the brake lines. I'd recommend an inspection as soon as possible. I have Thursday at 9:00 AM available. Does that work?", stage:2, conf:97, intent:'Brake Inspection — Urgent', thinkLbl:'Checking schedule · analyzing urgency…', thinkMs:1100, pauseMs:1500},
       {spk:'CALLER', txt:"Thursday at 9 works great.", pauseMs:900},
-      {spk:'MILES', txt:"Booked. Jennifer Park, Thursday April 17th at 9:00 AM — Auto Care Plus Salem. A text confirmation is on its way. Drive carefully until then.", stage:3, conf:98, thinkLbl:'Creating appointment in DMS · sending SMS…', thinkMs:900, pauseMs:500},
+      {spk:'AI', txt:"Booked. Jennifer Park, Thursday April 17th at 9:00 AM — Auto Care Plus Salem. A text confirmation is on its way. Drive carefully until then.", stage:3, conf:98, thinkLbl:'Creating appointment in DMS · sending SMS…', thinkMs:900, pauseMs:500},
     ]
   },
   {
@@ -3547,13 +4152,13 @@ const LIVE_SCENARIOS = [
     brand:'All County Tire & Auto', shop:'Nashua, NH', intent:'Oil Change + Tire Rotation',
     outcome:'booked', slot:'Fri Apr 18 — 8:00 AM',
     lines:[
-      {spk:'MILES', txt:"All County Tire and Auto in Nashua — after-hours service. I'm MILES. How can I help you tonight?", stage:1, conf:93, thinkLbl:'Shop identified · greeting…', thinkMs:700, pauseMs:1200},
+      {spk:'AI', txt:"All County Tire and Auto in Nashua — after-hours service. I'm your AI assistant. How can I help you tonight?", stage:1, conf:93, thinkLbl:'Shop identified · greeting…', thinkMs:700, pauseMs:1200},
       {spk:'CALLER', txt:"Hey, my oil change light just came on. Name is Luis Torres.", pauseMs:1000},
-      {spk:'MILES', txt:"Hi Luis — your 2020 Camry is due for service. I have Friday at 8:00 AM open, about 45 minutes for a full synthetic oil change and filter. Would that work?", stage:2, conf:96, intent:'Oil Change — Service Due', thinkLbl:'Pulling service history · checking availability…', thinkMs:1000, pauseMs:1400},
+      {spk:'AI', txt:"Hi Luis — your 2020 Camry is due for service. I have Friday at 8:00 AM open, about 45 minutes for a full synthetic oil change and filter. Would that work?", stage:2, conf:96, intent:'Oil Change — Service Due', thinkLbl:'Pulling service history · checking availability…', thinkMs:1000, pauseMs:1400},
       {spk:'CALLER', txt:"Friday at 8 works. Is there anything else you'd recommend while I'm there?", pauseMs:1000},
-      {spk:'MILES', txt:"Based on your mileage, a tire rotation is due as well. We can bundle both for $79 and it only adds about 25 minutes. Want to add that?", stage:3, conf:97, thinkLbl:'Reviewing service intervals…', thinkMs:900, pauseMs:1300},
+      {spk:'AI', txt:"Based on your mileage, a tire rotation is due as well. We can bundle both for $79 and it only adds about 25 minutes. Want to add that?", stage:3, conf:97, thinkLbl:'Reviewing service intervals…', thinkMs:900, pauseMs:1300},
       {spk:'CALLER', txt:"Sure, let's do it.", pauseMs:700},
-      {spk:'MILES', txt:"Perfect. You're booked — Friday April 18th at 8:00 AM, oil change and tire rotation, All County Nashua. Confirmation text is on its way.", stage:3, conf:98, thinkLbl:'Saving appointment · sending SMS…', thinkMs:800, pauseMs:500},
+      {spk:'AI', txt:"Perfect. You're booked — Friday April 18th at 8:00 AM, oil change and tire rotation, All County Nashua. Confirmation text is on its way.", stage:3, conf:98, thinkLbl:'Saving appointment · sending SMS…', thinkMs:800, pauseMs:500},
     ]
   },
   {
@@ -3561,11 +4166,11 @@ const LIVE_SCENARIOS = [
     brand:'EAS Tire & Auto', shop:'Minneapolis, MN', intent:'Repeat Diagnostic — Warranty Dispute',
     outcome:'escalated', slot:null,
     lines:[
-      {spk:'MILES', txt:"EAS Tire and Auto Minneapolis. I'm MILES, after-hours assistant — how can I help tonight?", stage:1, conf:93, thinkLbl:'Greeting caller…', thinkMs:700, pauseMs:1100},
+      {spk:'AI', txt:"EAS Tire and Auto Minneapolis. I'm the AI service assistant — how can I help tonight?", stage:1, conf:93, thinkLbl:'Greeting caller…', thinkMs:700, pauseMs:1100},
       {spk:'CALLER', txt:"This is Barbara Nichols. My check engine light came back on two weeks after you cleared it. I'm not paying again.", pauseMs:1200},
-      {spk:'MILES', txt:"I completely understand, Barbara — that's frustrating, and it shouldn't happen. I can see your recent diagnostic visit on your F-150. A return visit with a warranty concern is something our service manager needs to review directly.", stage:2, conf:74, intent:'Repeat Diagnostic — Warranty Dispute', thinkLbl:'Pulling service record · warranty check…', thinkMs:1200, pauseMs:1500},
+      {spk:'AI', txt:"I completely understand, Barbara — that's frustrating, and it shouldn't happen. I can see your recent diagnostic visit on your F-150. A return visit with a warranty concern is something our service manager needs to review directly.", stage:2, conf:74, intent:'Repeat Diagnostic — Warranty Dispute', thinkLbl:'Pulling service record · warranty check…', thinkMs:1200, pauseMs:1500},
       {spk:'CALLER', txt:"Good. Because I'm not paying twice for the same problem.", pauseMs:900},
-      {spk:'MILES', txt:"You shouldn't have to. I'm escalating this to our on-call advisor right now. They'll contact you tomorrow before 9:00 AM to schedule a no-charge inspection and review your warranty coverage.", stage:3, conf:65, thinkLbl:'Escalating — warranty protocol · notifying advisor…', thinkMs:1200, pauseMs:500},
+      {spk:'AI', txt:"You shouldn't have to. I'm escalating this to our on-call advisor right now. They'll contact you tomorrow before 9:00 AM to schedule a no-charge inspection and review your warranty coverage.", stage:3, conf:65, thinkLbl:'Escalating — warranty protocol · notifying advisor…', thinkMs:1200, pauseMs:500},
     ]
   },
   {
@@ -3573,11 +4178,11 @@ const LIVE_SCENARIOS = [
     brand:'Victory Tire & Auto', shop:'Rochester, MN', intent:'Tire Replacement — 4 Tires',
     outcome:'booked', slot:'Sat Apr 19 — 10:00 AM',
     lines:[
-      {spk:'MILES', txt:"Victory Tire and Auto Rochester — this is MILES. How can I help tonight?", stage:1, conf:94, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
+      {spk:'AI', txt:"Victory Tire and Auto Rochester — this is your AI assistant. How can I help tonight?", stage:1, conf:94, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
       {spk:'CALLER', txt:"I need four new tires. My current ones are pretty worn and I have a long drive this weekend.", pauseMs:1100},
-      {spk:'MILES', txt:"Happy to get you taken care of before that trip, Craig. For your 2017 Outback — 225/60R18 — we have the Continental TrueContact Tour in stock at $168 per tire installed, so about $672 for four with a free alignment check. I have Saturday morning at 10:00 AM available.", stage:2, conf:95, intent:'Tire Replacement — 4 Tires', thinkLbl:'Checking fitment · inventory · pricing…', thinkMs:1100, pauseMs:1600},
+      {spk:'AI', txt:"Happy to get you taken care of before that trip, Craig. For your 2017 Outback — 225/60R18 — we have the Continental TrueContact Tour in stock at $168 per tire installed, so about $672 for four with a free alignment check. I have Saturday morning at 10:00 AM available.", stage:2, conf:95, intent:'Tire Replacement — 4 Tires', thinkLbl:'Checking fitment · inventory · pricing…', thinkMs:1100, pauseMs:1600},
       {spk:'CALLER', txt:"Saturday at 10 works perfectly.", pauseMs:800},
-      {spk:'MILES', txt:"All set — Craig Dempsey, Saturday April 19th at 10:00 AM, four Continental TrueContact Tours, Victory Rochester. Plan for about 90 minutes. Confirmation is on its way.", stage:3, conf:98, thinkLbl:'Booking · sending SMS…', thinkMs:800, pauseMs:500},
+      {spk:'AI', txt:"All set — Craig Dempsey, Saturday April 19th at 10:00 AM, four Continental TrueContact Tours, Victory Rochester. Plan for about 90 minutes. Confirmation is on its way.", stage:3, conf:98, thinkLbl:'Booking · sending SMS…', thinkMs:800, pauseMs:500},
     ]
   },
   {
@@ -3585,11 +4190,11 @@ const LIVE_SCENARIOS = [
     brand:'EAS Tire & Auto', shop:'St. Paul, MN', intent:'AC Diagnostic — No Cold Air',
     outcome:'booked', slot:'Mon Apr 21 — 11:30 AM',
     lines:[
-      {spk:'MILES', txt:"EAS Tire and Auto St. Paul — MILES here, after-hours. What can I do for you tonight?", stage:1, conf:93, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
+      {spk:'AI', txt:"EAS Tire and Auto St. Paul — AI assistant here, after-hours. What can I do for you tonight?", stage:1, conf:93, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
       {spk:'CALLER', txt:"Hi, I'm Ruth. My AC stopped blowing cold air. With summer coming I really need to get it looked at.", pauseMs:1100},
-      {spk:'MILES', txt:"Common issue this time of year, Ruth. Could be a refrigerant charge, a failed compressor relay, or a small leak. Our diagnostic starts at $95 and applies to any repair we do. I have Monday at 11:30 AM — does that work?", stage:2, conf:95, intent:'AC Diagnostic — No Cold Air', thinkLbl:'Identifying service type · checking schedule…', thinkMs:1000, pauseMs:1500},
+      {spk:'AI', txt:"Common issue this time of year, Ruth. Could be a refrigerant charge, a failed compressor relay, or a small leak. Our diagnostic starts at $95 and applies to any repair we do. I have Monday at 11:30 AM — does that work?", stage:2, conf:95, intent:'AC Diagnostic — No Cold Air', thinkLbl:'Identifying service type · checking schedule…', thinkMs:1000, pauseMs:1500},
       {spk:'CALLER', txt:"Monday at 11:30 — yes that's perfect.", pauseMs:800},
-      {spk:'MILES', txt:"Confirmed — Ruth Yamaguchi, Monday April 21st 11:30 AM, EAS St. Paul. Text confirmation is coming to you now. If you notice any unusual sounds from the AC before then, don't hesitate to call.", stage:3, conf:97, thinkLbl:'Booking · sending SMS…', thinkMs:800, pauseMs:500},
+      {spk:'AI', txt:"Confirmed — Ruth Yamaguchi, Monday April 21st 11:30 AM, EAS St. Paul. Text confirmation is coming to you now. If you notice any unusual sounds from the AC before then, don't hesitate to call.", stage:3, conf:97, thinkLbl:'Booking · sending SMS…', thinkMs:800, pauseMs:500},
     ]
   },
   {
@@ -3597,11 +4202,11 @@ const LIVE_SCENARIOS = [
     brand:'Auto Care Plus', shop:'Derry, NH', intent:'State Inspection — April Expiry',
     outcome:'voicemail', slot:null,
     lines:[
-      {spk:'MILES', txt:"Auto Care Plus Derry — after-hours service, this is MILES. How can I help?", stage:1, conf:93, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
+      {spk:'AI', txt:"Auto Care Plus Derry — after-hours service, this is your AI assistant. How can I help?", stage:1, conf:93, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
       {spk:'CALLER', txt:"Hi, calling about a state inspection. My sticker expires end of April.", pauseMs:900},
-      {spk:'MILES', txt:"Good timing — we can definitely get that taken care of. New Hampshire inspections are $49.95. I have openings most days next week. Do any mornings work for you?", stage:2, conf:96, intent:'State Inspection — April Expiry', thinkLbl:'Checking inspection availability…', thinkMs:900, pauseMs:1300},
+      {spk:'AI', txt:"Good timing — we can definitely get that taken care of. New Hampshire inspections are $49.95. I have openings most days next week. Do any mornings work for you?", stage:2, conf:96, intent:'State Inspection — April Expiry', thinkLbl:'Checking inspection availability…', thinkMs:900, pauseMs:1300},
       {spk:'CALLER', txt:"Actually let me check my schedule and call back tomorrow. I'm not sure about next week.", pauseMs:900},
-      {spk:'MILES', txt:"No problem, Frank. Our line opens at 7:30 AM. You can also book online anytime. I've noted your vehicle so we're ready when you call back.", stage:3, conf:95, thinkLbl:'Logging intent · noting call-back…', thinkMs:800, pauseMs:500},
+      {spk:'AI', txt:"No problem, Frank. Our line opens at 7:30 AM. You can also book online anytime. I've noted your vehicle so we're ready when you call back.", stage:3, conf:95, thinkLbl:'Logging intent · noting call-back…', thinkMs:800, pauseMs:500},
     ]
   },
   {
@@ -3609,11 +4214,11 @@ const LIVE_SCENARIOS = [
     brand:'Silverlake Automotive', shop:'Denver, CO', intent:'Wheel Alignment — Pulling Right',
     outcome:'booked', slot:'Wed Apr 16 — 2:00 PM',
     lines:[
-      {spk:'MILES', txt:"Silverlake Automotive Denver — this is MILES, after-hours. How can I help?", stage:1, conf:94, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
+      {spk:'AI', txt:"Silverlake Automotive Denver — this is the AI assistant, after-hours. How can I help?", stage:1, conf:94, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
       {spk:'CALLER', txt:"Hi. My car is pulling to the right pretty noticeably. I think I need an alignment.", pauseMs:1000},
-      {spk:'MILES', txt:"That's a classic alignment symptom, Sandra — very common after potholes or new tires. A 4-wheel alignment is $99 and takes about 45 minutes. I actually have an opening today at 2:00 PM. Would that work?", stage:2, conf:96, intent:'Wheel Alignment — Pulling Right', thinkLbl:'Confirming symptom · checking same-day slots…', thinkMs:1000, pauseMs:1500},
+      {spk:'AI', txt:"That's a classic alignment symptom, Sandra — very common after potholes or new tires. A 4-wheel alignment is $99 and takes about 45 minutes. I actually have an opening today at 2:00 PM. Would that work?", stage:2, conf:96, intent:'Wheel Alignment — Pulling Right', thinkLbl:'Confirming symptom · checking same-day slots…', thinkMs:1000, pauseMs:1500},
       {spk:'CALLER', txt:"Today at 2? That's perfect — I can make that.", pauseMs:800},
-      {spk:'MILES', txt:"Locked in — Sandra Whitfield, 2:00 PM today at Silverlake Denver. Confirmation and address are headed to your phone right now. See you this afternoon.", stage:3, conf:98, thinkLbl:'Same-day booking confirmed · sending SMS…', thinkMs:800, pauseMs:500},
+      {spk:'AI', txt:"Locked in — Sandra Whitfield, 2:00 PM today at Silverlake Denver. Confirmation and address are headed to your phone right now. See you this afternoon.", stage:3, conf:98, thinkLbl:'Same-day booking confirmed · sending SMS…', thinkMs:800, pauseMs:500},
     ]
   },
   {
@@ -3621,11 +4226,11 @@ const LIVE_SCENARIOS = [
     brand:'Victory Tire & Auto', shop:'Burnsville, MN', intent:'Brake Service — Warranty Concern',
     outcome:'escalated', slot:null,
     lines:[
-      {spk:'MILES', txt:"Victory Tire and Auto Burnsville — I'm MILES, the after-hours assistant. Who am I speaking with?", stage:1, conf:93, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
+      {spk:'AI', txt:"Victory Tire and Auto Burnsville — I'm your after-hours AI assistant. Who am I speaking with?", stage:1, conf:93, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
       {spk:'CALLER', txt:"Kevin McBride. You guys did my brakes four months ago and they're already grinding. This shouldn't be happening.", pauseMs:1100},
-      {spk:'MILES', txt:"That's not acceptable and I completely understand your frustration, Kevin. I can see the brake service on your Silverado from four months ago. Grinding that quickly could point to a defective part or installation issue — both of which should fall under warranty.", stage:2, conf:72, intent:'Brake Service — Warranty Dispute', thinkLbl:'Pulling service record · checking warranty…', thinkMs:1200, pauseMs:1600},
+      {spk:'AI', txt:"That's not acceptable and I completely understand your frustration, Kevin. I can see the brake service on your Silverado from four months ago. Grinding that quickly could point to a defective part or installation issue — both of which should fall under warranty.", stage:2, conf:72, intent:'Brake Service — Warranty Dispute', thinkLbl:'Pulling service record · checking warranty…', thinkMs:1200, pauseMs:1600},
       {spk:'CALLER', txt:"Good. Because I'm not paying for this twice.", pauseMs:900},
-      {spk:'MILES', txt:"You shouldn't have to. I'm escalating this to our on-call service manager right now. They'll reach out before 9:00 AM tomorrow to schedule a no-charge inspection and review your warranty coverage. You'll also get a reference number by text.", stage:3, conf:63, thinkLbl:'Escalating — warranty protocol · alerting manager…', thinkMs:1200, pauseMs:500},
+      {spk:'AI', txt:"You shouldn't have to. I'm escalating this to our on-call service manager right now. They'll reach out before 9:00 AM tomorrow to schedule a no-charge inspection and review your warranty coverage. You'll also get a reference number by text.", stage:3, conf:63, thinkLbl:'Escalating — warranty protocol · alerting manager…', thinkMs:1200, pauseMs:500},
     ]
   },
 ];
@@ -3650,7 +4255,7 @@ function startMILES() {
   MSIM.running = true;
   MSIM.paused = false;
   const btn = document.getElementById('mlcToggle');
-  btn.innerHTML = '<i data-lucide="square"></i><span>Stop MILES</span>';
+  btn.innerHTML = '<i data-lucide="square"></i><span>Stop AI</span>';
   btn.className = 'mlc-toggle running';
   document.getElementById('mlcDot').classList.add('active');
   document.getElementById('mlcSub').textContent = 'ACTIVE — Handling inbound calls across 90 shops';
@@ -3666,10 +4271,10 @@ function stopMILES() {
   clearTimeout(MSIM.lineTimeout);
   clearInterval(MSIM.callTimerInterval);
   const btn = document.getElementById('mlcToggle');
-  btn.innerHTML = '<i data-lucide="play"></i><span>Start MILES</span>';
+  btn.innerHTML = '<i data-lucide="play"></i><span>Start AI</span>';
   btn.className = 'mlc-toggle';
   document.getElementById('mlcDot').classList.remove('active');
-  document.getElementById('mlcSub').textContent = 'Offline — press Start to watch MILES handle calls live';
+  document.getElementById('mlcSub').textContent = 'Offline — press Start to watch AI handle calls live';
   document.getElementById('mlcConsole').classList.remove('open');
   lucide.createIcons();
 }
@@ -3739,9 +4344,9 @@ function advanceLine() {
   if (MSIM.lineIdx >= sc.lines.length) { resolveCall(); return; }
   const line = sc.lines[MSIM.lineIdx];
 
-  if (line.spk === 'MILES') {
+  if (line.spk === 'AI') {
     const thinking = document.getElementById('mlcThinking');
-    document.getElementById('mlcThinkLbl').textContent = line.thinkLbl || 'MILES processing…';
+    document.getElementById('mlcThinkLbl').textContent = line.thinkLbl || 'AI processing…';
     thinking.classList.add('show');
     MSIM.lineTimeout = setTimeout(() => {
       thinking.classList.remove('show');
@@ -3774,7 +4379,7 @@ function appendLine(line) {
   const feed = document.getElementById('mlcTranscript');
   const div = document.createElement('div');
   div.className = 'mlc-tline';
-  const spkClass = line.spk === 'MILES' ? 'mlc-spk-miles' : 'mlc-spk-caller';
+  const spkClass = line.spk === 'AI' ? 'mlc-spk-miles' : 'mlc-spk-caller';
   div.innerHTML = '<span class="mlc-spk ' + spkClass + '">' + line.spk + '</span><span class="mlc-ttext">' + line.txt + '</span>';
   feed.appendChild(div);
   feed.scrollTop = feed.scrollHeight;
@@ -3823,6 +4428,129 @@ function pushFeedEntry(sc) {
   while (feed.children.length > 8) feed.removeChild(feed.lastChild);
 }
 
+// ─── SETTINGS ────────────────────────────────────────────────────────────
+
+(function injectSettingsCSS(){
+  const s = document.createElement('style');
+  s.textContent = `
+  /* Layout */
+  .settings-layout{display:flex;gap:0;height:calc(100vh - 130px);min-height:500px}
+  .settings-nav{width:196px;flex-shrink:0;border-right:1px solid var(--border);padding:8px 0;background:var(--white);overflow-y:auto}
+  .sn-item{display:flex;align-items:center;gap:9px;padding:10px 16px;font-size:12.5px;font-weight:500;color:var(--t2);cursor:pointer;border-left:3px solid transparent;transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
+  .sn-item i{width:14px;height:14px;flex-shrink:0}
+  .sn-item:hover{background:var(--canvas);color:var(--t1)}
+  .sn-item.active{background:rgba(11,37,69,.05);color:var(--navy);font-weight:700;border-left-color:var(--navy)}
+
+  /* Content area */
+  .settings-content{flex:1;overflow-y:auto;padding:0}
+  .settings-panel{display:none;padding:24px 28px;max-width:680px}
+  .settings-panel.active{display:block}
+  .sp-title{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+
+  /* Form groups */
+  .sg-group{margin-bottom:20px}
+  .sg-label{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:4px}
+  .sg-desc{font-size:12px;color:var(--t3);margin-bottom:8px;line-height:1.5}
+  .sg-sub-lbl{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+  .sg-input{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;color:var(--t1);background:var(--white);outline:none;box-sizing:border-box;transition:border-color .15s}
+  .sg-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+  .sg-select{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;color:var(--t1);background:var(--white);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
+  .sg-row-split{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .sg-save-row{margin-top:24px;padding-top:16px;border-top:1px solid var(--border)}
+  .sg-save-btn{padding:8px 20px;background:var(--navy);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s}
+  .sg-save-btn:hover{background:#0f3362}
+  .sg-edit-btn{display:flex;align-items:center;gap:4px;padding:5px 12px;border:1px solid var(--border);border-radius:6px;background:var(--white);color:var(--t1);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;flex-shrink:0}
+  .sg-edit-btn:hover{background:var(--canvas)}
+  .sg-edit-btn i{width:12px;height:12px}
+  .sg-info-card{background:var(--canvas);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+  .sg-ic-lbl{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.05em}
+
+  /* Toggle switch */
+  .sg-toggle{position:relative;display:inline-flex;align-items:center;cursor:pointer;flex-shrink:0}
+  .sg-toggle input{opacity:0;width:0;height:0;position:absolute}
+  .sg-track{display:inline-block;width:40px;height:22px;background:#CBD5E1;border-radius:11px;position:relative;transition:background .2s;flex-shrink:0}
+  .sg-toggle input:checked + .sg-track{background:var(--navy)}
+  .sg-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .sg-toggle input:checked + .sg-track .sg-thumb{transform:translateX(18px)}
+
+  /* Slider */
+  .sg-slider-row{display:flex;align-items:center;gap:12px;margin-top:8px}
+  .sg-slider{flex:1;-webkit-appearance:none;height:4px;border-radius:2px;background:#E2E8F0;outline:none;cursor:pointer}
+  .sg-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--navy);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .sg-slider-val{font-size:13px;font-weight:700;color:var(--navy);font-family:var(--mono);min-width:48px;text-align:right;flex-shrink:0}
+
+  /* Check pills */
+  .sg-check-pill{display:flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;color:var(--t1);cursor:pointer;transition:background .12s,border-color .12s}
+  .sg-check-pill:has(input:checked){background:rgba(11,37,69,.06);border-color:var(--navy);color:var(--navy);font-weight:700}
+  .sg-check-pill input{accent-color:var(--navy)}
+
+  /* Brands list */
+  .sg-brands-list{display:flex;flex-direction:column;gap:8px}
+  .sgb-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--canvas);border:1px solid var(--border);border-radius:8px}
+  .sgb-color{width:10px;height:36px;border-radius:3px;flex-shrink:0}
+  .sgb-info{flex:1;min-width:0}
+  .sgb-name{font-size:13px;font-weight:600;color:var(--t1)}
+  .sgb-meta{font-size:11.5px;color:var(--t3);margin-top:2px}
+  .sgb-stats{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0}
+  .sgb-stat{font-size:11px;font-weight:700;color:var(--success)}
+  .sgb-stat-num{font-size:10.5px;color:var(--t3);margin-top:1px}
+
+  /* Integration cards */
+  .sg-int-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid var(--border);border-radius:8px;margin-bottom:10px;background:var(--white)}
+  .sg-int-card.connected{border-color:rgba(5,150,105,.2);background:rgba(5,150,105,.02)}
+  .sgi-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+  .sgi-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .sgi-icon i{width:18px;height:18px}
+  .sgi-name{font-size:13px;font-weight:600;color:var(--t1)}
+  .sgi-sub{font-size:11.5px;color:var(--t3);margin-top:2px}
+  .sgi-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .sgi-badge{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:10px;background:var(--canvas);color:var(--t3);white-space:nowrap}
+  .sgi-badge.connected{background:#D1FAE5;color:#065F46}
+
+  /* Users table */
+  .sg-users-table{width:100%;border-collapse:collapse;font-size:12.5px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .sg-users-table th{padding:9px 12px;text-align:left;font-size:10.5px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;background:var(--canvas);border-bottom:1px solid var(--border)}
+  .sg-users-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+  .sg-users-table tr:last-child td{border-bottom:none}
+  .sg-users-table tr:hover td{background:var(--canvas)}
+  .sgu-name{font-weight:600;color:var(--t1)}
+  .sgu-sub{font-size:10.5px;color:var(--t3);margin-top:1px}
+  .sgu-email{color:var(--t3);font-size:12px}
+  .sgu-role{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap}
+  .role-admin{background:rgba(11,37,69,.1);color:var(--navy)}
+  .role-manager{background:rgba(37,99,235,.1);color:var(--blue)}
+  .role-viewer{background:var(--canvas);color:var(--t3)}
+  .role-support{background:rgba(124,58,237,.1);color:#7C3AED}
+  .sgu-brands{font-size:11.5px;color:var(--t3)}
+  .sgu-last{font-size:11.5px;color:var(--t3)}
+
+  /* Billing */
+  .sg-billing-hero{background:var(--navy);border-radius:10px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+  .sgbh-plan-name{font-size:16px;font-weight:700;color:#fff}
+  .sgbh-plan-detail{font-size:12px;color:rgba(255,255,255,.55);margin-top:3px}
+  .sgbh-amount{font-size:28px;font-weight:700;color:#fff;font-family:var(--mono)}
+  .sgbh-period{font-size:13px;color:rgba(255,255,255,.5);margin-left:4px}
+  .sg-usage-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+  .sg-usage-card{background:var(--canvas);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+  .sguc-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+  .sguc-val{font-size:22px;font-weight:700;color:var(--navy);font-family:var(--mono);line-height:1.1;margin-bottom:8px}
+  .sguc-bar-track{height:4px;background:#E2E8F0;border-radius:2px;overflow:hidden;margin-bottom:4px}
+  .sguc-bar{height:100%;background:var(--blue);border-radius:2px}
+  .sguc-sub{font-size:11px;color:var(--t3)}
+  `;
+  document.head.appendChild(s);
+})();
+
+function switchSettingsSection(key) {
+  document.querySelectorAll('.sn-item').forEach(el => el.classList.toggle('active', el.dataset.section === key));
+  document.querySelectorAll('.settings-panel').forEach(el => el.classList.toggle('active', el.id === 'sp-' + key));
+  lucide.createIcons();
+}
+
+function settingsSaveAll() {
+  showToast('All settings saved successfully');
+}
+
 // ── Workflow selector ─────────────────────────────────────────────────────
 document.querySelector('.wf-sel').addEventListener('change', function(){
   const PATH_LABELS = {
@@ -3846,3 +4574,4 @@ document.querySelector('.wf-sel').addEventListener('change', function(){
 </script>
 </body>
 </html>
+
