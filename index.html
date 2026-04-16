@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MILES — Service Advisor ADE · Straightaway Tire & Auto</title>
+<title>MILES — Service Advisor · Straightaway Tire & Auto</title>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
 /* ─── TOKENS ─────────────────────────────────────────────────────── */
@@ -28,10 +28,12 @@ select{font-family:var(--sans)}
 
 /* ─── NAV RAIL ───────────────────────────────────────────────────── */
 .nav-rail{width:var(--nav);min-width:var(--nav);height:100vh;background:var(--navy);display:flex;flex-direction:column;overflow:hidden;z-index:10}
-.nav-logo{padding:20px 16px 16px 18px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0}
-.logo-word{font-size:24px;font-weight:700;color:#fff;letter-spacing:-.6px;line-height:1}
-.logo-desc{font-size:11px;font-weight:500;color:rgba(255,255,255,.55);margin-top:3px;line-height:1.3}
-.logo-by{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px}
+.nav-logo{padding:18px 16px 14px 16px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0}
+.brand-logo-img{width:158px;height:auto;display:block}
+.brand-logo-sep{height:1px;background:rgba(255,255,255,.1);margin:12px 0 10px}
+.logo-word{font-size:20px;font-weight:700;color:#fff;letter-spacing:-.5px;line-height:1}
+.logo-desc{font-size:10.5px;font-weight:500;color:rgba(255,255,255,.5);margin-top:3px;line-height:1.3}
+.logo-by{font-size:10px;color:rgba(255,255,255,.28);margin-top:2px}
 .brand-wrap{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0}
 .brand-lbl{font-size:10px;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
 .brand-sel{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:var(--r6);color:rgba(255,255,255,.9);font-size:12.5px;font-weight:500;padding:7px 28px 7px 10px;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center}
@@ -553,7 +555,7 @@ select{font-family:var(--sans)}
 
 <div class="narrow-guard">
   <div class="ng-logo">MILES</div>
-  <div class="ng-tag">Service Advisor ADE · Straightaway Tire &amp; Auto</div>
+  <div class="ng-tag">Service Advisor · Straightaway Tire &amp; Auto</div>
   <p class="ng-msg">Best viewed on a desktop browser at 1280px or wider.</p>
 </div>
 
@@ -562,8 +564,10 @@ select{font-family:var(--sans)}
   <!-- NAV RAIL -->
   <nav class="nav-rail">
     <div class="nav-logo">
+      <img src="https://gostraightaway.com/wp-content/uploads/2024/10/Straightaway_White_Final.svg" alt="Straightaway Tire &amp; Auto" class="brand-logo-img">
+      <div class="brand-logo-sep"></div>
       <div class="logo-word">MILES</div>
-      <div class="logo-desc">Service Advisor ADE</div>
+      <div class="logo-desc">Service Advisor</div>
       <div class="logo-by">Built by Neuralogic Group</div>
     </div>
     <div class="brand-wrap">
@@ -826,8 +830,8 @@ select{font-family:var(--sans)}
               </div>
               <div class="cc-collapsed" id="body-cc2">
                 <div class="cc-summary">
-                  <strong>Escalated to Steve Rich (All County):</strong> Customer wants to discuss warranty claim on brake work completed 6 months ago. MILES confidence dropped below threshold at warranty dispute keyword — escalated per protocol.<br>
-                  <div style="margin-top:6px;font-size:11px;color:var(--warning)">Awaiting callback · Steve Rich notified via SMS · 20 min ago</div>
+                  <strong>Escalated to On-Call Advisor (All County):</strong> Customer wants to discuss warranty claim on brake work completed 6 months ago. MILES confidence dropped below threshold at warranty dispute keyword — escalated per protocol.<br>
+                  <div style="margin-top:6px;font-size:11px;color:var(--warning)">Awaiting callback · Advisor notified via SMS · 20 min ago</div>
                 </div>
               </div>
             </div>
@@ -972,7 +976,7 @@ select{font-family:var(--sans)}
               </div>
               <div class="esc-notice">
                 <i data-lucide="alert-triangle"></i>
-                <span>1 escalation in queue · awaiting <strong>Steve Rich</strong> (All County)</span>
+                <span>1 escalation in queue · awaiting <strong>On-Call Advisor</strong> (All County)</span>
               </div>
               <div class="agent-activity">
                 Robert Chen call · warranty dispute · notified 20 min ago
@@ -1479,7 +1483,7 @@ select{font-family:var(--sans)}
     <div class="ni-ico" style="background:rgba(220,38,38,.09)"><i data-lucide="alert-triangle" style="color:#DC2626"></i></div>
     <div>
       <div class="ni-ttl">Escalation — Robert Chen</div>
-      <div class="ni-sub">Warranty dispute flagged at EAS Aurora. Steve Rich notified.</div>
+      <div class="ni-sub">Warranty dispute flagged at EAS Aurora. On-call advisor notified.</div>
       <div class="ni-ts">11:32 PM · Tonight</div>
     </div>
   </div>
@@ -2016,9 +2020,9 @@ const CQ = [
     bk:{service:'Oil Change + Tire Rotation',date:'Wednesday, April 16, 2026',time:'8:00 AM',shop:'All County — Boca Raton, FL',addr:'2301 N Federal Hwy, Boca Raton, FL 33431',note:'Estimated duration: 1 hour.',sms:'Appt confirmed at All County Boca Raton: Wed Apr 16 @ 8:00 AM — Oil Change + Tire Rotation.'}},
 
   { time:'11:32 PM', caller:'Robert Chen', phone:'(303) 555-0188', vehicle:'2015 Ford F-150', shop:'EAS — Aurora, CO', type:'ah', agents:'INTAKE → HANDOFF', outcomeType:'escalated', outcome:'Escalated: Warranty dispute on prior brake work', conf:72,
-    tx:[{s:'MILES',t:"EAS Tire and Auto Aurora, after-hours line. May I have your name?"},{s:'CALLER',t:"Robert Chen. I need to talk to someone about work you guys did on my brakes 6 months ago. I'm having problems again and I think it should be covered under warranty."},{s:'MILES',t:"I understand, Robert — I can see the brake service from October on your account. Warranty questions are best handled by one of our advisors so they can review the full work order with you. I'm going to flag this for Steve Rich, our brand lead — he'll reach out first thing tomorrow. Is that okay?"},{s:'CALLER',t:"I'd prefer to talk tonight if possible."},{s:'MILES',t:"I completely understand. Let me escalate this now and have the on-call advisor reach out within the hour. I'm also leaving a detailed note on your account."}],
-    reasoning:['ANI match: Robert Chen — customer since 2020','Vehicle: 2015 Ford F-150 confirmed','Keywords: "warranty" + "brakes" + "covered" → Escalation trigger','Confidence dropped to 72% — warranty dispute outside AI scope','Routing to MILES-HANDOFF — escalated to Steve Rich (All County)','SMS notification sent to Steve Rich'],
-    bk:{service:'N/A — Escalated',date:'—',time:'—',shop:'EAS — Aurora, CO',addr:'—',note:'Escalated to Steve Rich. Customer requesting warranty review on Oct 2025 brake service.',sms:'N/A — call escalated to human advisor.'}},
+    tx:[{s:'MILES',t:"EAS Tire and Auto Aurora, after-hours line. May I have your name?"},{s:'CALLER',t:"Robert Chen. I need to talk to someone about work you guys did on my brakes 6 months ago. I'm having problems again and I think it should be covered under warranty."},{s:'MILES',t:"I understand, Robert — I can see the brake service from October on your account. Warranty questions are best handled by one of our advisors so they can review the full work order with you. I'm going to connect you with our on-call advisor — they'll reach out within the hour. Is that okay?"},{s:'CALLER',t:"I'd prefer to talk tonight if possible."},{s:'MILES',t:"I completely understand. Let me escalate this now and have the on-call advisor reach out within the hour. I'm also leaving a detailed note on your account."}],
+    reasoning:['ANI match: Robert Chen — customer since 2020','Vehicle: 2015 Ford F-150 confirmed','Keywords: "warranty" + "brakes" + "covered" → Escalation trigger','Confidence dropped to 72% — warranty dispute outside AI scope','Routing to MILES-HANDOFF — escalated to on-call advisor','SMS notification sent to on-call advisor'],
+    bk:{service:'N/A — Escalated',date:'—',time:'—',shop:'EAS — Aurora, CO',addr:'—',note:'Escalated to on-call advisor. Customer requesting warranty review on Oct 2025 brake service.',sms:'N/A — call escalated to human advisor.'}},
 
   { time:'10:18 PM', caller:'Karen Walsh', phone:'(603) 555-0167', vehicle:'2020 Toyota RAV4', shop:'Auto Care Plus — Derry, NH', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Sat 10:30 AM — 60K Mile Service', conf:99,
     tx:[{s:'MILES',t:"Auto Care Plus Derry, after-hours. How can I help you tonight?"},{s:'CALLER',t:"Karen Walsh — I need to schedule my 60,000 mile service."},{s:'MILES',t:"Hi Karen! I see you're at 58,400 miles on your 2020 RAV4 from your last visit. Great timing. I have Saturday at 10:30 AM available. The 60K service typically takes about 2.5 hours. Does that work?"},{s:'CALLER',t:"Yes, Saturday is perfect."},{s:'MILES',t:"Confirmed. You'll get a full rundown of what's included in a text shortly. See you Saturday, Karen!"}],
