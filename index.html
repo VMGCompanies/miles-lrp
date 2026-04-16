@@ -801,6 +801,90 @@ select{font-family:var(--sans)}
 
       </div>
 
+      <!-- MILES LIVE CONTROL ──────────────────────────────────────────── -->
+      <div class="miles-live-wrap" id="milesLiveWrap">
+
+        <!-- Control bar -->
+        <div class="mlc-bar">
+          <div class="mlc-status">
+            <div class="mlc-dot" id="mlcDot"></div>
+            <div>
+              <div class="mlc-sys-name">MILES AI — After-Hours Inbound Handler <span class="mlc-shops-tag">90 Shops</span></div>
+              <div class="mlc-sys-sub" id="mlcSub">Offline — press Start to watch MILES handle calls live</div>
+            </div>
+          </div>
+          <div class="mlc-counters">
+            <div class="mlc-ctr"><div class="mlc-ctr-val" id="lc-calls">247</div><div class="mlc-ctr-lbl">Calls Today</div></div>
+            <div class="mlc-ctr-div"></div>
+            <div class="mlc-ctr"><div class="mlc-ctr-val" id="lc-booked">89</div><div class="mlc-ctr-lbl">Booked</div></div>
+            <div class="mlc-ctr-div"></div>
+            <div class="mlc-ctr"><div class="mlc-ctr-val" id="lc-esc">12</div><div class="mlc-ctr-lbl">Escalated</div></div>
+            <div class="mlc-ctr-div"></div>
+            <div class="mlc-ctr"><div class="mlc-ctr-val" id="lc-conf">96.3%</div><div class="mlc-ctr-lbl">Confidence</div></div>
+          </div>
+          <button class="mlc-toggle" id="mlcToggle" onclick="toggleMILES()">
+            <i data-lucide="play"></i><span>Start MILES</span>
+          </button>
+        </div>
+
+        <!-- Processing console — visible when running -->
+        <div class="mlc-console" id="mlcConsole">
+
+          <!-- Left: active call panel -->
+          <div class="mlc-active-call">
+            <div class="mlc-ac-header">
+              <div class="mlc-ac-badge"><div class="live-dot"></div>LIVE</div>
+              <div class="mlc-ac-info">
+                <div class="mlc-ac-name" id="mlcCallerName">Waiting for next call…</div>
+                <div class="mlc-ac-meta" id="mlcCallerMeta">—</div>
+              </div>
+              <div class="mlc-ac-right">
+                <div class="mlc-ac-timer" id="mlcCallTimer">0:00</div>
+                <button class="mlc-pause-btn" id="mlcPauseBtn" onclick="pauseMILES()" title="Pause between calls">
+                  <i data-lucide="pause-circle"></i>
+                </button>
+              </div>
+            </div>
+            <!-- Stage rail -->
+            <div class="mlc-stages">
+              <div class="mlc-stage" id="mlcSt0">INBOUND</div>
+              <div class="mlc-stage-arrow">›</div>
+              <div class="mlc-stage" id="mlcSt1">GREETING</div>
+              <div class="mlc-stage-arrow">›</div>
+              <div class="mlc-stage" id="mlcSt2">INTENT</div>
+              <div class="mlc-stage-arrow">›</div>
+              <div class="mlc-stage" id="mlcSt3">RESOLUTION</div>
+              <div class="mlc-stage-arrow">›</div>
+              <div class="mlc-stage" id="mlcSt4">COMPLETE</div>
+            </div>
+            <!-- Streaming transcript -->
+            <div class="mlc-transcript" id="mlcTranscript"></div>
+            <div class="mlc-thinking" id="mlcThinking">
+              <div class="thinking-dots"><span></span><span></span><span></span></div>
+              <span class="mlc-think-lbl" id="mlcThinkLbl">MILES processing…</span>
+            </div>
+          </div>
+
+          <!-- Right: confidence + intent + activity feed -->
+          <div class="mlc-sidebar">
+            <div class="mlc-conf-block">
+              <div class="mlc-conf-label">AI Confidence</div>
+              <div class="mlc-conf-num" id="mlcConfNum">—</div>
+              <div class="mlc-conf-bar-track">
+                <div class="mlc-conf-bar" id="mlcConfBar" style="width:0%"></div>
+              </div>
+              <div class="mlc-intent-block">
+                <div class="mlc-intent-lbl">Detected Intent</div>
+                <div class="mlc-intent-val" id="mlcIntentVal">—</div>
+              </div>
+            </div>
+            <div class="mlc-feed-title">Activity Feed</div>
+            <div class="mlc-feed" id="mlcFeed"></div>
+          </div>
+
+        </div>
+      </div>
+
       <!-- Two-column body -->
       <div class="lo-body">
 
@@ -3339,6 +3423,405 @@ document.querySelector('[data-view="performance"]').removeEventListener('click',
 document.querySelector('[data-view="performance"]').addEventListener('click', () => {
   setTimeout(() => { buildBarChart(); buildLineChart(); initChartTooltips(); }, 40);
 });
+
+// ─── MILES LIVE SIMULATION ENGINE ────────────────────────────────────────
+
+(function injectMILESLiveCSS(){
+  const s = document.createElement('style');
+  s.textContent = `
+  /* ── Outer wrapper ── */
+  .miles-live-wrap{margin:0 0 20px 0;border-radius:10px;overflow:hidden;box-shadow:0 2px 12px rgba(11,37,69,.1);border:1px solid rgba(11,37,69,.15)}
+
+  /* ── Control bar ── */
+  .mlc-bar{display:flex;align-items:center;gap:16px;padding:14px 20px;background:var(--navy);color:#fff;flex-wrap:wrap}
+  .mlc-status{display:flex;align-items:center;gap:12px;flex:1;min-width:200px}
+  .mlc-dot{width:10px;height:10px;border-radius:50%;background:#475569;flex-shrink:0;transition:background .3s}
+  .mlc-dot.active{background:#10B981;box-shadow:0 0 0 0 rgba(16,185,129,.6);animation:mlc-pulse 1.6s infinite}
+  @keyframes mlc-pulse{0%{box-shadow:0 0 0 0 rgba(16,185,129,.6)}70%{box-shadow:0 0 0 8px rgba(16,185,129,0)}100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
+  .mlc-sys-name{font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+  .mlc-shops-tag{font-size:10px;font-weight:600;background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);padding:1px 7px;border-radius:10px;letter-spacing:.04em}
+  .mlc-sys-sub{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:2px}
+  .mlc-counters{display:flex;align-items:center;gap:0}
+  .mlc-ctr{text-align:center;padding:0 16px}
+  .mlc-ctr-div{width:1px;height:28px;background:rgba(255,255,255,.12)}
+  .mlc-ctr-val{font-size:18px;font-weight:700;color:#fff;font-family:var(--mono);line-height:1;transition:transform .2s,color .2s}
+  .mlc-ctr-val.mlc-bump{transform:scale(1.25);color:#10B981}
+  .mlc-ctr-lbl{font-size:10px;color:rgba(255,255,255,.45);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
+  .mlc-toggle{display:flex;align-items:center;gap:7px;padding:9px 22px;border:2px solid rgba(255,255,255,.25);border-radius:8px;background:transparent;color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s,border-color .15s;white-space:nowrap;letter-spacing:.02em}
+  .mlc-toggle:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5)}
+  .mlc-toggle i{width:14px;height:14px}
+  .mlc-toggle.running{background:#10B981;border-color:#10B981}
+  .mlc-toggle.running:hover{background:#059669;border-color:#059669}
+  .mlc-toggle.paused{background:#D97706;border-color:#D97706}
+  .mlc-toggle.paused:hover{background:#B45309;border-color:#B45309}
+
+  /* ── Processing console ── */
+  .mlc-console{display:none;background:var(--white);border-top:1px solid var(--border)}
+  .mlc-console.open{display:flex}
+  .mlc-active-call{flex:1;min-width:0;padding:16px 18px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
+
+  /* Active call header */
+  .mlc-ac-header{display:flex;align-items:center;gap:10px}
+  .mlc-ac-badge{display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;color:var(--success);background:rgba(5,150,105,.08);padding:3px 9px;border-radius:12px;letter-spacing:.05em;flex-shrink:0}
+  .mlc-ac-info{flex:1;min-width:0}
+  .mlc-ac-name{font-size:15px;font-weight:700;color:var(--navy)}
+  .mlc-ac-meta{font-size:11.5px;color:var(--t3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mlc-ac-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .mlc-ac-timer{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--t3);min-width:38px;text-align:right}
+  .mlc-pause-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:4px 8px;cursor:pointer;color:var(--t3);display:flex;align-items:center}
+  .mlc-pause-btn:hover{background:var(--canvas);color:var(--t1)}
+  .mlc-pause-btn i{width:14px;height:14px}
+
+  /* Stage rail */
+  .mlc-stages{display:flex;align-items:center;gap:4px;padding:0 2px}
+  .mlc-stage{font-size:10px;font-weight:700;letter-spacing:.06em;padding:4px 10px;border-radius:12px;background:var(--canvas);color:var(--t3);transition:background .25s,color .25s,transform .2s;white-space:nowrap}
+  .mlc-stage.active{background:var(--navy);color:#fff;transform:scale(1.05)}
+  .mlc-stage.done{background:rgba(5,150,105,.12);color:var(--success)}
+  .mlc-stage-arrow{color:var(--border);font-size:14px;line-height:1;user-select:none}
+
+  /* Transcript */
+  .mlc-transcript{flex:1;min-height:140px;max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px 0;scroll-behavior:smooth}
+  .mlc-tline{display:flex;gap:8px;align-items:flex-start;animation:mlc-fade-in .35s ease}
+  @keyframes mlc-fade-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+  .mlc-spk{font-size:10px;font-weight:700;letter-spacing:.05em;padding:2px 7px;border-radius:10px;white-space:nowrap;flex-shrink:0;margin-top:2px}
+  .mlc-spk-miles{background:var(--navy);color:#fff}
+  .mlc-spk-caller{background:#E2E8F0;color:var(--t1)}
+  .mlc-ttext{font-size:12.5px;color:var(--t1);line-height:1.5}
+
+  /* Thinking indicator */
+  .mlc-thinking{display:flex;align-items:center;gap:8px;padding:6px 4px;opacity:0;transition:opacity .2s}
+  .mlc-thinking.show{opacity:1}
+  .mlc-think-lbl{font-size:11px;color:var(--t3);font-style:italic}
+
+  /* Sidebar */
+  .mlc-sidebar{width:220px;flex-shrink:0;padding:16px 16px;display:flex;flex-direction:column;gap:12px;background:var(--canvas)}
+
+  /* Confidence */
+  .mlc-conf-block{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+  .mlc-conf-label{font-size:10.5px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+  .mlc-conf-num{font-size:28px;font-weight:700;color:var(--navy);font-family:var(--mono);line-height:1;margin-bottom:6px}
+  .mlc-conf-bar-track{height:6px;background:#E2E8F0;border-radius:3px;overflow:hidden;margin-bottom:12px}
+  .mlc-conf-bar{height:100%;border-radius:3px;transition:width .5s,background .4s}
+  .mlc-intent-block{border-top:1px solid var(--border);padding-top:10px}
+  .mlc-intent-lbl{font-size:10.5px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+  .mlc-intent-val{font-size:12px;font-weight:600;color:var(--t1)}
+
+  /* Activity feed */
+  .mlc-feed-title{font-size:10.5px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
+  .mlc-feed{display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto}
+  .mlc-feed-entry{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:8px 10px;animation:mlc-fade-in .4s ease}
+  .mlc-fe-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+  .mlc-fe-name{font-size:12px;font-weight:600;color:var(--t1)}
+  .mlc-fe-badge{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.04em}
+  .mlc-out-booked{background:#D1FAE5;color:#065F46}
+  .mlc-out-esc{background:#FEE2E2;color:#991B1B}
+  .mlc-out-vm{background:#FEF3C7;color:#92400E}
+  .mlc-out-deferred{background:#EDE9FE;color:#5B21B6}
+  .mlc-fe-detail{font-size:10.5px;color:var(--t3)}
+
+  /* Outcome flash on complete */
+  .mlc-outcome-flash{position:absolute;inset:0;border-radius:8px;pointer-events:none;animation:mlc-flash .7s ease forwards}
+  @keyframes mlc-flash{0%{opacity:0}20%{opacity:.18}100%{opacity:0}}
+  `;
+  document.head.appendChild(s);
+})();
+
+// ── Call scenarios ────────────────────────────────────────────────────────
+const LIVE_SCENARIOS = [
+  {
+    name:'Jennifer Park', phone:'(603) 555-0847', veh:'2019 Honda CR-V',
+    brand:'Auto Care Plus', shop:'Salem, NH', intent:'Brake Inspection — Spongy Pedal',
+    outcome:'booked', slot:'Thu Apr 17 — 9:00 AM',
+    lines:[
+      {spk:'MILES', txt:"Thank you for calling Auto Care Plus in Salem. I'm MILES, the after-hours assistant. Who am I speaking with tonight?", stage:1, conf:94, thinkLbl:'Identifying shop · greeting caller…', thinkMs:900, pauseMs:1400},
+      {spk:'CALLER', txt:"Hi, this is Jennifer Park.", pauseMs:1000},
+      {spk:'MILES', txt:"Hi Jennifer — I see you're a customer with us. Are you calling about your 2019 Honda CR-V?", conf:95, thinkLbl:'Looking up customer record…', thinkMs:1000, pauseMs:1300},
+      {spk:'CALLER', txt:"Yeah. My brake pedal has been feeling really spongy lately — kind of going to the floor. I'm nervous about it.", pauseMs:1100},
+      {spk:'MILES', txt:"That's definitely something we want to address right away — a spongy pedal can mean low brake fluid or air in the brake lines. I'd recommend an inspection as soon as possible. I have Thursday at 9:00 AM available. Does that work?", stage:2, conf:97, intent:'Brake Inspection — Urgent', thinkLbl:'Checking schedule · analyzing urgency…', thinkMs:1100, pauseMs:1500},
+      {spk:'CALLER', txt:"Thursday at 9 works great.", pauseMs:900},
+      {spk:'MILES', txt:"Booked. Jennifer Park, Thursday April 17th at 9:00 AM — Auto Care Plus Salem. A text confirmation is on its way. Drive carefully until then.", stage:3, conf:98, thinkLbl:'Creating appointment in DMS · sending SMS…', thinkMs:900, pauseMs:500},
+    ]
+  },
+  {
+    name:'Luis Torres', phone:'(781) 555-0334', veh:'2020 Toyota Camry',
+    brand:'All County Tire & Auto', shop:'Nashua, NH', intent:'Oil Change + Tire Rotation',
+    outcome:'booked', slot:'Fri Apr 18 — 8:00 AM',
+    lines:[
+      {spk:'MILES', txt:"All County Tire and Auto in Nashua — after-hours service. I'm MILES. How can I help you tonight?", stage:1, conf:93, thinkLbl:'Shop identified · greeting…', thinkMs:700, pauseMs:1200},
+      {spk:'CALLER', txt:"Hey, my oil change light just came on. Name is Luis Torres.", pauseMs:1000},
+      {spk:'MILES', txt:"Hi Luis — your 2020 Camry is due for service. I have Friday at 8:00 AM open, about 45 minutes for a full synthetic oil change and filter. Would that work?", stage:2, conf:96, intent:'Oil Change — Service Due', thinkLbl:'Pulling service history · checking availability…', thinkMs:1000, pauseMs:1400},
+      {spk:'CALLER', txt:"Friday at 8 works. Is there anything else you'd recommend while I'm there?", pauseMs:1000},
+      {spk:'MILES', txt:"Based on your mileage, a tire rotation is due as well. We can bundle both for $79 and it only adds about 25 minutes. Want to add that?", stage:3, conf:97, thinkLbl:'Reviewing service intervals…', thinkMs:900, pauseMs:1300},
+      {spk:'CALLER', txt:"Sure, let's do it.", pauseMs:700},
+      {spk:'MILES', txt:"Perfect. You're booked — Friday April 18th at 8:00 AM, oil change and tire rotation, All County Nashua. Confirmation text is on its way.", stage:3, conf:98, thinkLbl:'Saving appointment · sending SMS…', thinkMs:800, pauseMs:500},
+    ]
+  },
+  {
+    name:'Barbara Nichols', phone:'(303) 555-0521', veh:'2018 Ford F-150',
+    brand:'EAS Tire & Auto', shop:'Minneapolis, MN', intent:'Repeat Diagnostic — Warranty Dispute',
+    outcome:'escalated', slot:null,
+    lines:[
+      {spk:'MILES', txt:"EAS Tire and Auto Minneapolis. I'm MILES, after-hours assistant — how can I help tonight?", stage:1, conf:93, thinkLbl:'Greeting caller…', thinkMs:700, pauseMs:1100},
+      {spk:'CALLER', txt:"This is Barbara Nichols. My check engine light came back on two weeks after you cleared it. I'm not paying again.", pauseMs:1200},
+      {spk:'MILES', txt:"I completely understand, Barbara — that's frustrating, and it shouldn't happen. I can see your recent diagnostic visit on your F-150. A return visit with a warranty concern is something our service manager needs to review directly.", stage:2, conf:74, intent:'Repeat Diagnostic — Warranty Dispute', thinkLbl:'Pulling service record · warranty check…', thinkMs:1200, pauseMs:1500},
+      {spk:'CALLER', txt:"Good. Because I'm not paying twice for the same problem.", pauseMs:900},
+      {spk:'MILES', txt:"You shouldn't have to. I'm escalating this to our on-call advisor right now. They'll contact you tomorrow before 9:00 AM to schedule a no-charge inspection and review your warranty coverage.", stage:3, conf:65, thinkLbl:'Escalating — warranty protocol · notifying advisor…', thinkMs:1200, pauseMs:500},
+    ]
+  },
+  {
+    name:'Craig Dempsey', phone:'(508) 555-0773', veh:'2017 Subaru Outback',
+    brand:'Victory Tire & Auto', shop:'Rochester, MN', intent:'Tire Replacement — 4 Tires',
+    outcome:'booked', slot:'Sat Apr 19 — 10:00 AM',
+    lines:[
+      {spk:'MILES', txt:"Victory Tire and Auto Rochester — this is MILES. How can I help tonight?", stage:1, conf:94, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
+      {spk:'CALLER', txt:"I need four new tires. My current ones are pretty worn and I have a long drive this weekend.", pauseMs:1100},
+      {spk:'MILES', txt:"Happy to get you taken care of before that trip, Craig. For your 2017 Outback — 225/60R18 — we have the Continental TrueContact Tour in stock at $168 per tire installed, so about $672 for four with a free alignment check. I have Saturday morning at 10:00 AM available.", stage:2, conf:95, intent:'Tire Replacement — 4 Tires', thinkLbl:'Checking fitment · inventory · pricing…', thinkMs:1100, pauseMs:1600},
+      {spk:'CALLER', txt:"Saturday at 10 works perfectly.", pauseMs:800},
+      {spk:'MILES', txt:"All set — Craig Dempsey, Saturday April 19th at 10:00 AM, four Continental TrueContact Tours, Victory Rochester. Plan for about 90 minutes. Confirmation is on its way.", stage:3, conf:98, thinkLbl:'Booking · sending SMS…', thinkMs:800, pauseMs:500},
+    ]
+  },
+  {
+    name:'Ruth Yamaguchi', phone:'(612) 555-0238', veh:'2021 Honda Pilot',
+    brand:'EAS Tire & Auto', shop:'St. Paul, MN', intent:'AC Diagnostic — No Cold Air',
+    outcome:'booked', slot:'Mon Apr 21 — 11:30 AM',
+    lines:[
+      {spk:'MILES', txt:"EAS Tire and Auto St. Paul — MILES here, after-hours. What can I do for you tonight?", stage:1, conf:93, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
+      {spk:'CALLER', txt:"Hi, I'm Ruth. My AC stopped blowing cold air. With summer coming I really need to get it looked at.", pauseMs:1100},
+      {spk:'MILES', txt:"Common issue this time of year, Ruth. Could be a refrigerant charge, a failed compressor relay, or a small leak. Our diagnostic starts at $95 and applies to any repair we do. I have Monday at 11:30 AM — does that work?", stage:2, conf:95, intent:'AC Diagnostic — No Cold Air', thinkLbl:'Identifying service type · checking schedule…', thinkMs:1000, pauseMs:1500},
+      {spk:'CALLER', txt:"Monday at 11:30 — yes that's perfect.", pauseMs:800},
+      {spk:'MILES', txt:"Confirmed — Ruth Yamaguchi, Monday April 21st 11:30 AM, EAS St. Paul. Text confirmation is coming to you now. If you notice any unusual sounds from the AC before then, don't hesitate to call.", stage:3, conf:97, thinkLbl:'Booking · sending SMS…', thinkMs:800, pauseMs:500},
+    ]
+  },
+  {
+    name:'Frank Ottley', phone:'(603) 555-0614', veh:'2019 Nissan Sentra',
+    brand:'Auto Care Plus', shop:'Derry, NH', intent:'State Inspection — April Expiry',
+    outcome:'voicemail', slot:null,
+    lines:[
+      {spk:'MILES', txt:"Auto Care Plus Derry — after-hours service, this is MILES. How can I help?", stage:1, conf:93, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
+      {spk:'CALLER', txt:"Hi, calling about a state inspection. My sticker expires end of April.", pauseMs:900},
+      {spk:'MILES', txt:"Good timing — we can definitely get that taken care of. New Hampshire inspections are $49.95. I have openings most days next week. Do any mornings work for you?", stage:2, conf:96, intent:'State Inspection — April Expiry', thinkLbl:'Checking inspection availability…', thinkMs:900, pauseMs:1300},
+      {spk:'CALLER', txt:"Actually let me check my schedule and call back tomorrow. I'm not sure about next week.", pauseMs:900},
+      {spk:'MILES', txt:"No problem, Frank. Our line opens at 7:30 AM. You can also book online anytime. I've noted your vehicle so we're ready when you call back.", stage:3, conf:95, thinkLbl:'Logging intent · noting call-back…', thinkMs:800, pauseMs:500},
+    ]
+  },
+  {
+    name:'Sandra Whitfield', phone:'(720) 555-0452', veh:'2020 Toyota RAV4',
+    brand:'Silverlake Automotive', shop:'Denver, CO', intent:'Wheel Alignment — Pulling Right',
+    outcome:'booked', slot:'Wed Apr 16 — 2:00 PM',
+    lines:[
+      {spk:'MILES', txt:"Silverlake Automotive Denver — this is MILES, after-hours. How can I help?", stage:1, conf:94, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
+      {spk:'CALLER', txt:"Hi. My car is pulling to the right pretty noticeably. I think I need an alignment.", pauseMs:1000},
+      {spk:'MILES', txt:"That's a classic alignment symptom, Sandra — very common after potholes or new tires. A 4-wheel alignment is $99 and takes about 45 minutes. I actually have an opening today at 2:00 PM. Would that work?", stage:2, conf:96, intent:'Wheel Alignment — Pulling Right', thinkLbl:'Confirming symptom · checking same-day slots…', thinkMs:1000, pauseMs:1500},
+      {spk:'CALLER', txt:"Today at 2? That's perfect — I can make that.", pauseMs:800},
+      {spk:'MILES', txt:"Locked in — Sandra Whitfield, 2:00 PM today at Silverlake Denver. Confirmation and address are headed to your phone right now. See you this afternoon.", stage:3, conf:98, thinkLbl:'Same-day booking confirmed · sending SMS…', thinkMs:800, pauseMs:500},
+    ]
+  },
+  {
+    name:'Kevin McBride', phone:'(651) 555-0189', veh:'2016 Chevy Silverado',
+    brand:'Victory Tire & Auto', shop:'Burnsville, MN', intent:'Brake Service — Warranty Concern',
+    outcome:'escalated', slot:null,
+    lines:[
+      {spk:'MILES', txt:"Victory Tire and Auto Burnsville — I'm MILES, the after-hours assistant. Who am I speaking with?", stage:1, conf:93, thinkLbl:'Greeting…', thinkMs:700, pauseMs:1100},
+      {spk:'CALLER', txt:"Kevin McBride. You guys did my brakes four months ago and they're already grinding. This shouldn't be happening.", pauseMs:1100},
+      {spk:'MILES', txt:"That's not acceptable and I completely understand your frustration, Kevin. I can see the brake service on your Silverado from four months ago. Grinding that quickly could point to a defective part or installation issue — both of which should fall under warranty.", stage:2, conf:72, intent:'Brake Service — Warranty Dispute', thinkLbl:'Pulling service record · checking warranty…', thinkMs:1200, pauseMs:1600},
+      {spk:'CALLER', txt:"Good. Because I'm not paying for this twice.", pauseMs:900},
+      {spk:'MILES', txt:"You shouldn't have to. I'm escalating this to our on-call service manager right now. They'll reach out before 9:00 AM tomorrow to schedule a no-charge inspection and review your warranty coverage. You'll also get a reference number by text.", stage:3, conf:63, thinkLbl:'Escalating — warranty protocol · alerting manager…', thinkMs:1200, pauseMs:500},
+    ]
+  },
+];
+
+// ── Simulation state ──────────────────────────────────────────────────────
+const MSIM = {
+  running:false, paused:false,
+  callsToday:247, bookedToday:89, escToday:12,
+  activeIdx:-1, lineIdx:0, callSeconds:0,
+  callTimerInterval:null, nextCallTimeout:null, lineTimeout:null,
+};
+
+function toggleMILES() {
+  if (MSIM.running) {
+    stopMILES();
+  } else {
+    startMILES();
+  }
+}
+
+function startMILES() {
+  MSIM.running = true;
+  MSIM.paused = false;
+  const btn = document.getElementById('mlcToggle');
+  btn.innerHTML = '<i data-lucide="square"></i><span>Stop MILES</span>';
+  btn.className = 'mlc-toggle running';
+  document.getElementById('mlcDot').classList.add('active');
+  document.getElementById('mlcSub').textContent = 'ACTIVE — Handling inbound calls across 90 shops';
+  document.getElementById('mlcConsole').classList.add('open');
+  lucide.createIcons();
+  scheduleNextCall(600);
+}
+
+function stopMILES() {
+  MSIM.running = false;
+  MSIM.paused = false;
+  clearTimeout(MSIM.nextCallTimeout);
+  clearTimeout(MSIM.lineTimeout);
+  clearInterval(MSIM.callTimerInterval);
+  const btn = document.getElementById('mlcToggle');
+  btn.innerHTML = '<i data-lucide="play"></i><span>Start MILES</span>';
+  btn.className = 'mlc-toggle';
+  document.getElementById('mlcDot').classList.remove('active');
+  document.getElementById('mlcSub').textContent = 'Offline — press Start to watch MILES handle calls live';
+  document.getElementById('mlcConsole').classList.remove('open');
+  lucide.createIcons();
+}
+
+function pauseMILES() {
+  if (!MSIM.running) return;
+  if (MSIM.paused) {
+    MSIM.paused = false;
+    document.getElementById('mlcPauseBtn').style.background = '';
+    document.getElementById('mlcSub').textContent = 'ACTIVE — Handling inbound calls across 90 shops';
+    scheduleNextCall(800);
+  } else {
+    MSIM.paused = true;
+    clearTimeout(MSIM.nextCallTimeout);
+    clearTimeout(MSIM.lineTimeout);
+    clearInterval(MSIM.callTimerInterval);
+    document.getElementById('mlcPauseBtn').style.background = 'rgba(217,119,6,.12)';
+    document.getElementById('mlcSub').textContent = 'Paused between calls — click ▶ to resume';
+  }
+}
+
+function scheduleNextCall(delay) {
+  if (!MSIM.running || MSIM.paused) return;
+  const wait = delay !== undefined ? delay : (7000 + Math.random() * 8000);
+  MSIM.nextCallTimeout = setTimeout(beginCall, wait);
+}
+
+function beginCall() {
+  if (!MSIM.running || MSIM.paused) return;
+  MSIM.activeIdx = (MSIM.activeIdx + 1) % LIVE_SCENARIOS.length;
+  const sc = LIVE_SCENARIOS[MSIM.activeIdx];
+  MSIM.lineIdx = 0;
+  MSIM.callSeconds = 0;
+
+  document.getElementById('mlcCallerName').textContent = sc.name;
+  document.getElementById('mlcCallerMeta').textContent = sc.phone + ' · ' + sc.veh + ' · ' + sc.brand + ' — ' + sc.shop;
+  document.getElementById('mlcCallTimer').textContent = '0:00';
+
+  for (let i=0; i<=4; i++) {
+    const el = document.getElementById('mlcSt'+i);
+    if (el) el.className = 'mlc-stage' + (i===0 ? ' active' : '');
+  }
+  document.getElementById('mlcTranscript').innerHTML = '';
+  document.getElementById('mlcThinking').classList.remove('show');
+  setConfidence(null);
+  document.getElementById('mlcIntentVal').textContent = '—';
+  document.getElementById('mlcSub').textContent = 'Now handling: ' + sc.name + ' · ' + sc.brand + ' — ' + sc.shop;
+
+  clearInterval(MSIM.callTimerInterval);
+  MSIM.callTimerInterval = setInterval(() => {
+    MSIM.callSeconds++;
+    const m = Math.floor(MSIM.callSeconds/60);
+    const s = MSIM.callSeconds % 60;
+    const el = document.getElementById('mlcCallTimer');
+    if (el) el.textContent = m + ':' + String(s).padStart(2,'0');
+  }, 1000);
+
+  MSIM.callsToday++;
+  bumpCounter('lc-calls', MSIM.callsToday);
+
+  advanceLine();
+}
+
+function advanceLine() {
+  if (!MSIM.running) return;
+  const sc = LIVE_SCENARIOS[MSIM.activeIdx];
+  if (MSIM.lineIdx >= sc.lines.length) { resolveCall(); return; }
+  const line = sc.lines[MSIM.lineIdx];
+
+  if (line.spk === 'MILES') {
+    const thinking = document.getElementById('mlcThinking');
+    document.getElementById('mlcThinkLbl').textContent = line.thinkLbl || 'MILES processing…';
+    thinking.classList.add('show');
+    MSIM.lineTimeout = setTimeout(() => {
+      thinking.classList.remove('show');
+      appendLine(line);
+      if (line.stage !== undefined) setStage(line.stage);
+      if (line.conf !== undefined) setConfidence(line.conf);
+      if (line.intent) document.getElementById('mlcIntentVal').textContent = line.intent;
+      MSIM.lineIdx++;
+      MSIM.lineTimeout = setTimeout(advanceLine, line.pauseMs || 1800);
+    }, line.thinkMs || 1200);
+  } else {
+    appendLine(line);
+    MSIM.lineIdx++;
+    MSIM.lineTimeout = setTimeout(advanceLine, line.pauseMs || 1200);
+  }
+}
+
+function resolveCall() {
+  clearInterval(MSIM.callTimerInterval);
+  const sc = LIVE_SCENARIOS[MSIM.activeIdx];
+  setStage(4);
+  if (sc.outcome === 'booked') { MSIM.bookedToday++; bumpCounter('lc-booked', MSIM.bookedToday); }
+  else if (sc.outcome === 'escalated') { MSIM.escToday++; bumpCounter('lc-esc', MSIM.escToday); }
+  pushFeedEntry(sc);
+  document.getElementById('mlcSub').textContent = 'Call complete · Next call incoming…';
+  scheduleNextCall();
+}
+
+function appendLine(line) {
+  const feed = document.getElementById('mlcTranscript');
+  const div = document.createElement('div');
+  div.className = 'mlc-tline';
+  const spkClass = line.spk === 'MILES' ? 'mlc-spk-miles' : 'mlc-spk-caller';
+  div.innerHTML = '<span class="mlc-spk ' + spkClass + '">' + line.spk + '</span><span class="mlc-ttext">' + line.txt + '</span>';
+  feed.appendChild(div);
+  feed.scrollTop = feed.scrollHeight;
+}
+
+function setStage(n) {
+  for (let i=0; i<=4; i++) {
+    const el = document.getElementById('mlcSt'+i);
+    if (!el) continue;
+    el.className = 'mlc-stage' + (i < n ? ' done' : i === n ? ' active' : '');
+  }
+}
+
+function setConfidence(val) {
+  const num = document.getElementById('mlcConfNum');
+  const bar = document.getElementById('mlcConfBar');
+  if (!num || !bar) return;
+  if (val === null) { num.textContent = '—'; bar.style.width = '0%'; return; }
+  num.textContent = val + '%';
+  bar.style.width = val + '%';
+  bar.style.background = val >= 90 ? '#059669' : val >= 75 ? '#D97706' : '#DC2626';
+}
+
+function bumpCounter(id, newVal) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = newVal;
+  el.classList.add('mlc-bump');
+  setTimeout(() => el.classList.remove('mlc-bump'), 400);
+  // Mirror to main metric cards
+  if (id === 'lc-calls') { const m = document.getElementById('callsMetric'); if(m){ m.textContent = newVal; } }
+}
+
+function pushFeedEntry(sc) {
+  const feed = document.getElementById('mlcFeed');
+  if (!feed) return;
+  const now = new Date();
+  const t = now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true});
+  const oc = sc.outcome === 'booked' ? 'mlc-out-booked' : sc.outcome === 'escalated' ? 'mlc-out-esc' : sc.outcome === 'voicemail' ? 'mlc-out-vm' : 'mlc-out-deferred';
+  const ol = sc.outcome === 'booked' ? 'BOOKED' : sc.outcome === 'escalated' ? 'ESCALATED' : sc.outcome === 'voicemail' ? 'VOICEMAIL' : 'DEFERRED';
+  const od = sc.outcome === 'booked' ? sc.slot : sc.outcome === 'escalated' ? 'Advisor notified' : 'Will retry in 2 hrs';
+  const entry = document.createElement('div');
+  entry.className = 'mlc-feed-entry';
+  entry.innerHTML = '<div class="mlc-fe-top"><span class="mlc-fe-name">' + sc.name + '</span><span class="mlc-fe-badge ' + oc + '">' + ol + '</span></div><div class="mlc-fe-detail">' + sc.intent + ' · ' + (od || '') + ' · ' + t + '</div>';
+  feed.insertBefore(entry, feed.firstChild);
+  while (feed.children.length > 8) feed.removeChild(feed.lastChild);
+}
 
 // ── Workflow selector ─────────────────────────────────────────────────────
 document.querySelector('.wf-sel').addEventListener('change', function(){
