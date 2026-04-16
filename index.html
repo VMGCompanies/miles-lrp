@@ -1,0 +1,2674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MILES — Service Advisor ADE · Straightaway Tire & Auto</title>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ─── TOKENS ─────────────────────────────────────────────────────── */
+:root {
+  --white:#FFFFFF; --canvas:#F8F9FB; --panel-alt:#F1F3F7;
+  --navy:#0B2545; --navy-deep:#13315C;
+  --blue:#2563EB; --success:#059669; --warning:#D97706; --critical:#DC2626;
+  --t1:#0F172A; --t2:#475569; --t3:#94A3B8; --border:#E2E8F0;
+  --r8:8px; --r6:6px; --r4:4px;
+  --shadow:0 1px 3px rgba(15,23,42,0.04);
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --mono:'JetBrains Mono','SF Mono','Fira Code',monospace;
+  --nav:224px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--t1);background:var(--canvas);-webkit-font-smoothing:antialiased}
+button{font-family:var(--sans);cursor:pointer;border:none;background:none}
+select{font-family:var(--sans)}
+
+/* ─── SHELL ──────────────────────────────────────────────────────── */
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* ─── NAV RAIL ───────────────────────────────────────────────────── */
+.nav-rail{width:var(--nav);min-width:var(--nav);height:100vh;background:var(--navy);display:flex;flex-direction:column;overflow:hidden;z-index:10}
+.nav-logo{padding:20px 16px 16px 18px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0}
+.logo-word{font-size:24px;font-weight:700;color:#fff;letter-spacing:-.6px;line-height:1}
+.logo-desc{font-size:11px;font-weight:500;color:rgba(255,255,255,.55);margin-top:3px;line-height:1.3}
+.logo-by{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px}
+.brand-wrap{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0}
+.brand-lbl{font-size:10px;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.brand-sel{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:var(--r6);color:rgba(255,255,255,.9);font-size:12.5px;font-weight:500;padding:7px 28px 7px 10px;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center}
+.brand-sel:focus{outline:none;border-color:rgba(255,255,255,.25)}
+.brand-sel option{background:var(--navy-deep);color:#fff}
+.nav-items{flex:1;padding:6px 0;overflow-y:auto;scrollbar-width:none}
+.nav-items::-webkit-scrollbar{display:none}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 18px 8px 16px;cursor:pointer;color:rgba(255,255,255,.5);font-size:13px;font-weight:500;border-left:2px solid transparent;transition:color .12s,background .12s,border-color .12s;user-select:none}
+.nav-item:hover{color:rgba(255,255,255,.82);background:rgba(255,255,255,.04)}
+.nav-item.active{color:#fff;background:rgba(255,255,255,.07);border-left-color:var(--blue)}
+.nav-item svg{flex-shrink:0;width:15px;height:15px;opacity:.8}
+.nav-item.active svg{opacity:1}
+.miles-status{flex-shrink:0;padding:12px 16px 14px;border-top:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.18)}
+.st-lbl{font-size:10px;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+.st-row{display:flex;align-items:center;justify-content:space-between}
+.st-ind{display:flex;align-items:center;gap:8px}
+.st-dot{width:8px;height:8px;border-radius:50%;background:var(--success);flex-shrink:0;box-shadow:0 0 0 2.5px rgba(5,150,105,.22);transition:background .3s,box-shadow .3s}
+.st-dot.pulsing{animation:pls 2.4s ease-in-out infinite}
+@keyframes pls{0%,100%{box-shadow:0 0 0 2.5px rgba(5,150,105,.22)}50%{box-shadow:0 0 0 4px rgba(5,150,105,.08)}}
+.st-dot.paused{background:var(--warning);box-shadow:0 0 0 2.5px rgba(217,119,6,.22);animation:none}
+.st-txt{display:flex;flex-direction:column;gap:1px}
+.st-name{font-size:12px;font-weight:700;color:#fff;letter-spacing:.04em;line-height:1;transition:color .2s}
+.st-name.paused{color:var(--warning)}
+.st-sub{font-size:10px;color:rgba(255,255,255,.35);line-height:1}
+.mpause{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:var(--r6);border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.05);color:rgba(255,255,255,.55);transition:all .15s;flex-shrink:0}
+.mpause:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.22)}
+.mpause.on{background:rgba(217,119,6,.15);border-color:rgba(217,119,6,.35);color:var(--warning)}
+.mpause svg{width:13px;height:13px}
+.pause-banner{display:none;margin-top:9px;padding:7px 9px;background:rgba(217,119,6,.12);border:1px solid rgba(217,119,6,.28);border-radius:var(--r4);font-size:10.5px;font-weight:500;color:var(--warning);line-height:1.45}
+.pause-banner.on{display:block}
+
+/* ─── MAIN ───────────────────────────────────────────────────────── */
+.main{flex:1;overflow-y:auto;background:var(--white);display:flex;flex-direction:column;min-width:0}
+.view{display:none;flex:1;flex-direction:column;padding:24px;animation:venter .22s ease-out}
+.view.active{display:flex}
+@keyframes venter{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* Stubs */
+.view-stub{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:var(--canvas);border:1.5px dashed var(--border);border-radius:var(--r8);padding:56px 40px;text-align:center}
+.stub-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:var(--panel-alt);border:1px solid var(--border);border-radius:10px}
+.stub-icon svg{width:20px;height:20px;color:var(--t3)}
+.stub-ttl{font-size:17px;font-weight:600;color:var(--t2)}
+.stub-dsc{font-size:13px;color:var(--t3);max-width:340px;line-height:1.65}
+.phase-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;background:var(--white);border:1px solid var(--border);border-radius:100px;font-size:11px;font-weight:500;color:var(--t3);font-family:var(--mono)}
+.phase-tag svg{width:11px;height:11px}
+
+/* ─── LIVE OPS — PAGE HEADER ─────────────────────────────────────── */
+.lo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-shrink:0}
+.lo-title{font-size:20px;font-weight:700;color:var(--t1);letter-spacing:-.3px}
+.lo-right{display:flex;align-items:center;gap:16px}
+.lo-clock{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--t2);letter-spacing:.02em}
+.shop-status{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--t2);padding:5px 10px;background:var(--canvas);border:1px solid var(--border);border-radius:100px}
+.shop-dot{width:6px;height:6px;border-radius:50%;background:var(--warning);flex-shrink:0}
+.notif-btn{position:relative;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:var(--r6);border:1px solid var(--border);background:var(--white);color:var(--t2);transition:all .15s}
+.notif-btn:hover{background:var(--canvas);color:var(--t1)}
+.notif-btn svg{width:15px;height:15px}
+.notif-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--critical);border-radius:50%;border:2px solid var(--white);font-size:9px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono)}
+
+/* ─── METRICS STRIP ──────────────────────────────────────────────── */
+.metrics-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;flex-shrink:0}
+.metric-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r8);padding:14px 16px;box-shadow:var(--shadow)}
+.metric-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.metric-row{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.metric-val{font-size:28px;font-weight:700;color:var(--t1);letter-spacing:-1px;line-height:1}
+.metric-spark{flex-shrink:0}
+.metric-sub{font-size:11px;font-weight:500;margin-top:5px}
+.metric-sub.up{color:var(--success)}
+.metric-sub.warn{color:var(--warning)}
+.metric-sub.blue{color:var(--blue)}
+.metric-sub.neutral{color:var(--t3)}
+
+/* ─── TWO-COLUMN LAYOUT ──────────────────────────────────────────── */
+.lo-body{display:grid;grid-template-columns:60fr 40fr;gap:16px;flex:1;min-height:0}
+.lo-panel{display:flex;flex-direction:column;min-height:0}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-shrink:0}
+.panel-title{font-size:13px;font-weight:600;color:var(--t1);display:flex;align-items:center;gap:8px}
+.live-badge{display:flex;align-items:center;gap:5px;padding:3px 8px;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.2);border-radius:100px;font-size:10px;font-weight:700;color:var(--critical);letter-spacing:.05em}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--critical);animation:lp 1.4s ease-in-out infinite}
+@keyframes lp{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ─── CALL FEED SCROLL ───────────────────────────────────────────── */
+.call-feed{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;padding-right:2px}
+.call-feed::-webkit-scrollbar{width:4px}
+.call-feed::-webkit-scrollbar-track{background:transparent}
+.call-feed::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+/* ─── CALL CARD ──────────────────────────────────────────────────── */
+.call-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r8);overflow:hidden;transition:border-color .15s}
+.call-card.is-live{border-color:rgba(220,38,38,.25);box-shadow:0 0 0 3px rgba(220,38,38,.04)}
+.call-card.is-escalated{border-color:rgba(217,119,6,.3)}
+
+.cc-top{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;user-select:none}
+.cc-top:hover .cc-chevron{color:var(--t2)}
+.status-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.06em;flex-shrink:0}
+.pill-live{background:rgba(220,38,38,.09);color:var(--critical);border:1px solid rgba(220,38,38,.2)}
+.pill-done{background:rgba(5,150,105,.08);color:var(--success);border:1px solid rgba(5,150,105,.18)}
+.pill-esc{background:rgba(217,119,6,.1);color:var(--warning);border:1px solid rgba(217,119,6,.25)}
+
+.cc-info{flex:1;min-width:0}
+.cc-name{font-size:13px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-meta{font-size:11px;color:var(--t3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--mono)}
+.cc-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.agent-chain{font-size:10px;font-weight:600;color:var(--blue);font-family:var(--mono);white-space:nowrap}
+.cc-chevron{color:var(--t3);transition:transform .2s,color .15s}
+.cc-chevron svg{width:14px;height:14px}
+.cc-chevron.open{transform:rotate(180deg)}
+.outcome-pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:600;flex-shrink:0}
+.op-booked{background:rgba(5,150,105,.08);color:var(--success);border:1px solid rgba(5,150,105,.18)}
+.op-esc{background:rgba(217,119,6,.1);color:var(--warning);border:1px solid rgba(217,119,6,.25)}
+.cc-conf{font-size:11px;font-weight:600;font-family:var(--mono);color:var(--t3);white-space:nowrap}
+.cc-conf.hi{color:var(--success)}
+.cc-conf.mid{color:var(--warning)}
+
+/* Active call body */
+.cc-body{padding:0 14px 14px}
+.cc-body-inner{display:grid;grid-template-columns:1fr 220px;gap:12px}
+
+/* Transcript */
+.transcript-wrap{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r6);padding:12px;font-family:var(--mono);font-size:11.5px;overflow-y:auto;max-height:220px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.transcript-wrap::-webkit-scrollbar{width:3px}
+.transcript-wrap::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.tline{display:grid;grid-template-columns:52px 1fr;gap:6px;margin-bottom:8px;line-height:1.5}
+.tline:last-child{margin-bottom:0}
+.tspeaker{font-size:10px;font-weight:700;letter-spacing:.05em;padding-top:1px;text-transform:uppercase}
+.ts-miles{color:var(--navy)}
+.ts-caller{color:var(--t2)}
+.ttext{color:var(--t1);font-size:11.5px;line-height:1.55}
+.stream-indicator{display:flex;align-items:center;gap:6px;padding-top:8px;border-top:1px solid var(--border);margin-top:8px}
+.stream-label{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
+.thinking-dots{display:flex;gap:3px}
+.thinking-dots span{width:4px;height:4px;border-radius:50%;background:var(--t3);animation:td 1.4s ease-in-out infinite}
+.thinking-dots span:nth-child(2){animation-delay:.2s}
+.thinking-dots span:nth-child(3){animation-delay:.4s}
+@keyframes td{0%,80%,100%{transform:translateY(0);opacity:.35}40%{transform:translateY(-4px);opacity:1}}
+
+/* AI Reasoning panel */
+.reasoning-panel{background:var(--navy);border-radius:var(--r6);padding:11px 12px;display:flex;flex-direction:column;gap:0}
+.reasoning-title{font-size:10px;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px}
+.r-step{display:flex;align-items:flex-start;gap:7px;margin-bottom:6px;animation:rfade .3s ease-out}
+.r-step:last-child{margin-bottom:0}
+@keyframes rfade{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:translateX(0)}}
+.r-icon{flex-shrink:0;margin-top:1px}
+.r-icon svg{width:11px;height:11px}
+.r-done .r-icon svg{color:var(--success)}
+.r-active .r-icon svg{color:var(--warning)}
+.r-text{font-size:10.5px;line-height:1.45;font-family:var(--mono)}
+.r-done .r-text{color:rgba(255,255,255,.65)}
+.r-active .r-text{color:rgba(255,255,255,.9)}
+
+/* Call card action bar */
+.cc-actions{display:flex;align-items:center;gap:8px;padding:10px 14px;border-top:1px solid var(--border);background:var(--canvas)}
+.btn-sm{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:var(--r6);font-size:12px;font-weight:500;transition:all .15s;cursor:pointer}
+.btn-sm svg{width:13px;height:13px}
+.btn-listen{border:1px solid var(--blue);color:var(--blue);background:rgba(37,99,235,.06)}
+.btn-listen:hover{background:rgba(37,99,235,.12)}
+.btn-takeover{border:1px solid var(--border);color:var(--t2);background:var(--white)}
+.btn-takeover:hover{background:var(--canvas);color:var(--t1);border-color:var(--t3)}
+.btn-pause-call{border:1px solid var(--border);color:var(--t3);background:var(--white)}
+.btn-pause-call:hover{border-color:var(--warning);color:var(--warning);background:rgba(217,119,6,.05)}
+.btn-pause-call.paused{border-color:var(--warning);color:var(--warning);background:rgba(217,119,6,.08)}
+.cc-actions .cc-timer{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--t3)}
+
+/* Collapsed call body */
+.cc-collapsed{padding:0 14px 12px;display:none}
+.cc-collapsed.open{display:block}
+.cc-summary{font-size:12px;color:var(--t2);line-height:1.55;padding:9px 11px;background:var(--canvas);border-radius:var(--r6);border:1px solid var(--border)}
+.cc-summary strong{color:var(--t1)}
+
+/* ─── AGENT BOARD ────────────────────────────────────────────────── */
+.agent-board{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.agent-board::-webkit-scrollbar{width:4px}
+.agent-board::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+.agent-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r8);padding:13px 14px;box-shadow:var(--shadow)}
+.agent-card.needs-attn{border-color:rgba(217,119,6,.3)}
+
+.agent-top{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.agent-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.agent-dot.green{background:var(--success);box-shadow:0 0 0 2.5px rgba(5,150,105,.18)}
+.agent-dot.green-idle{background:#86EFAC;box-shadow:0 0 0 2.5px rgba(134,239,172,.2)}
+.agent-dot.blue{background:var(--blue);box-shadow:0 0 0 2.5px rgba(37,99,235,.18);animation:pls-blue 2s ease-in-out infinite}
+@keyframes pls-blue{0%,100%{box-shadow:0 0 0 2.5px rgba(37,99,235,.18)}50%{box-shadow:0 0 0 4px rgba(37,99,235,.07)}}
+.agent-dot.amber{background:var(--warning);box-shadow:0 0 0 2.5px rgba(217,119,6,.2)}
+
+.agent-name-wrap{flex:1;min-width:0}
+.agent-name{font-size:12px;font-weight:700;color:var(--t1);letter-spacing:.03em;font-family:var(--mono)}
+.agent-role{font-size:10.5px;color:var(--t3);margin-top:1px}
+
+.agent-pause-btn{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:var(--r4);border:1px solid var(--border);background:var(--canvas);color:var(--t3);transition:all .15s;flex-shrink:0}
+.agent-pause-btn:hover{border-color:var(--warning);color:var(--warning);background:rgba(217,119,6,.05)}
+.agent-pause-btn.on{border-color:var(--warning);color:var(--warning);background:rgba(217,119,6,.08)}
+.agent-pause-btn svg{width:12px;height:12px}
+
+.agent-activity{font-size:12px;color:var(--t2);line-height:1.45;margin-bottom:9px}
+.agent-activity strong{color:var(--t1);font-weight:600}
+.agent-activity .highlight{color:var(--blue);font-weight:600}
+.agent-activity .warn{color:var(--warning);font-weight:600}
+
+/* Progress bar */
+.agent-progress-wrap{margin-bottom:9px}
+.progress-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.progress-label{font-size:11px;font-weight:500;color:var(--t3)}
+.progress-count{font-size:11px;font-weight:600;color:var(--t1);font-family:var(--mono)}
+.progress-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:var(--blue);border-radius:3px;transition:width .8s ease}
+
+.agent-footer{display:flex;align-items:center;gap:8px}
+.agent-link{font-size:11px;font-weight:500;color:var(--blue);cursor:pointer;display:flex;align-items:center;gap:3px}
+.agent-link:hover{text-decoration:underline}
+.agent-link svg{width:11px;height:11px}
+
+/* Escalation highlight */
+.esc-notice{display:flex;align-items:center;gap:7px;padding:7px 9px;background:rgba(217,119,6,.08);border:1px solid rgba(217,119,6,.2);border-radius:var(--r4);font-size:11px;color:var(--t1);margin-bottom:9px}
+.esc-notice svg{color:var(--warning);flex-shrink:0;width:13px;height:13px}
+.esc-notice strong{color:var(--warning);font-weight:600}
+
+/* ─── MODALS ──────────────────────────────────────────────────────── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:1000;align-items:center;justify-content:center;animation:mfade .18s ease}
+.modal-overlay.open{display:flex}
+@keyframes mfade{from{opacity:0}to{opacity:1}}
+.modal{background:var(--white);border-radius:var(--r8);box-shadow:0 20px 60px rgba(15,23,42,.2);width:600px;max-width:90vw;max-height:80vh;display:flex;flex-direction:column;animation:mslide .18s ease}
+@keyframes mslide{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-size:15px;font-weight:700;color:var(--t1)}
+.modal-subtitle{font-size:12px;color:var(--t3);margin-top:2px}
+.modal-close{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:var(--r6);border:1px solid var(--border);color:var(--t3);transition:all .15s}
+.modal-close:hover{background:var(--canvas);color:var(--t1)}
+.modal-close svg{width:14px;height:14px}
+.modal-body{flex:1;overflow-y:auto;padding:16px 20px}
+.modal-transcript{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r6);padding:14px;font-family:var(--mono);font-size:12px;max-height:340px;overflow-y:auto}
+.modal-transcript .tline{margin-bottom:10px}
+.modal-transcript .ttext{font-size:12px}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.btn-primary{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--critical);color:#fff;border-radius:var(--r6);font-size:13px;font-weight:600;transition:all .15s}
+.btn-primary:hover{background:#B91C1C}
+.btn-secondary{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--white);border:1px solid var(--border);color:var(--t2);border-radius:var(--r6);font-size:13px;font-weight:500;transition:all .15s}
+.btn-secondary:hover{background:var(--canvas);color:var(--t1)}
+
+/* Confirm modal */
+.confirm-modal{width:440px}
+.confirm-body{padding:20px}
+.confirm-msg{font-size:14px;color:var(--t2);line-height:1.6;margin-bottom:16px}
+.confirm-msg strong{color:var(--t1)}
+
+/* ─── NARROW GUARD ───────────────────────────────────────────────── */
+.narrow-guard{display:none;position:fixed;inset:0;z-index:9999;background:var(--navy);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 32px}
+.ng-logo{font-size:28px;font-weight:700;color:#fff;margin-bottom:6px}
+.ng-tag{font-size:12px;color:rgba(255,255,255,.45);margin-bottom:28px}
+.ng-msg{font-size:15px;font-weight:500;color:rgba(255,255,255,.75);line-height:1.6;max-width:280px}
+@media(max-width:1279px){.narrow-guard{display:flex}}
+
+/* ─── CALL QUEUE ──────────────────────────────────────────────────── */
+.cq-filters{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-shrink:0;flex-wrap:wrap}
+.cq-sel{background:var(--white);border:1px solid var(--border);border-radius:var(--r6);color:var(--t1);font-size:12.5px;font-weight:500;padding:6px 26px 6px 10px;appearance:none;cursor:pointer;font-family:var(--sans);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center}
+.cq-sel:focus{outline:none;border-color:var(--blue)}
+.cq-count{margin-left:auto;font-size:12px;color:var(--t3);font-family:var(--mono)}
+.cq-wrap{flex:1;overflow:auto;border:1px solid var(--border);border-radius:var(--r8);min-height:0}
+.cq-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.cq-table thead tr{background:var(--canvas);position:sticky;top:0;z-index:2}
+.cq-table th{padding:9px 12px;text-align:left;font-size:10.5px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);white-space:nowrap;user-select:none}
+.cq-table td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.cq-table tbody tr{cursor:pointer;transition:background .1s}
+.cq-table tbody tr:hover td{background:rgba(37,99,235,.025)}
+.cq-table tbody tr:last-child td{border-bottom:none}
+.td-time{font-family:var(--mono);font-size:11.5px;color:var(--t2);white-space:nowrap}
+.td-caller-name{font-size:13px;font-weight:600;color:var(--t1)}
+.td-caller-phone{font-size:11px;color:var(--t3);font-family:var(--mono);margin-top:1px}
+.td-veh{font-size:12px;color:var(--t2);white-space:nowrap}
+.td-shop{font-size:12px;color:var(--t2);white-space:nowrap}
+.type-chip{display:inline-flex;padding:2px 7px;border-radius:100px;font-size:10px;font-weight:600;white-space:nowrap}
+.chip-ah{background:rgba(11,37,69,.07);color:var(--navy)}
+.chip-missed{background:rgba(37,99,235,.08);color:var(--blue)}
+.chip-recall{background:rgba(5,150,105,.08);color:var(--success)}
+.td-agents{font-size:10.5px;font-weight:600;color:var(--blue);font-family:var(--mono);white-space:nowrap}
+.td-outcome{font-size:12px;color:var(--t1);max-width:200px}
+.td-conf{font-family:var(--mono);font-size:12px;font-weight:700;white-space:nowrap}
+.conf-hi{color:var(--success)}.conf-mid{color:var(--warning)}.conf-lo{color:var(--critical)}
+.cq-btn{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:var(--r4);font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border);color:var(--t2);background:var(--white);transition:all .12s;white-space:nowrap}
+.cq-btn:hover{background:var(--canvas);color:var(--t1)}
+.cq-btn svg{width:11px;height:11px}
+.cq-actions-cell{display:flex;gap:5px;flex-wrap:wrap}
+
+/* ─── SLIDE-OUT ───────────────────────────────────────────────────── */
+.so-backdrop{display:none;position:fixed;inset:0;background:rgba(15,23,42,.28);z-index:500}
+.so-backdrop.open{display:block}
+.so-panel{position:fixed;top:0;right:-560px;width:540px;height:100vh;background:var(--white);border-left:1px solid var(--border);box-shadow:-12px 0 40px rgba(15,23,42,.1);z-index:501;display:flex;flex-direction:column;transition:right .24s ease}
+.so-panel.open{right:0}
+.so-hd{padding:16px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0;position:relative}
+.so-hd-title{font-size:15px;font-weight:700;color:var(--t1)}
+.so-hd-meta{font-size:11.5px;color:var(--t3);margin-top:3px;font-family:var(--mono)}
+.so-x{position:absolute;top:14px;right:16px;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:var(--r6);border:1px solid var(--border);color:var(--t3);background:var(--white);cursor:pointer;transition:all .12s}
+.so-x:hover{background:var(--canvas);color:var(--t1)}
+.so-x svg{width:13px;height:13px}
+.so-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;padding:0 20px}
+.so-tab{padding:10px 14px 9px;font-size:12.5px;font-weight:500;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .12s}
+.so-tab:hover{color:var(--t2)}
+.so-tab.active{color:var(--navy);border-bottom-color:var(--navy);font-weight:600}
+.so-body{flex:1;overflow-y:auto;padding:16px 20px}
+.so-transcript{font-family:var(--mono);font-size:11.5px}
+.so-tline{display:grid;grid-template-columns:50px 1fr;gap:8px;margin-bottom:10px;line-height:1.6}
+.so-tline:last-child{margin-bottom:0}
+.so-tspeaker{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding-top:2px}
+.so-ts-miles{color:var(--navy)}.so-ts-caller{color:var(--t2)}
+.so-ttext{color:var(--t1);font-size:11.5px}
+.so-reasoning{display:flex;flex-direction:column;gap:9px}
+.so-r-step{display:flex;align-items:flex-start;gap:8px}
+.so-r-step svg{width:13px;height:13px;flex-shrink:0;margin-top:2px}
+.so-r-done svg{color:var(--success)}.so-r-act svg{color:var(--warning)}
+.so-r-text{font-size:12.5px;color:var(--t2);line-height:1.5}
+.so-booking{background:var(--navy);border-radius:var(--r8);padding:16px 18px;margin-bottom:14px}
+.so-bk-header{font-size:10px;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px}
+.so-bk-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;gap:12px}
+.so-bk-row:last-child{margin-bottom:0}
+.so-bk-key{font-size:11.5px;color:rgba(255,255,255,.45)}
+.so-bk-val{font-size:12.5px;font-weight:600;color:#fff;text-align:right}
+.so-sms-preview{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r6);padding:10px 12px;font-size:11.5px;color:rgba(255,255,255,.75);line-height:1.55;font-family:var(--mono)}
+
+/* ─── CALENDAR ────────────────────────────────────────────────────── */
+.cal-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-shrink:0}
+.cal-weeknav{display:flex;align-items:center;gap:10px}
+.cal-weeklabel{font-size:14px;font-weight:600;color:var(--t1)}
+.cal-nav-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:var(--r6);border:1px solid var(--border);background:var(--white);color:var(--t2);cursor:pointer;transition:all .12s}
+.cal-nav-btn:hover{background:var(--canvas)}
+.cal-nav-btn svg{width:14px;height:14px}
+.cal-tr{display:flex;align-items:center;gap:14px}
+.cal-util-item{font-size:12.5px;color:var(--t2)}
+.cal-util-item strong{color:var(--t1);font-weight:700}
+.cal-util-divider{width:1px;height:14px;background:var(--border)}
+.cal-shop-sel{background:var(--white);border:1px solid var(--border);border-radius:var(--r6);color:var(--t1);font-size:12.5px;font-weight:500;padding:5px 24px 5px 10px;appearance:none;cursor:pointer;font-family:var(--sans);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center}
+.cal-outer{flex:1;min-height:0;display:flex;flex-direction:column;border:1px solid var(--border);border-radius:var(--r8);overflow:hidden}
+.cal-head-row{display:grid;grid-template-columns:52px repeat(7,1fr);border-bottom:1px solid var(--border);background:var(--canvas);flex-shrink:0}
+.cal-hd-spacer{border-right:1px solid var(--border)}
+.cal-hd-day{padding:8px 4px 7px;text-align:center;border-right:1px solid var(--border)}
+.cal-hd-day:last-child{border-right:none}
+.cal-hd-day.today{background:rgba(37,99,235,.04)}
+.cal-dn{font-size:10.5px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.cal-dd{font-size:20px;font-weight:700;color:var(--t2);line-height:1}
+.cal-dd.today{color:var(--blue)}
+.cal-scroll{flex:1;overflow-y:auto;display:flex;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.cal-scroll::-webkit-scrollbar{width:4px}
+.cal-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.cal-times{width:52px;flex-shrink:0;border-right:1px solid var(--border)}
+.cal-time-slot{height:48px;display:flex;align-items:flex-start;padding:3px 6px 0 0;justify-content:flex-end;border-bottom:1px solid rgba(226,232,240,.6)}
+.cal-tl{font-family:var(--mono);font-size:9.5px;color:var(--t3)}
+.cal-days-area{flex:1;position:relative}
+.cal-days-grid{display:grid;grid-template-columns:repeat(7,1fr);height:100%}
+.cal-day-track{position:relative;border-right:1px solid rgba(226,232,240,.6)}
+.cal-day-track.today{background:rgba(37,99,235,.022)}
+.cal-day-track:last-child{border-right:none}
+.cal-row-lines{position:absolute;inset:0;pointer-events:none}
+.cal-rl{position:absolute;left:0;right:0;border-top:1px solid rgba(226,232,240,.55)}
+.appt{position:absolute;left:2px;right:2px;border-radius:var(--r4);padding:3px 6px;overflow:hidden;cursor:pointer;transition:filter .12s,box-shadow .12s;border-left:2.5px solid transparent}
+.appt:hover{filter:brightness(.93);box-shadow:0 2px 8px rgba(15,23,42,.1)}
+.appt-name{font-size:10.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.appt-svc{font-size:9.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;opacity:.85}
+.appt-src-tag{font-size:8.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-top:1px}
+.a-oil{background:rgba(251,191,36,.2);border-color:#D97706;color:#92400E}
+.a-brake{background:rgba(220,38,38,.1);border-color:#DC2626;color:#991B1B}
+.a-tire{background:rgba(37,99,235,.1);border-color:#2563EB;color:#1E40AF}
+.a-align{background:rgba(124,58,237,.1);border-color:#7C3AED;color:#5B21B6}
+.a-svc{background:rgba(5,150,105,.1);border-color:#059669;color:#065F46}
+.a-ac{background:rgba(6,182,212,.11);border-color:#0891B2;color:#0E7490}
+.a-diag{background:rgba(249,115,22,.1);border-color:#EA580C;color:#9A3412}
+
+/* ─── AI WORKFLOW BUILDER ────────────────────────────────────────── */
+.wf-sel-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-shrink:0}
+.wf-sel{background:var(--white);border:1px solid var(--border);border-radius:var(--r6);color:var(--t1);font-size:13px;font-weight:600;padding:7px 28px 7px 12px;appearance:none;cursor:pointer;font-family:var(--sans);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center}
+.wf-layout{display:grid;grid-template-columns:1fr 272px;gap:14px;flex:1;min-height:0}
+.wf-canvas-wrap{overflow:auto;background:var(--canvas);border:1px solid var(--border);border-radius:var(--r8);scrollbar-width:thin;scrollbar-color:var(--border) transparent;padding:16px}
+.wf-canvas-wrap::-webkit-scrollbar{width:4px;height:4px}
+.wf-canvas-wrap::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.wf-right{display:flex;flex-direction:column;gap:10px;min-height:0;overflow-y:auto;scrollbar-width:none}
+.wf-right::-webkit-scrollbar{display:none}
+.wf-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r8);padding:14px 16px;flex-shrink:0}
+.wf-card-title{font-size:11.5px;font-weight:700;color:var(--t1);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.wf-node-detail{display:flex;flex-direction:column;gap:8px}
+.wf-nd-empty{font-size:12px;color:var(--t3);text-align:center;padding:12px 0}
+.wf-nd-title{font-size:14px;font-weight:700;color:var(--t1)}
+.wf-nd-type{display:inline-flex;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:700;margin-bottom:4px}
+.wf-nd-desc{font-size:12px;color:var(--t2);line-height:1.6}
+.wf-nd-keywords{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r6);padding:8px 10px;font-size:11.5px;color:var(--t2);line-height:1.5}
+.wf-nd-keywords strong{color:var(--t1)}
+.wf-nd-stat{font-size:11px;color:var(--t3);margin-top:4px}
+.wf-mini-call{padding:7px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:4px;align-items:center}
+.wf-mini-call:last-child{border-bottom:none;padding-bottom:0}
+.wf-mc-name{font-size:12px;font-weight:600;color:var(--t1)}
+.wf-mc-path{font-size:10.5px;color:var(--t3);margin-top:1px;font-family:var(--mono)}
+.wf-mc-outcome{font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px}
+.wf-perf-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
+.wf-perf-row:last-child{border-bottom:none}
+.wf-perf-val{font-size:16px;font-weight:700;color:var(--t1)}
+.wf-perf-lbl{font-size:11px;color:var(--t3)}
+.wf-build-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:var(--white);border:1.5px dashed var(--border);border-radius:var(--r8);font-size:13px;font-weight:600;color:var(--t3);cursor:pointer;transition:all .15s;flex-shrink:0}
+.wf-build-btn:hover{background:var(--canvas);border-color:var(--navy);color:var(--navy)}
+.wf-build-btn svg{width:14px;height:14px}
+.live-path-indicator{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--t2);padding:6px 10px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.15);border-radius:var(--r6);flex-shrink:0}
+.live-path-indicator svg{width:12px;height:12px;color:var(--blue)}
+
+/* ─── DEFERRED SERVICE RECALL ────────────────────────────────────── */
+.active-campaign{background:var(--navy);border-radius:var(--r8);padding:20px 22px;margin-bottom:18px;flex-shrink:0}
+.ac-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+.ac-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;background:rgba(37,99,235,.25);border:1px solid rgba(37,99,235,.4);border-radius:100px;font-size:10px;font-weight:700;color:#93C5FD;margin-bottom:7px}
+.ac-name{font-size:17px;font-weight:700;color:#fff;margin-bottom:4px}
+.ac-desc{font-size:12px;color:rgba(255,255,255,.5)}
+.ac-actions{display:flex;gap:8px;flex-shrink:0}
+.ac-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--r6);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s}
+.ac-btn-pause{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.8)}
+.ac-btn-pause:hover{background:rgba(255,255,255,.14)}
+.ac-btn-view{background:var(--blue);border:1px solid var(--blue);color:#fff}
+.ac-btn-view:hover{background:#1D4ED8}
+.ac-btn svg{width:13px;height:13px}
+.ac-progress{margin-bottom:14px}
+.ac-prog-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.ac-prog-label{font-size:11.5px;color:rgba(255,255,255,.5)}
+.ac-prog-val{font-size:13px;font-weight:700;color:#fff;font-family:var(--mono)}
+.ac-prog-bar{height:6px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden}
+.ac-prog-fill{height:100%;background:var(--blue);border-radius:3px;transition:width .8s ease}
+.ac-results{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.ac-result-item{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:var(--r6);padding:10px 12px}
+.ac-result-val{font-size:20px;font-weight:700;color:#fff;line-height:1;margin-bottom:3px}
+.ac-result-lbl{font-size:10.5px;color:rgba(255,255,255,.45)}
+
+.camp-section-title{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:10px}
+.camp-table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--white);border:1px solid var(--border);border-radius:var(--r8);overflow:hidden}
+.camp-table th{padding:9px 14px;text-align:left;font-size:10.5px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;background:var(--canvas);border-bottom:1px solid var(--border);white-space:nowrap}
+.camp-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.camp-table tr:last-child td{border-bottom:none}
+.camp-name{font-size:13px;font-weight:600;color:var(--t1)}
+.camp-target{font-size:11px;color:var(--t3);margin-top:2px}
+.camp-agent{font-size:11px;font-weight:600;color:var(--blue);font-family:var(--mono)}
+.camp-status{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:100px;font-size:10px;font-weight:700}
+.cs-running{background:rgba(5,150,105,.09);color:var(--success);border:1px solid rgba(5,150,105,.2)}
+.cs-scheduled{background:rgba(37,99,235,.08);color:var(--blue);border:1px solid rgba(37,99,235,.2)}
+.cs-paused{background:rgba(217,119,6,.1);color:var(--warning);border:1px solid rgba(217,119,6,.25)}
+.cs-draft{background:var(--canvas);color:var(--t3);border:1px solid var(--border)}
+.camp-prog-bar{width:120px;height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:3px}
+.camp-prog-fill{height:100%;background:var(--blue);border-radius:3px}
+.camp-prog-fill.green{background:var(--success)}
+.camp-booked{font-size:13px;font-weight:700;color:var(--t1);text-align:right}
+.camp-rev{font-size:13px;font-weight:700;color:var(--success);text-align:right}
+.camp-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:var(--r4);font-size:11.5px;font-weight:500;cursor:pointer;border:1px solid var(--border);color:var(--t2);background:var(--white);transition:all .12s}
+.camp-btn:hover{background:var(--canvas)}
+.camp-btn svg{width:11px;height:11px}
+.camp-btn-primary{background:var(--navy);border-color:var(--navy);color:#fff}
+.camp-btn-primary:hover{background:var(--navy-deep)}
+
+.suggest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.suggest-card{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r8);padding:14px 16px}
+.suggest-tag{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.suggest-name{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.suggest-desc{font-size:11.5px;color:var(--t2);line-height:1.5;margin-bottom:10px}
+.suggest-footer{display:flex;align-items:center;justify-content:space-between}
+.suggest-rev{font-size:13px;font-weight:700;color:var(--success)}
+.suggest-rev-lbl{font-size:10px;color:var(--t3);margin-top:1px}
+.suggest-create{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:var(--navy);border-radius:var(--r6);font-size:11.5px;font-weight:600;color:#fff;cursor:pointer;border:none;transition:background .15s}
+.suggest-create:hover{background:var(--navy-deep)}
+.suggest-create svg{width:12px;height:12px}
+
+/* ─── PERFORMANCE & ROI ───────────────────────────────────────────── */
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;flex-shrink:0}
+.chart-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r8);padding:18px 20px;box-shadow:var(--shadow)}
+.chart-title{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:2px}
+.chart-subtitle{font-size:11.5px;color:var(--t3);margin-bottom:14px}
+.chart-svg{width:100%;display:block}
+.chart-legend{display:flex;align-items:center;gap:16px;margin-top:10px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--t2)}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+.brand-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.brand-table th{padding:9px 14px;text-align:left;font-size:10.5px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;background:var(--canvas);border-bottom:1px solid var(--border);white-space:nowrap}
+.brand-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.brand-table tr:last-child td{border-bottom:none}
+.brand-table tfoot td{background:var(--canvas);font-weight:700;color:var(--t1);border-top:2px solid var(--border)}
+.brand-name-cell{font-weight:600;color:var(--t1)}
+.brand-region{font-size:11px;color:var(--t3);margin-top:1px}
+.brand-bar-wrap{display:flex;align-items:center;gap:8px}
+.brand-bar{height:6px;border-radius:3px;background:var(--blue);flex-shrink:0;min-width:4px}
+.roi-chip{display:inline-flex;padding:3px 8px;border-radius:100px;font-size:11px;font-weight:700}
+.roi-high{background:rgba(5,150,105,.1);color:var(--success);border:1px solid rgba(5,150,105,.2)}
+.roi-mid{background:rgba(37,99,235,.08);color:var(--blue);border:1px solid rgba(37,99,235,.18)}
+
+/* Appt tooltip */
+.appt-tip{display:none;position:fixed;z-index:700;background:var(--white);border:1px solid var(--border);border-radius:var(--r8);padding:12px 14px;box-shadow:0 8px 28px rgba(15,23,42,.13);min-width:200px;max-width:260px;pointer-events:none}
+.appt-tip.on{display:block}
+.at-name{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:1px}
+.at-veh{font-size:11px;color:var(--t3);font-family:var(--mono);margin-bottom:7px}
+.at-svc{font-size:12.5px;font-weight:600;color:var(--t1);margin-bottom:3px}
+.at-time{font-size:11.5px;color:var(--t2);margin-bottom:8px}
+.at-src{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:100px;font-size:10px;font-weight:700}
+.at-miles{background:rgba(11,37,69,.08);color:var(--navy)}
+.at-staff{background:var(--canvas);color:var(--t3);border:1px solid var(--border)}
+
+/* ─── PHASE 6 — POLISH & INTERACTIVITY ──────────────────────────── */
+.notif-panel{position:fixed;top:58px;right:20px;width:318px;background:var(--white);border:1px solid var(--border);border-radius:var(--r8);box-shadow:0 10px 36px rgba(15,23,42,.15);z-index:900;display:none}
+.notif-panel.open{display:block;animation:venter .18s ease-out}
+.np-hdr{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.np-ttl{font-size:11px;font-weight:700;color:var(--t1);text-transform:uppercase;letter-spacing:.06em}
+.np-mark{font-size:11px;font-weight:600;color:var(--blue);background:none;border:none;cursor:pointer;padding:0}
+.np-mark:hover{text-decoration:underline}
+.ni{padding:10px 16px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;cursor:pointer;transition:background .1s}
+.ni:last-child{border-bottom:none}
+.ni:hover{background:var(--canvas)}
+.ni.unread{background:rgba(37,99,235,.027)}
+.ni-ico{width:28px;height:28px;border-radius:var(--r6);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ni-ico svg{width:13px;height:13px}
+.ni-ttl{font-size:12.5px;font-weight:600;color:var(--t1);line-height:1.35}
+.ni-sub{font-size:11px;color:var(--t2);margin-top:1px;line-height:1.4}
+.ni-ts{font-size:10px;color:var(--t3);margin-top:3px;font-family:var(--mono)}
+.wf-toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:11px 18px;border-radius:var(--r8);font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:0 8px 28px rgba(15,23,42,.24);z-index:1000;transform:translateY(80px);opacity:0;transition:all .28s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+.wf-toast.show{transform:translateY(0);opacity:1}
+.wf-toast svg{width:15px;height:15px;flex-shrink:0;color:var(--success)}
+.brand-table tbody tr{cursor:pointer;transition:background .12s}
+.brand-table tbody tr:hover{background:rgba(37,99,235,.04)}
+.brand-table tbody tr.bsel{background:rgba(37,99,235,.07) !important;outline:1px solid rgba(37,99,235,.2)}
+.brand-ctx{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.18);border-radius:100px;font-size:11px;font-weight:600;color:var(--blue);margin-left:8px;vertical-align:middle;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+.cq-empty-row td{text-align:center;padding:40px 16px;color:var(--t3);font-size:13px}
+</style>
+</head>
+<body>
+
+<div class="narrow-guard">
+  <div class="ng-logo">MILES</div>
+  <div class="ng-tag">Service Advisor ADE · Straightaway Tire &amp; Auto</div>
+  <p class="ng-msg">Best viewed on a desktop browser at 1280px or wider.</p>
+</div>
+
+<div class="app">
+
+  <!-- NAV RAIL -->
+  <nav class="nav-rail">
+    <div class="nav-logo">
+      <div class="logo-word">MILES</div>
+      <div class="logo-desc">Service Advisor ADE</div>
+      <div class="logo-by">Built by Neuralogic Group</div>
+    </div>
+    <div class="brand-wrap">
+      <div class="brand-lbl">Brand</div>
+      <select class="brand-sel" id="brandSelector">
+        <option value="all">All Brands</option>
+        <option value="all-county">All County Tire &amp; Auto</option>
+        <option value="auto-care">Auto Care Plus</option>
+        <option value="eas">EAS Tire &amp; Auto</option>
+        <option value="silverlake">Silverlake Automotive</option>
+        <option value="victory">Victory Tire &amp; Auto</option>
+      </select>
+    </div>
+    <div class="nav-items">
+      <div class="nav-item active" data-view="live-ops" tabindex="0">
+        <i data-lucide="radio"></i><span>Live Operations</span>
+      </div>
+      <div class="nav-item" data-view="call-queue" tabindex="0">
+        <i data-lucide="phone-incoming"></i><span>Call Queue</span>
+      </div>
+      <div class="nav-item" data-view="calendar" tabindex="0">
+        <i data-lucide="calendar-days"></i><span>Appointment Calendar</span>
+      </div>
+      <div class="nav-item" data-view="recall" tabindex="0">
+        <i data-lucide="refresh-cw"></i><span>Deferred Service Recall</span>
+      </div>
+      <div class="nav-item" data-view="workflow" tabindex="0">
+        <i data-lucide="git-branch"></i><span>AI Workflow Builder</span>
+      </div>
+      <div class="nav-item" data-view="performance" tabindex="0">
+        <i data-lucide="bar-chart-2"></i><span>Performance &amp; ROI</span>
+      </div>
+    </div>
+    <div class="miles-status">
+      <div class="st-lbl">MILES Status</div>
+      <div class="st-row">
+        <div class="st-ind">
+          <div class="st-dot pulsing" id="stDot"></div>
+          <div class="st-txt">
+            <span class="st-name" id="stName">ACTIVE</span>
+            <span class="st-sub" id="stSub">All systems running</span>
+          </div>
+        </div>
+        <button class="mpause" id="mpBtn" title="Master pause">
+          <i data-lucide="pause" id="mpIcon"></i>
+        </button>
+      </div>
+      <div class="pause-banner" id="mpBanner">
+        System paused. MILES will not answer calls until resumed.
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- VIEW 1 — LIVE OPERATIONS -->
+    <div class="view active" id="view-live-ops">
+
+      <!-- Page header -->
+      <div class="lo-header">
+        <h1 class="lo-title">Live Operations</h1>
+        <div class="lo-right">
+          <div class="lo-clock" id="liveClock">—</div>
+          <div class="shop-status">
+            <div class="shop-dot"></div>
+            After Hours — 4 of 90 shops open
+          </div>
+          <button class="notif-btn" id="notifBtn" title="Notifications" onclick="toggleNotif(event)">
+            <i data-lucide="bell"></i>
+            <span class="notif-badge" id="notifBadge">3</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Metrics strip -->
+      <div class="metrics-strip">
+
+        <div class="metric-card">
+          <div class="metric-label">Calls Handled Today</div>
+          <div class="metric-row">
+            <div class="metric-val" id="callsMetric">247</div>
+            <div class="metric-spark">
+              <svg width="64" height="24" viewBox="0 0 64 24" fill="none">
+                <polyline points="0,20 8,18 16,19 24,15 32,16 40,11 48,9 56,7 64,4" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="metric-sub up">↑ 18% vs. yesterday</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Appointments Booked</div>
+          <div class="metric-row">
+            <div class="metric-val">89</div>
+            <div class="metric-spark">
+              <svg width="64" height="24" viewBox="0 0 64 24" fill="none">
+                <polyline points="0,22 8,19 16,20 24,16 32,14 40,12 48,9 56,7 64,4" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="metric-sub up">$31,420 estimated revenue captured</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Escalations to Human</div>
+          <div class="metric-row">
+            <div class="metric-val">12</div>
+            <div class="metric-spark">
+              <svg width="64" height="24" viewBox="0 0 64 24" fill="none">
+                <polyline points="0,10 8,12 16,9 24,13 32,10 40,11 48,9 56,11 64,8" stroke="#D97706" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="metric-sub warn">4.9% · All resolved within SLA</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">AI Confidence Score</div>
+          <div class="metric-row">
+            <div class="metric-val">96.3%</div>
+            <div class="metric-spark">
+              <svg width="64" height="24" viewBox="0 0 64 24" fill="none">
+                <polyline points="0,6 8,5 16,7 24,5 32,6 40,4 48,5 56,6 64,4" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="metric-sub neutral">Across 247 interactions today</div>
+        </div>
+
+      </div>
+
+      <!-- Two-column body -->
+      <div class="lo-body">
+
+        <!-- LEFT — LIVE CALL FEED -->
+        <div class="lo-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              Live Call Feed
+              <div class="live-badge"><div class="live-dot"></div>1 LIVE</div>
+            </div>
+            <span style="font-size:11px;color:var(--t3)">3 in queue</span>
+          </div>
+          <div class="call-feed">
+
+            <!-- ACTIVE CALL — David Sullivan -->
+            <div class="call-card is-live">
+              <div class="cc-top" style="cursor:default">
+                <div class="status-pill pill-live"><div class="live-dot"></div>LIVE</div>
+                <div class="cc-info">
+                  <div class="cc-name">David Sullivan</div>
+                  <div class="cc-meta">(603) 555-0291 · 2017 Subaru Outback · Auto Care Plus — Derry, NH</div>
+                </div>
+                <div class="cc-right">
+                  <div class="agent-chain">INTAKE → BOOK</div>
+                </div>
+              </div>
+
+              <div class="cc-body">
+                <div class="cc-body-inner">
+
+                  <!-- Transcript -->
+                  <div class="transcript-wrap" id="mainTranscript">
+                    <div class="tline">
+                      <span class="tspeaker ts-miles">MILES</span>
+                      <span class="ttext">Thanks for calling Auto Care Plus in Derry. This is the after-hours service line. May I have your name?</span>
+                    </div>
+                    <div class="tline">
+                      <span class="tspeaker ts-caller">CALLER</span>
+                      <span class="ttext">Yeah, hi, this is David Sullivan.</span>
+                    </div>
+                    <div class="tline">
+                      <span class="tspeaker ts-miles">MILES</span>
+                      <span class="ttext">Hi David — I see you've been a customer with us since 2019. Are you calling about your 2017 Subaru Outback?</span>
+                    </div>
+                    <div class="tline">
+                      <span class="tspeaker ts-caller">CALLER</span>
+                      <span class="ttext">Yeah, exactly. I've got this grinding noise when I brake. Started today.</span>
+                    </div>
+                    <div class="tline">
+                      <span class="tspeaker ts-miles">MILES</span>
+                      <span class="ttext">That's something we definitely want to look at — grinding on brakes can mean the pads have worn through to the rotors. I'd recommend bringing it in as soon as possible. Are you comfortable driving short distances?</span>
+                    </div>
+                    <div class="tline">
+                      <span class="tspeaker ts-caller">CALLER</span>
+                      <span class="ttext">Yeah, it's not bad yet, just started.</span>
+                    </div>
+                    <!-- Lines 7-9 injected by typewriter -->
+                    <div id="typewriterTarget"></div>
+                    <div class="stream-indicator" id="streamIndicator" style="display:none">
+                      <div class="thinking-dots"><span></span><span></span><span></span></div>
+                      <span class="stream-label">Streaming — call in progress</span>
+                    </div>
+                  </div>
+
+                  <!-- AI Reasoning -->
+                  <div class="reasoning-panel">
+                    <div class="reasoning-title">AI Reasoning</div>
+                    <div id="reasoningSteps"></div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="cc-actions">
+                <button class="btn-sm btn-listen" id="btnListenIn">
+                  <i data-lucide="headphones"></i> Listen In
+                </button>
+                <button class="btn-sm btn-takeover" id="btnTakeOver">
+                  <i data-lucide="user-check"></i> Take Over
+                </button>
+                <button class="btn-sm btn-pause-call" id="btnPauseCall">
+                  <i data-lucide="pause" id="pauseCallIcon"></i>
+                  <span id="pauseCallLabel">Pause AI</span>
+                </button>
+                <span class="cc-timer" id="callTimer">00:04:12</span>
+              </div>
+            </div>
+
+            <!-- RECENTLY COMPLETED header -->
+            <div style="font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;padding:2px 2px 2px 0">Recently Completed</div>
+
+            <!-- Completed call 1 — Maria Hernandez -->
+            <div class="call-card" id="cc1">
+              <div class="cc-top" onclick="toggleCard('cc1')">
+                <div class="status-pill pill-done">COMPLETED</div>
+                <div class="cc-info">
+                  <div class="cc-name">Maria Hernandez</div>
+                  <div class="cc-meta">(561) 555-0142 · 2018 Honda CR-V · All County — Boca Raton, FL</div>
+                </div>
+                <div class="cc-right">
+                  <div class="outcome-pill op-booked">Booked</div>
+                  <div class="cc-conf hi">98%</div>
+                  <div class="cc-chevron" id="chev-cc1"><i data-lucide="chevron-down"></i></div>
+                </div>
+              </div>
+              <div class="cc-collapsed" id="body-cc1">
+                <div class="cc-summary">
+                  <strong>Booked:</strong> Wednesday 8:00 AM — Oil Change + Tire Rotation · All County Boca Raton<br>
+                  MILES identified returning customer, confirmed vehicle, offered 2 available slots. Customer selected morning slot. SMS confirmation sent to (561) 555-0142.
+                  <div style="margin-top:6px;font-size:11px;color:var(--t3)">Completed 8 min ago · MILES-INTAKE → MILES-BOOK</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Escalated call — Robert Chen -->
+            <div class="call-card is-escalated" id="cc2">
+              <div class="cc-top" onclick="toggleCard('cc2')">
+                <div class="status-pill pill-esc">ESCALATED</div>
+                <div class="cc-info">
+                  <div class="cc-name">Robert Chen</div>
+                  <div class="cc-meta">(303) 555-0188 · 2015 Ford F-150 · EAS — Aurora, CO</div>
+                </div>
+                <div class="cc-right">
+                  <div class="outcome-pill op-esc">Escalated</div>
+                  <div class="cc-conf mid">72%</div>
+                  <div class="cc-chevron" id="chev-cc2"><i data-lucide="chevron-down"></i></div>
+                </div>
+              </div>
+              <div class="cc-collapsed" id="body-cc2">
+                <div class="cc-summary">
+                  <strong>Escalated to Steve Rich (All County):</strong> Customer wants to discuss warranty claim on brake work completed 6 months ago. MILES confidence dropped below threshold at warranty dispute keyword — escalated per protocol.<br>
+                  <div style="margin-top:6px;font-size:11px;color:var(--warning)">Awaiting callback · Steve Rich notified via SMS · 20 min ago</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Completed call 3 — Karen Walsh -->
+            <div class="call-card" id="cc3">
+              <div class="cc-top" onclick="toggleCard('cc3')">
+                <div class="status-pill pill-done">COMPLETED</div>
+                <div class="cc-info">
+                  <div class="cc-name">Karen Walsh</div>
+                  <div class="cc-meta">(603) 555-0167 · 2020 Toyota RAV4 · Auto Care Plus — Derry, NH</div>
+                </div>
+                <div class="cc-right">
+                  <div class="outcome-pill op-booked">Booked</div>
+                  <div class="cc-conf hi">99%</div>
+                  <div class="cc-chevron" id="chev-cc3"><i data-lucide="chevron-down"></i></div>
+                </div>
+              </div>
+              <div class="cc-collapsed" id="body-cc3">
+                <div class="cc-summary">
+                  <strong>Booked:</strong> Saturday 10:30 AM — 60K Mile Service · Auto Care Plus Derry<br>
+                  Customer called for 60K service inquiry. MILES matched service menu, confirmed pricing range, and scheduled. Highest confidence call of the shift.
+                  <div style="margin-top:6px;font-size:11px;color:var(--t3)">Completed 35 min ago · MILES-INTAKE → MILES-BOOK</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Completed call 4 — James Lindqvist -->
+            <div class="call-card" id="cc4">
+              <div class="cc-top" onclick="toggleCard('cc4')">
+                <div class="status-pill pill-done">COMPLETED</div>
+                <div class="cc-info">
+                  <div class="cc-name">James Lindqvist</div>
+                  <div class="cc-meta">(612) 555-0234 · 2019 Chevy Silverado · Victory — Plymouth, MN</div>
+                </div>
+                <div class="cc-right">
+                  <div class="outcome-pill op-booked">Booked</div>
+                  <div class="cc-conf hi">97%</div>
+                  <div class="cc-chevron" id="chev-cc4"><i data-lucide="chevron-down"></i></div>
+                </div>
+              </div>
+              <div class="cc-collapsed" id="body-cc4">
+                <div class="cc-summary">
+                  <strong>Booked:</strong> Thursday 9:00 AM — Wheel Alignment · Victory Plymouth<br>
+                  Customer reported pulling left after hitting pothole. MILES matched alignment workflow, confirmed no urgent safety risk, scheduled morning slot.
+                  <div style="margin-top:6px;font-size:11px;color:var(--t3)">Completed 51 min ago · MILES-INTAKE → MILES-BOOK</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT — AGENT STATUS BOARD -->
+        <div class="lo-panel">
+          <div class="panel-header">
+            <div class="panel-title">Agent Status Board</div>
+          </div>
+          <div class="agent-board">
+
+            <!-- MILES-INTAKE -->
+            <div class="agent-card">
+              <div class="agent-top">
+                <div class="agent-dot green"></div>
+                <div class="agent-name-wrap">
+                  <div class="agent-name">MILES-INTAKE</div>
+                  <div class="agent-role">Inbound call handling</div>
+                </div>
+                <button class="agent-pause-btn" id="apIntake" title="Pause MILES-INTAKE">
+                  <i data-lucide="pause"></i>
+                </button>
+              </div>
+              <div class="agent-activity">
+                <span class="highlight">Handling 1 call</span> · 3 in queue
+              </div>
+              <div class="agent-footer">
+                <span class="agent-link"><i data-lucide="activity"></i> View Activity</span>
+              </div>
+            </div>
+
+            <!-- MILES-BOOK -->
+            <div class="agent-card">
+              <div class="agent-top">
+                <div class="agent-dot green-idle"></div>
+                <div class="agent-name-wrap">
+                  <div class="agent-name">MILES-BOOK</div>
+                  <div class="agent-role">Calendar &amp; bay scheduling</div>
+                </div>
+                <button class="agent-pause-btn" id="apBook" title="Pause MILES-BOOK">
+                  <i data-lucide="pause"></i>
+                </button>
+              </div>
+              <div class="agent-activity">
+                Idle · Last booking <strong>00:42 ago</strong>
+              </div>
+              <div class="agent-footer">
+                <span class="agent-link"><i data-lucide="activity"></i> View Activity</span>
+              </div>
+            </div>
+
+            <!-- MILES-RECALL -->
+            <div class="agent-card">
+              <div class="agent-top">
+                <div class="agent-dot blue"></div>
+                <div class="agent-name-wrap">
+                  <div class="agent-name">MILES-RECALL</div>
+                  <div class="agent-role">Deferred service outbound</div>
+                </div>
+                <button class="agent-pause-btn" id="apRecall" title="Pause MILES-RECALL">
+                  <i data-lucide="pause"></i>
+                </button>
+              </div>
+              <div class="agent-activity">
+                Running campaign: <span class="highlight">90-Day Brake Service Follow-up</span>
+              </div>
+              <div class="agent-progress-wrap">
+                <div class="progress-meta">
+                  <span class="progress-label">Dialed</span>
+                  <span class="progress-count" id="recallCount">47 / 180</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" id="recallBar" style="width:26.1%"></div>
+                </div>
+              </div>
+              <div class="agent-footer">
+                <span class="agent-link"><i data-lucide="activity"></i> View Activity</span>
+                <span style="margin-left:auto;font-size:11px;color:var(--success);font-weight:600">12 booked · $4,840</span>
+              </div>
+            </div>
+
+            <!-- MILES-HANDOFF -->
+            <div class="agent-card needs-attn">
+              <div class="agent-top">
+                <div class="agent-dot amber"></div>
+                <div class="agent-name-wrap">
+                  <div class="agent-name">MILES-HANDOFF</div>
+                  <div class="agent-role">Escalation &amp; warm transfer</div>
+                </div>
+                <button class="agent-pause-btn" id="apHandoff" title="Pause MILES-HANDOFF">
+                  <i data-lucide="pause"></i>
+                </button>
+              </div>
+              <div class="esc-notice">
+                <i data-lucide="alert-triangle"></i>
+                <span>1 escalation in queue · awaiting <strong>Steve Rich</strong> (All County)</span>
+              </div>
+              <div class="agent-activity">
+                Robert Chen call · warranty dispute · notified 20 min ago
+              </div>
+              <div class="agent-footer">
+                <span class="agent-link" style="color:var(--warning)"><i data-lucide="inbox"></i> View Queue</span>
+                <span class="agent-link" style="margin-left:12px"><i data-lucide="activity"></i> View Activity</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIEW 2 — CALL QUEUE -->
+    <div class="view" id="view-call-queue">
+      <div class="lo-header">
+        <h1 class="lo-title">Call Queue</h1>
+        <div class="lo-right">
+          <div class="lo-clock" id="cqClock">—</div>
+          <div class="shop-status"><div class="shop-dot"></div>After Hours — 4 of 90 shops open</div>
+        </div>
+      </div>
+      <div class="cq-filters">
+        <select class="cq-sel" id="cqBrand">
+          <option value="all">All Brands</option>
+          <option value="all-county">All County Tire &amp; Auto</option>
+          <option value="auto-care">Auto Care Plus</option>
+          <option value="eas">EAS Tire &amp; Auto</option>
+          <option value="silverlake">Silverlake Automotive</option>
+          <option value="victory">Victory Tire &amp; Auto</option>
+        </select>
+        <select class="cq-sel" id="cqStatus">
+          <option value="all">All Outcomes</option>
+          <option value="booked">Booked</option>
+          <option value="escalated">Escalated</option>
+          <option value="voicemail">Voicemail Captured</option>
+          <option value="recall">Outbound Recall</option>
+        </select>
+        <select class="cq-sel" id="cqAgent">
+          <option value="all">All Sub-agents</option>
+          <option value="intake">MILES-INTAKE</option>
+          <option value="book">MILES-BOOK</option>
+          <option value="recall">MILES-RECALL</option>
+          <option value="handoff">MILES-HANDOFF</option>
+        </select>
+        <span class="cq-count" id="cqCount">Showing 14 calls · Last 24 hours</span>
+      </div>
+      <div class="cq-wrap">
+        <table class="cq-table" id="cqTable">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Caller</th>
+              <th>Vehicle</th>
+              <th>Shop</th>
+              <th>Type</th>
+              <th>Sub-agent</th>
+              <th>Outcome</th>
+              <th>Conf.</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="cqBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VIEW 3 — APPOINTMENT CALENDAR -->
+    <div class="view" id="view-calendar">
+      <div class="lo-header">
+        <h1 class="lo-title">Appointment Calendar</h1>
+        <div class="lo-right">
+          <select class="cal-shop-sel">
+            <option>Auto Care Plus — Derry, NH</option>
+            <option>All County — Boca Raton, FL</option>
+            <option>EAS — Aurora, CO</option>
+            <option>Silverlake — Boise, ID</option>
+            <option>Victory — Plymouth, MN</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;flex:1;min-height:0">
+        <div class="cal-topbar">
+          <div class="cal-weeknav">
+            <button class="cal-nav-btn"><i data-lucide="chevron-left"></i></button>
+            <span class="cal-weeklabel">Apr 14 – 20, 2026</span>
+            <button class="cal-nav-btn"><i data-lucide="chevron-right"></i></button>
+            <button class="cal-nav-btn" style="padding:0 10px;width:auto;font-size:11.5px;font-weight:600;color:var(--blue);border-color:rgba(37,99,235,.3)">Today</button>
+          </div>
+          <div class="cal-tr">
+            <span class="cal-util-item">Bay Utilization: <strong>87%</strong></span>
+            <div class="cal-util-divider"></div>
+            <span class="cal-util-item">Open Slots This Week: <strong>23</strong></span>
+            <div class="cal-util-divider"></div>
+            <span class="cal-util-item" style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(11,37,69,.15);border-left:2.5px solid var(--navy)"></span>MILES-BOOKED
+              <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--panel-alt);border-left:2.5px solid var(--t3);margin-left:6px"></span>STAFF-BOOKED
+            </span>
+          </div>
+        </div>
+        <div class="cal-outer">
+          <div class="cal-head-row">
+            <div class="cal-hd-spacer"></div>
+            <div class="cal-hd-day"><div class="cal-dn">Mon</div><div class="cal-dd">14</div></div>
+            <div class="cal-hd-day"><div class="cal-dn">Tue</div><div class="cal-dd">15</div></div>
+            <div class="cal-hd-day today"><div class="cal-dn">Wed</div><div class="cal-dd today">16</div></div>
+            <div class="cal-hd-day"><div class="cal-dn">Thu</div><div class="cal-dd">17</div></div>
+            <div class="cal-hd-day"><div class="cal-dn">Fri</div><div class="cal-dd">18</div></div>
+            <div class="cal-hd-day"><div class="cal-dn">Sat</div><div class="cal-dd">19</div></div>
+            <div class="cal-hd-day"><div class="cal-dn">Sun</div><div class="cal-dd">20</div></div>
+          </div>
+          <div class="cal-scroll">
+            <div class="cal-times" id="calTimes"></div>
+            <div class="cal-days-area">
+              <div class="cal-days-grid" id="calGrid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 4 — DEFERRED SERVICE RECALL -->
+    <div class="view" id="view-recall">
+      <div class="lo-header">
+        <h1 class="lo-title">Deferred Service Recall</h1>
+        <div class="lo-right">
+          <div style="font-size:12px;color:var(--t3)">Managed by <span style="font-weight:600;color:var(--blue)">MILES-RECALL</span></div>
+        </div>
+      </div>
+
+      <!-- Active Campaign Card -->
+      <div class="active-campaign">
+        <div class="ac-top">
+          <div>
+            <div class="ac-badge"><i data-lucide="zap" style="width:10px;height:10px"></i> ACTIVE CAMPAIGN</div>
+            <div class="ac-name">90-Day Brake Service Follow-Up</div>
+            <div class="ac-desc">180 customers across all 5 brands who declined recommended brake service in the last 90 days</div>
+          </div>
+          <div class="ac-actions">
+            <button class="ac-btn ac-btn-pause" id="rcPauseBtn" onclick="toggleRecallPause()">
+              <i data-lucide="pause" id="rcPauseIcon"></i> <span id="rcPauseLabel">Pause Campaign</span>
+            </button>
+            <button class="ac-btn ac-btn-view">
+              <i data-lucide="activity"></i> View Live Activity
+            </button>
+          </div>
+        </div>
+        <div class="ac-progress">
+          <div class="ac-prog-meta">
+            <span class="ac-prog-label">Dialed</span>
+            <span class="ac-prog-val" id="rcProgVal">47 / 180 contacted (26.1%)</span>
+          </div>
+          <div class="ac-prog-bar"><div class="ac-prog-fill" id="rcProgFill" style="width:26.1%"></div></div>
+        </div>
+        <div class="ac-results">
+          <div class="ac-result-item"><div class="ac-result-val" id="rcBooked">12</div><div class="ac-result-lbl">Appointments Booked</div></div>
+          <div class="ac-result-item"><div class="ac-result-val">$4,840</div><div class="ac-result-lbl">Est. Revenue</div></div>
+          <div class="ac-result-item"><div class="ac-result-val">8</div><div class="ac-result-lbl">Callbacks Scheduled</div></div>
+          <div class="ac-result-item"><div class="ac-result-val">27</div><div class="ac-result-lbl">Voicemails Left</div></div>
+        </div>
+      </div>
+
+      <!-- Campaign List -->
+      <div class="camp-section-title">All Campaigns</div>
+      <table class="camp-table" style="margin-bottom:20px">
+        <thead>
+          <tr>
+            <th>Campaign</th>
+            <th>Sub-agent</th>
+            <th>Status</th>
+            <th>Progress</th>
+            <th style="text-align:right">Booked</th>
+            <th style="text-align:right">Revenue</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="camp-name">90-Day Brake Service Follow-Up</div><div class="camp-target">180 customers · All 5 brands</div></td>
+            <td><div class="camp-agent">MILES-RECALL</div></td>
+            <td><span class="camp-status cs-running"><span style="width:5px;height:5px;border-radius:50%;background:var(--success);display:inline-block"></span>RUNNING</span></td>
+            <td>
+              <div style="font-size:12px;font-weight:600;color:var(--t1);font-family:var(--mono)" id="campRow1Count">47 / 180</div>
+              <div class="camp-prog-bar"><div class="camp-prog-fill" id="campRow1Bar" style="width:26.1%"></div></div>
+            </td>
+            <td class="camp-booked">12</td>
+            <td class="camp-rev">$4,840</td>
+            <td><div style="display:flex;gap:6px"><button class="camp-btn"><i data-lucide="pause"></i> Pause</button><button class="camp-btn"><i data-lucide="file-text"></i> Details</button></div></td>
+          </tr>
+          <tr>
+            <td><div class="camp-name">Tire Replacement — 70%+ Worn at Last Visit</div><div class="camp-target">94 customers · All County, EAS, Victory</div></td>
+            <td><div class="camp-agent">MILES-RECALL</div></td>
+            <td><span class="camp-status cs-scheduled"><span style="width:5px;height:5px;border-radius:50%;background:var(--blue);display:inline-block"></span>SCHEDULED</span></td>
+            <td>
+              <div style="font-size:12px;color:var(--t3);font-family:var(--mono)">0 / 94 · Starts tomorrow 9 AM</div>
+              <div class="camp-prog-bar"><div class="camp-prog-fill" style="width:0%"></div></div>
+            </td>
+            <td class="camp-booked" style="color:var(--t3)">—</td>
+            <td class="camp-rev" style="color:var(--t3)">—</td>
+            <td><div style="display:flex;gap:6px"><button class="camp-btn"><i data-lucide="pencil"></i> Edit</button><button class="camp-btn camp-btn-primary"><i data-lucide="play"></i> Run Now</button></div></td>
+          </tr>
+          <tr>
+            <td><div class="camp-name">Oil Change Reminder — 4,500 mi Since Last Visit</div><div class="camp-target">420 customers · All 5 brands</div></td>
+            <td><div class="camp-agent">MILES-RECALL</div></td>
+            <td><span class="camp-status cs-running"><span style="width:5px;height:5px;border-radius:50%;background:var(--success);display:inline-block"></span>RUNNING</span></td>
+            <td>
+              <div style="font-size:12px;font-weight:600;color:var(--t1);font-family:var(--mono)">312 / 420</div>
+              <div class="camp-prog-bar"><div class="camp-prog-fill camp-prog-fill green" style="width:74.3%"></div></div>
+            </td>
+            <td class="camp-booked">87</td>
+            <td class="camp-rev">$5,220</td>
+            <td><div style="display:flex;gap:6px"><button class="camp-btn"><i data-lucide="pause"></i> Pause</button><button class="camp-btn"><i data-lucide="file-text"></i> Details</button></div></td>
+          </tr>
+          <tr>
+            <td><div class="camp-name">State Inspection Expiring This Month</div><div class="camp-target">65 customers · Auto Care Plus (NH only)</div></td>
+            <td><div class="camp-agent">MILES-RECALL</div></td>
+            <td><span class="camp-status cs-running"><span style="width:5px;height:5px;border-radius:50%;background:var(--success);display:inline-block"></span>RUNNING</span></td>
+            <td>
+              <div style="font-size:12px;font-weight:600;color:var(--t1);font-family:var(--mono)">18 / 65</div>
+              <div class="camp-prog-bar"><div class="camp-prog-fill" style="width:27.7%"></div></div>
+            </td>
+            <td class="camp-booked">6</td>
+            <td class="camp-rev">$480</td>
+            <td><div style="display:flex;gap:6px"><button class="camp-btn"><i data-lucide="pause"></i> Pause</button><button class="camp-btn"><i data-lucide="file-text"></i> Details</button></div></td>
+          </tr>
+          <tr>
+            <td><div class="camp-name">Alignment — Recommended at Last Visit</div><div class="camp-target">138 customers · All 5 brands</div></td>
+            <td><div class="camp-agent">MILES-RECALL</div></td>
+            <td><span class="camp-status cs-draft">DRAFT</span></td>
+            <td>
+              <div style="font-size:12px;color:var(--t3);font-family:var(--mono)">Not started</div>
+              <div class="camp-prog-bar"><div class="camp-prog-fill" style="width:0%"></div></div>
+            </td>
+            <td class="camp-booked" style="color:var(--t3)">—</td>
+            <td class="camp-rev" style="color:var(--t3)">—</td>
+            <td><div style="display:flex;gap:6px"><button class="camp-btn camp-btn-primary"><i data-lucide="zap"></i> Activate</button><button class="camp-btn"><i data-lucide="pencil"></i> Edit</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Suggested Campaigns -->
+      <div class="camp-section-title" style="display:flex;align-items:center;gap:8px">
+        <i data-lucide="sparkles" style="width:15px;height:15px;color:var(--blue)"></i>
+        MILES Suggested Campaigns
+        <span style="font-size:11px;font-weight:400;color:var(--t3)">Based on customer database analysis</span>
+      </div>
+      <div class="suggest-grid">
+        <div class="suggest-card">
+          <div class="suggest-tag">342 customers identified</div>
+          <div class="suggest-name">Coolant Flush — Overdue by Mileage</div>
+          <div class="suggest-desc">Customers at 60K+ miles since last coolant service across All County and EAS locations. High booking probability based on prior recall patterns.</div>
+          <div class="suggest-footer">
+            <div><div class="suggest-rev">$24,140</div><div class="suggest-rev-lbl">Projected revenue</div></div>
+            <button class="suggest-create"><i data-lucide="plus"></i> Create Campaign</button>
+          </div>
+        </div>
+        <div class="suggest-card">
+          <div class="suggest-tag">218 customers identified</div>
+          <div class="suggest-name">Winter Tire Swap — NH &amp; MN Customers</div>
+          <div class="suggest-desc">Customers in Auto Care Plus (NH) and Victory (MN) with winter tires still mounted. Seasonal swap window open through May.</div>
+          <div class="suggest-footer">
+            <div><div class="suggest-rev">$18,320</div><div class="suggest-rev-lbl">Projected revenue</div></div>
+            <button class="suggest-create"><i data-lucide="plus"></i> Create Campaign</button>
+          </div>
+        </div>
+        <div class="suggest-card">
+          <div class="suggest-tag">156 customers identified</div>
+          <div class="suggest-name">Transmission Service — 90K+ Miles</div>
+          <div class="suggest-desc">High-mileage customers across all brands due for transmission fluid service. Historically lowest outbound resistance — 68% booking rate on first contact.</div>
+          <div class="suggest-footer">
+            <div><div class="suggest-rev">$31,200</div><div class="suggest-rev-lbl">Projected revenue</div></div>
+            <button class="suggest-create"><i data-lucide="plus"></i> Create Campaign</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 5 — AI WORKFLOW BUILDER -->
+    <div class="view" id="view-workflow">
+      <div class="lo-header">
+        <h1 class="lo-title">AI Workflow Builder</h1>
+        <div class="lo-right">
+          <div class="live-path-indicator">
+            <i data-lucide="radio"></i>
+            <span id="wfLiveLabel">Tracing: After-Hours Inbound — Book path</span>
+          </div>
+        </div>
+      </div>
+      <div class="wf-sel-row">
+        <select class="wf-sel">
+          <option>After-Hours Inbound Call</option>
+          <option>Missed Call Recovery</option>
+          <option>Deferred Service Outbound</option>
+          <option>Escalation &amp; Handoff</option>
+        </select>
+        <span style="font-size:12px;color:var(--t3)">Click any node to inspect its logic</span>
+      </div>
+      <div class="wf-layout">
+        <div class="wf-canvas-wrap" id="wfCanvas"></div>
+        <div class="wf-right">
+          <div class="wf-card" id="wfNodeCard">
+            <div class="wf-card-title">Node Inspector</div>
+            <div class="wf-node-detail" id="wfNodeDetail">
+              <div class="wf-nd-empty">Click any node in the flowchart to inspect its decision logic, keyword triggers, and routing rules.</div>
+            </div>
+          </div>
+          <div class="wf-card">
+            <div class="wf-card-title">Last 5 Calls — This Workflow</div>
+            <div class="wf-mini-call">
+              <div><div class="wf-mc-name">David Sullivan</div><div class="wf-mc-path">INTAKE → BOOK → SMS Conf.</div></div>
+              <span class="wf-mc-outcome" style="background:rgba(5,150,105,.09);color:var(--success)">Booked</span>
+            </div>
+            <div class="wf-mini-call">
+              <div><div class="wf-mc-name">Robert Chen</div><div class="wf-mc-path">INTAKE → HANDOFF (Warranty)</div></div>
+              <span class="wf-mc-outcome" style="background:rgba(217,119,6,.1);color:var(--warning)">Escalated</span>
+            </div>
+            <div class="wf-mini-call">
+              <div><div class="wf-mc-name">Karen Walsh</div><div class="wf-mc-path">INTAKE → BOOK → SMS Conf.</div></div>
+              <span class="wf-mc-outcome" style="background:rgba(5,150,105,.09);color:var(--success)">Booked</span>
+            </div>
+            <div class="wf-mini-call">
+              <div><div class="wf-mc-name">Jennifer Okafor</div><div class="wf-mc-path">INTAKE → BOOK → SMS Conf.</div></div>
+              <span class="wf-mc-outcome" style="background:rgba(5,150,105,.09);color:var(--success)">Booked</span>
+            </div>
+            <div class="wf-mini-call">
+              <div><div class="wf-mc-name">Sandra Nguyen</div><div class="wf-mc-path">INTAKE → HANDOFF (Transmission)</div></div>
+              <span class="wf-mc-outcome" style="background:rgba(100,116,139,.1);color:var(--t3)">Voicemail</span>
+            </div>
+          </div>
+          <div class="wf-card">
+            <div class="wf-card-title">Workflow Performance</div>
+            <div class="wf-perf-row"><div><div class="wf-perf-val">94.1%</div><div class="wf-perf-lbl">Completion rate</div></div></div>
+            <div class="wf-perf-row"><div><div class="wf-perf-val">2m 48s</div><div class="wf-perf-lbl">Avg. call duration</div></div></div>
+            <div class="wf-perf-row"><div><div class="wf-perf-val">4.9%</div><div class="wf-perf-lbl">Escalation rate</div></div></div>
+            <div class="wf-perf-row"><div><div class="wf-perf-val">72.3%</div><div class="wf-perf-lbl">Booking conversion</div></div></div>
+          </div>
+          <button class="wf-build-btn"><i data-lucide="plus"></i> Build New Workflow</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 6 — PERFORMANCE & ROI -->
+    <div class="view" id="view-performance">
+      <div class="lo-header">
+        <h1 class="lo-title">Performance &amp; ROI</h1>
+        <div class="lo-right">
+          <div class="shop-status" style="border-color:rgba(5,150,105,.25);background:rgba(5,150,105,.05)">
+            <div class="shop-dot" style="background:var(--success)"></div>
+            <span style="color:var(--success);font-weight:600">Last 30 Days</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top metrics -->
+      <div class="metrics-strip" style="margin-bottom:16px">
+        <div class="metric-card">
+          <div class="metric-label">Revenue Captured</div>
+          <div class="metric-row">
+            <div class="metric-val">$184K</div>
+            <svg width="64" height="24" viewBox="0 0 64 24" fill="none"><polyline points="0,22 10,19 20,17 30,13 40,10 50,6 60,3 64,2" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="metric-sub up">Calls that would have gone to voicemail</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Appointments Booked by MILES</div>
+          <div class="metric-row">
+            <div class="metric-val">2,341</div>
+            <svg width="64" height="24" viewBox="0 0 64 24" fill="none"><polyline points="0,20 10,17 20,15 30,11 40,9 50,6 60,4 64,3" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="metric-sub blue">67% of all bookings this month</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Calls Recovered (Missed → Answered)</div>
+          <div class="metric-row">
+            <div class="metric-val">1,890</div>
+            <svg width="64" height="24" viewBox="0 0 64 24" fill="none"><polyline points="0,21 10,18 20,16 30,12 40,10 50,7 60,5 64,4" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="metric-sub up">94% recovery rate on missed calls</div>
+        </div>
+        <div class="metric-card" style="border-color:rgba(5,150,105,.25);background:rgba(5,150,105,.03)">
+          <div class="metric-label">Estimated Annual Run Rate</div>
+          <div class="metric-row">
+            <div class="metric-val" style="color:var(--success)">$2.21M</div>
+            <div style="text-align:right">
+              <div style="font-size:22px;font-weight:700;color:var(--success);line-height:1">41x</div>
+              <div style="font-size:10px;color:var(--t3)">ROI</div>
+            </div>
+          </div>
+          <div class="metric-sub up">vs. $54K MILES annual platform cost</div>
+        </div>
+      </div>
+
+      <!-- Charts row -->
+      <div class="chart-row">
+        <div class="chart-card">
+          <div class="chart-title">Calls Handled by Hour of Day</div>
+          <div class="chart-subtitle">After-hours window (6 PM – 11 PM) shown in navy — previously 100% voicemail</div>
+          <svg id="barChartSvg" class="chart-svg" viewBox="0 0 560 160" preserveAspectRatio="xMidYMid meet" style="height:160px"></svg>
+          <div class="chart-legend" style="margin-top:8px">
+            <div class="legend-item"><div class="legend-dot" style="background:var(--navy);border-radius:2px;width:12px;height:8px"></div>After-Hours (MILES)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#CBD5E1;border-radius:2px;width:12px;height:8px"></div>Business Hours</div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Booking Conversion Rate — 90-Day Trend</div>
+          <div class="chart-subtitle">Staff-only baseline vs. MILES-assisted conversion</div>
+          <svg id="lineChartSvg" class="chart-svg" viewBox="0 0 560 160" preserveAspectRatio="xMidYMid meet" style="height:160px"></svg>
+          <div class="chart-legend" style="margin-top:8px">
+            <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>MILES-Assisted (67%)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#CBD5E1"></div>Staff-Only Baseline (31%)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Per-brand breakdown -->
+      <div class="chart-card" style="padding:0;overflow:hidden;flex-shrink:0">
+        <div style="padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div class="chart-title" style="margin-bottom:0">Per-Brand Breakdown</div>
+            <div class="chart-subtitle" style="margin-bottom:0">Last 30 days · All locations</div>
+          </div>
+          <div style="font-size:11.5px;color:var(--t3)">Sorted by ROI multiple</div>
+        </div>
+        <table class="brand-table">
+          <thead>
+            <tr>
+              <th>Brand</th>
+              <th>Calls Handled</th>
+              <th>Appts Booked</th>
+              <th>Revenue Captured</th>
+              <th>Booking Rate</th>
+              <th>ROI Multiple</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-brand="victory" onclick="selectPerfBrand(this,'victory')">
+              <td><div class="brand-name-cell">Victory Tire &amp; Auto</div><div class="brand-region">MN · 18 locations</div></td>
+              <td><div class="brand-bar-wrap"><div class="brand-bar" style="width:52px"></div><span>5,910</span></div></td>
+              <td style="font-weight:600">310</td>
+              <td style="font-weight:600;color:var(--success)">$41,620</td>
+              <td>67%</td>
+              <td><span class="roi-chip roi-high">47x</span></td>
+            </tr>
+            <tr data-brand="eas" onclick="selectPerfBrand(this,'eas')">
+              <td><div class="brand-name-cell">EAS Tire &amp; Auto</div><div class="brand-region">CO · 14 locations</div></td>
+              <td><div class="brand-bar-wrap"><div class="brand-bar" style="width:64px"></div><span>7,180</span></div></td>
+              <td style="font-weight:600">612</td>
+              <td style="font-weight:600;color:var(--success)">$42,160</td>
+              <td>65%</td>
+              <td><span class="roi-chip roi-high">44x</span></td>
+            </tr>
+            <tr data-brand="all-county" onclick="selectPerfBrand(this,'all-county')">
+              <td><div class="brand-name-cell">All County Tire &amp; Auto</div><div class="brand-region">FL · 28 locations</div></td>
+              <td><div class="brand-bar-wrap"><div class="brand-bar" style="width:76px"></div><span>8,420</span></div></td>
+              <td style="font-weight:600">627</td>
+              <td style="font-weight:600;color:var(--success)">$44,180</td>
+              <td>64%</td>
+              <td><span class="roi-chip roi-mid">38x</span></td>
+            </tr>
+            <tr data-brand="silverlake" onclick="selectPerfBrand(this,'silverlake')">
+              <td><div class="brand-name-cell">Silverlake Automotive</div><div class="brand-region">ID · 12 locations</div></td>
+              <td><div class="brand-bar-wrap"><div class="brand-bar" style="width:38px"></div><span>4,230</span></div></td>
+              <td style="font-weight:600">271</td>
+              <td style="font-weight:600;color:var(--success)">$18,920</td>
+              <td>63%</td>
+              <td><span class="roi-chip roi-mid">39x</span></td>
+            </tr>
+            <tr data-brand="auto-care" onclick="selectPerfBrand(this,'auto-care')">
+              <td><div class="brand-name-cell">Auto Care Plus</div><div class="brand-region">NH · 18 locations</div></td>
+              <td><div class="brand-bar-wrap"><div class="brand-bar" style="width:61px"></div><span>6,840</span></div></td>
+              <td style="font-weight:600">521</td>
+              <td style="font-weight:600;color:var(--success)">$37,840</td>
+              <td>66%</td>
+              <td><span class="roi-chip roi-mid">35x</span></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td><strong>All Brands</strong></td>
+              <td><strong>32,580</strong></td>
+              <td><strong>2,341</strong></td>
+              <td style="color:var(--success)"><strong>$184,720</strong></td>
+              <td><strong>65%</strong></td>
+              <td><span class="roi-chip roi-high">41x</span></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- NOTIFICATION PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="np-hdr">
+    <span class="np-ttl">Notifications</span>
+    <button class="np-mark" onclick="markAllRead()">Mark all read</button>
+  </div>
+  <div class="ni unread" onclick="markAllRead()">
+    <div class="ni-ico" style="background:rgba(220,38,38,.09)"><i data-lucide="alert-triangle" style="color:#DC2626"></i></div>
+    <div>
+      <div class="ni-ttl">Escalation — Robert Chen</div>
+      <div class="ni-sub">Warranty dispute flagged at EAS Aurora. Steve Rich notified.</div>
+      <div class="ni-ts">11:32 PM · Tonight</div>
+    </div>
+  </div>
+  <div class="ni unread" onclick="markAllRead()">
+    <div class="ni-ico" style="background:rgba(217,119,6,.09)"><i data-lucide="clock" style="color:#D97706"></i></div>
+    <div>
+      <div class="ni-ttl">High call volume — Victory Plymouth</div>
+      <div class="ni-sub">14 calls queued, avg wait exceeding threshold.</div>
+      <div class="ni-ts">10:44 PM · Tonight</div>
+    </div>
+  </div>
+  <div class="ni unread" onclick="markAllRead()">
+    <div class="ni-ico" style="background:rgba(5,150,105,.09)"><i data-lucide="check-circle" style="color:#059669"></i></div>
+    <div>
+      <div class="ni-ttl">Recall campaign milestone</div>
+      <div class="ni-sub">Brake Fluid Safety Drive crossed 50% — 90 of 180 customers reached.</div>
+      <div class="ni-ts">9:15 PM · Tonight</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="wf-toast" id="wfToast"><i data-lucide="check-circle"></i><span id="wfToastMsg">Workflow created</span></div>
+
+<!-- LISTEN IN MODAL -->
+<div class="modal-overlay" id="listenModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Listening In — David Sullivan</div>
+        <div class="modal-subtitle">Auto Care Plus — Derry, NH · 2017 Subaru Outback · MILES-INTAKE → MILES-BOOK</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('listenModal')">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-transcript" id="modalTranscript">
+        <div class="tline"><span class="tspeaker ts-miles">MILES</span><span class="ttext">Thanks for calling Auto Care Plus in Derry. This is the after-hours service line. May I have your name?</span></div>
+        <div class="tline"><span class="tspeaker ts-caller">CALLER</span><span class="ttext">Yeah, hi, this is David Sullivan.</span></div>
+        <div class="tline"><span class="tspeaker ts-miles">MILES</span><span class="ttext">Hi David — I see you've been a customer with us since 2019. Are you calling about your 2017 Subaru Outback?</span></div>
+        <div class="tline"><span class="tspeaker ts-caller">CALLER</span><span class="ttext">Yeah, exactly. I've got this grinding noise when I brake. Started today.</span></div>
+        <div class="tline"><span class="tspeaker ts-miles">MILES</span><span class="ttext">That's something we definitely want to look at — grinding on brakes can mean the pads have worn through to the rotors. I'd recommend bringing it in as soon as possible. Are you comfortable driving short distances?</span></div>
+        <div class="tline"><span class="tspeaker ts-caller">CALLER</span><span class="ttext">Yeah, it's not bad yet, just started.</span></div>
+        <div class="tline"><span class="tspeaker ts-miles">MILES</span><span class="ttext">Okay. I have an opening tomorrow at 7:30 AM, or 11:00 AM if you'd prefer later. Which works better?</span></div>
+        <div class="tline"><span class="tspeaker ts-caller">CALLER</span><span class="ttext">7:30 works.</span></div>
+        <div class="tline"><span class="tspeaker ts-miles">MILES</span><span class="ttext">Booked. I'll text you a confirmation right now. We'll do a full brake inspection — that's complimentary — and call you with findings before any work starts. Anything else I can help with?</span></div>
+        <div class="stream-indicator" style="display:flex">
+          <div class="thinking-dots"><span></span><span></span><span></span></div>
+          <span class="stream-label">Streaming — call in progress</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" onclick="openModal('takeoverModal');closeModal('listenModal')">
+        <i data-lucide="user-check"></i> Take Over Call
+      </button>
+      <button class="btn-secondary" onclick="closeModal('listenModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- TAKE OVER CONFIRMATION MODAL -->
+<div class="modal-overlay" id="takeoverModal">
+  <div class="modal confirm-modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Take Over Call</div>
+        <div class="modal-subtitle">David Sullivan · Auto Care Plus Derry</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('takeoverModal')"><i data-lucide="x"></i></button>
+    </div>
+    <div class="confirm-body">
+      <p class="confirm-msg">
+        Taking over this call will <strong>pause MILES-INTAKE</strong> for this interaction and route the call to your device. The customer will hear a brief hold tone during transfer.<br><br>
+        MILES will remain active for all other incoming calls.
+      </p>
+      <div style="display:flex;gap:10px">
+        <button class="btn-primary" onclick="confirmTakeover()">
+          <i data-lucide="phone-forwarded"></i> Confirm Take Over
+        </button>
+        <button class="btn-secondary" onclick="closeModal('takeoverModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE-OUT PANEL -->
+<div class="so-backdrop" id="soBackdrop" onclick="closeSO()"></div>
+<div class="so-panel" id="soPanel">
+  <div class="so-hd">
+    <div class="so-hd-title" id="soTitle">—</div>
+    <div class="so-hd-meta" id="soMeta">—</div>
+    <button class="so-x" onclick="closeSO()"><i data-lucide="x"></i></button>
+  </div>
+  <div class="so-tabs">
+    <div class="so-tab active" data-tab="transcript" onclick="switchSOTab(this)">Transcript</div>
+    <div class="so-tab" data-tab="reasoning" onclick="switchSOTab(this)">AI Reasoning</div>
+    <div class="so-tab" data-tab="booking" onclick="switchSOTab(this)">Booking Confirmation</div>
+  </div>
+  <div class="so-body" id="soBody"></div>
+</div>
+<!-- APPOINTMENT TOOLTIP -->
+<div class="appt-tip" id="apptTip">
+  <div class="at-name" id="tipName"></div>
+  <div class="at-veh" id="tipVeh"></div>
+  <div class="at-svc" id="tipSvc"></div>
+  <div class="at-time" id="tipTime"></div>
+  <div class="at-src" id="tipSrc"></div>
+</div>
+
+<script>
+lucide.createIcons();
+
+// ─── NAV ──────────────────────────────────────────────────────────
+const navItems = document.querySelectorAll('.nav-item');
+const views = document.querySelectorAll('.view');
+
+function switchView(id) {
+  navItems.forEach(n => { n.classList.toggle('active', n.dataset.view === id); });
+  views.forEach(v => { v.classList.toggle('active', v.id === 'view-' + id); });
+}
+
+navItems.forEach(item => {
+  item.addEventListener('click', () => switchView(item.dataset.view));
+  item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); switchView(item.dataset.view); }});
+});
+
+// ─── MASTER PAUSE ─────────────────────────────────────────────────
+let sysPaused = false;
+const mpBtn = document.getElementById('mpBtn');
+const mpIcon = document.getElementById('mpIcon');
+const stDot = document.getElementById('stDot');
+const stName = document.getElementById('stName');
+const stSub = document.getElementById('stSub');
+const mpBanner = document.getElementById('mpBanner');
+
+mpBtn.addEventListener('click', () => {
+  sysPaused = !sysPaused;
+  stDot.classList.toggle('pulsing', !sysPaused);
+  stDot.classList.toggle('paused', sysPaused);
+  stName.textContent = sysPaused ? 'PAUSED BY HUMAN' : 'ACTIVE';
+  stName.classList.toggle('paused', sysPaused);
+  stSub.textContent = sysPaused ? 'No calls being answered' : 'All systems running';
+  mpBtn.classList.toggle('on', sysPaused);
+  mpBanner.classList.toggle('on', sysPaused);
+  mpIcon.setAttribute('data-lucide', sysPaused ? 'play' : 'pause');
+  lucide.createIcons();
+});
+
+// ─── LIVE CLOCK ───────────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours();
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  document.getElementById('liveClock').textContent = `${h12}:${m}:${s} ${ampm} ET`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ─── CALL TIMER ───────────────────────────────────────────────────
+let callSecs = 252; // start at 4:12
+function updateCallTimer() {
+  callSecs++;
+  const m = String(Math.floor(callSecs / 60)).padStart(2,'0');
+  const s = String(callSecs % 60).padStart(2,'0');
+  document.getElementById('callTimer').textContent = `${m}:${s}`;
+}
+setInterval(updateCallTimer, 1000);
+
+// ─── TYPEWRITER ───────────────────────────────────────────────────
+const twLines = [
+  { speaker: 'MILES',  text: "Okay. I have an opening tomorrow at 7:30 AM, or 11:00 AM if you'd prefer later. Which works better?" },
+  { speaker: 'CALLER', text: "7:30 works." },
+  { speaker: 'MILES',  text: "Booked. I'll text you a confirmation right now. We'll do a full brake inspection — that's complimentary — and call you with findings before any work starts. Anything else I can help with?" },
+];
+
+let twLineIdx = 0;
+let twCharIdx = 0;
+let twCurrentEl = null;
+const twTarget = document.getElementById('typewriterTarget');
+const streamInd = document.getElementById('streamIndicator');
+
+function twNextLine() {
+  if (twLineIdx >= twLines.length) {
+    streamInd.style.display = 'flex';
+    syncModalTranscript();
+    return;
+  }
+  const line = twLines[twLineIdx];
+  const div = document.createElement('div');
+  div.className = 'tline';
+  const spClass = line.speaker === 'MILES' ? 'ts-miles' : 'ts-caller';
+  div.innerHTML = `<span class="tspeaker ${spClass}">${line.speaker}</span><span class="ttext" id="twText${twLineIdx}"></span>`;
+  twTarget.appendChild(div);
+  twCurrentEl = document.getElementById('twText' + twLineIdx);
+  twCharIdx = 0;
+  twTypeChar();
+}
+
+function twTypeChar() {
+  if (!twCurrentEl) return;
+  const line = twLines[twLineIdx];
+  if (twCharIdx < line.text.length) {
+    twCurrentEl.textContent += line.text[twCharIdx];
+    twCharIdx++;
+    // Scroll transcript to bottom
+    const tw = document.getElementById('mainTranscript');
+    tw.scrollTop = tw.scrollHeight;
+    setTimeout(twTypeChar, 28 + Math.random() * 18);
+  } else {
+    twLineIdx++;
+    const pause = twLineIdx === 1 ? 800 : twLineIdx === 2 ? 600 : 0;
+    setTimeout(twNextLine, pause);
+  }
+}
+
+setTimeout(() => twNextLine(), 1400);
+
+// ─── AI REASONING STREAM ──────────────────────────────────────────
+const reasoningSteps = [
+  { done: true,  text: 'ANI lookup: David Sullivan — customer since 2019' },
+  { done: true,  text: 'Vehicle confirmed: 2017 Subaru Outback' },
+  { done: true,  text: '"grinding" + "brake" → Brake Inspection (94%)' },
+  { done: true,  text: 'Severity: Moderate — safe to drive short dist.' },
+  { done: true,  text: 'Routing to MILES-BOOK — querying Derry bay slots' },
+  { done: true,  text: 'Slots found: Tomorrow 7:30 AM · 11:00 AM' },
+  { done: true,  text: 'Appointment confirmed: Tomorrow 7:30 AM' },
+  { done: false, text: 'Sending SMS confirmation to (603) 555-0291...' },
+];
+
+const rContainer = document.getElementById('reasoningSteps');
+
+function addReasoningStep(idx) {
+  if (idx >= reasoningSteps.length) return;
+  const step = reasoningSteps[idx];
+  const div = document.createElement('div');
+  div.className = 'r-step ' + (step.done ? 'r-done' : 'r-active');
+  const icon = step.done ? 'check' : 'arrow-right';
+  div.innerHTML = `<span class="r-icon"><i data-lucide="${icon}"></i></span><span class="r-text">${step.text}</span>`;
+  rContainer.appendChild(div);
+  lucide.createIcons();
+  if (idx < reasoningSteps.length - 1) {
+    setTimeout(() => addReasoningStep(idx + 1), 320);
+  }
+}
+
+setTimeout(() => addReasoningStep(0), 300);
+
+// ─── RECALL COUNTER ANIMATION ─────────────────────────────────────
+let recallN = 47;
+const recallTotal = 180;
+
+function tickRecall() {
+  recallN++;
+  document.getElementById('recallCount').textContent = `${recallN} / ${recallTotal}`;
+  const pct = (recallN / recallTotal * 100).toFixed(1);
+  document.getElementById('recallBar').style.width = pct + '%';
+}
+
+setTimeout(() => { tickRecall(); setTimeout(() => { tickRecall(); setInterval(tickRecall, 15000); }, 12000); }, 10000);
+
+// ─── CALL CARD EXPAND/COLLAPSE ────────────────────────────────────
+function toggleCard(id) {
+  const body = document.getElementById('body-' + id);
+  const chev = document.getElementById('chev-' + id);
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+// ─── MODALS ───────────────────────────────────────────────────────
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+document.getElementById('btnListenIn').addEventListener('click', () => openModal('listenModal'));
+document.getElementById('btnTakeOver').addEventListener('click', () => openModal('takeoverModal'));
+
+// Close on backdrop click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+// ─── PER-CALL PAUSE ───────────────────────────────────────────────
+let callPaused = false;
+const btnPauseCall = document.getElementById('btnPauseCall');
+const pauseCallIcon = document.getElementById('pauseCallIcon');
+const pauseCallLabel = document.getElementById('pauseCallLabel');
+
+btnPauseCall.addEventListener('click', () => {
+  callPaused = !callPaused;
+  btnPauseCall.classList.toggle('paused', callPaused);
+  pauseCallIcon.setAttribute('data-lucide', callPaused ? 'play' : 'pause');
+  pauseCallLabel.textContent = callPaused ? 'Resume AI' : 'Pause AI';
+  lucide.createIcons();
+});
+
+// ─── AGENT PAUSE TOGGLES ──────────────────────────────────────────
+['apIntake','apBook','apRecall','apHandoff'].forEach(id => {
+  const btn = document.getElementById(id);
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('on');
+    const icon = btn.querySelector('[data-lucide]');
+    const isOn = btn.classList.contains('on');
+    icon.setAttribute('data-lucide', isOn ? 'play' : 'pause');
+    lucide.createIcons();
+  });
+});
+
+// ─── TAKE OVER CONFIRM ────────────────────────────────────────────
+function confirmTakeover() {
+  closeModal('takeoverModal');
+  // Show confirmation state
+  const actBar = document.querySelector('.cc-actions');
+  actBar.innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;padding:2px 0">
+      <div style="width:8px;height:8px;border-radius:50%;background:var(--warning)"></div>
+      <span style="font-size:12px;font-weight:600;color:var(--warning)">AI PAUSED — Call transferred to your device</span>
+    </div>
+    <button class="btn-sm btn-listen" style="margin-left:auto" onclick="resumeAI()">
+      <i data-lucide="play"></i> Resume MILES
+    </button>`;
+  lucide.createIcons();
+}
+
+function resumeAI() {
+  const actBar = document.querySelector('.cc-actions');
+  actBar.innerHTML = `
+    <button class="btn-sm btn-listen" id="btnListenIn"><i data-lucide="headphones"></i> Listen In</button>
+    <button class="btn-sm btn-takeover" id="btnTakeOver"><i data-lucide="user-check"></i> Take Over</button>
+    <button class="btn-sm btn-pause-call" id="btnPauseCall"><i data-lucide="pause" id="pauseCallIcon"></i><span id="pauseCallLabel">Pause AI</span></button>
+    <span class="cc-timer" id="callTimer">—</span>`;
+  lucide.createIcons();
+  document.getElementById('btnListenIn').addEventListener('click', () => openModal('listenModal'));
+  document.getElementById('btnTakeOver').addEventListener('click', () => openModal('takeoverModal'));
+}
+
+// ─── SYNC MODAL TRANSCRIPT ────────────────────────────────────────
+function syncModalTranscript() {}
+
+// ─── RECALL VIEW — SYNC COUNTER & PAUSE TOGGLE ───────────────────
+let recallViewPaused = false;
+
+function syncRecallView() {
+  // Keep recall view in sync with Live Ops counter
+  const n = recallN;
+  const total = recallTotal;
+  const pct = (n / total * 100).toFixed(1);
+  const el1 = document.getElementById('rcProgVal');
+  const el2 = document.getElementById('rcProgFill');
+  const el3 = document.getElementById('campRow1Count');
+  const el4 = document.getElementById('campRow1Bar');
+  if (el1) el1.textContent = `${n} / ${total} contacted (${pct}%)`;
+  if (el2) el2.style.width = pct + '%';
+  if (el3) el3.textContent = `${n} / ${total}`;
+  if (el4) el4.style.width = pct + '%';
+}
+// Patch the existing recall ticker to also update recall view
+const _origTickRecall = tickRecall;
+// Re-define to include sync
+setInterval(syncRecallView, 1000);
+
+function toggleRecallPause() {
+  recallViewPaused = !recallViewPaused;
+  const btn = document.getElementById('rcPauseBtn');
+  const icon = document.getElementById('rcPauseIcon');
+  const label = document.getElementById('rcPauseLabel');
+  if (recallViewPaused) {
+    btn.style.background = 'rgba(217,119,6,.2)';
+    btn.style.borderColor = 'rgba(217,119,6,.4)';
+    btn.style.color = '#D97706';
+    icon.setAttribute('data-lucide','play');
+    label.textContent = 'Resume Campaign';
+  } else {
+    btn.style.background = '';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+    icon.setAttribute('data-lucide','pause');
+    label.textContent = 'Pause Campaign';
+  }
+  lucide.createIcons();
+}
+
+// ─── BAR CHART — CALLS BY HOUR OF DAY ────────────────────────────
+function buildBarChart() {
+  const svg = document.getElementById('barChartSvg');
+  if (!svg) return;
+
+  const data = [12,8,5,3,2,4, 18,35,52,48,45,42, 38,40,44,46,48,55, 82,95,88,76,58,32];
+  const W = 560, H = 160, pad = { t:10, r:10, b:28, l:32 };
+  const cw = W - pad.l - pad.r;
+  const ch = H - pad.t - pad.b;
+  const max = 95;
+  const bw = (cw / 24) - 2;
+
+  let html = '';
+
+  // Y-axis gridlines + labels
+  [0,25,50,75,100].forEach(v => {
+    const y = pad.t + ch - (v / max * ch);
+    html += `<line x1="${pad.l}" y1="${y}" x2="${W - pad.r}" y2="${y}" stroke="#E2E8F0" stroke-width="1"/>`;
+    html += `<text x="${pad.l - 5}" y="${y + 4}" text-anchor="end" font-size="9" fill="#94A3B8" font-family="JetBrains Mono,monospace">${v}</text>`;
+  });
+
+  // Bars
+  data.forEach((v, i) => {
+    const x = pad.l + i * (cw / 24) + 1;
+    const bh = (v / max) * ch;
+    const y = pad.t + ch - bh;
+    const isAfterHours = i >= 18 || i <= 4;
+    const isBusiness = i >= 7 && i <= 17;
+    const fill = isAfterHours ? '#0B2545' : isBusiness ? '#93C5FD' : '#CBD5E1';
+    html += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" fill="${fill}" rx="2"/>`;
+    // Hour labels every 3
+    if (i % 3 === 0) {
+      const lbl = i === 0 ? '12a' : i < 12 ? `${i}a` : i === 12 ? '12p' : `${i-12}p`;
+      html += `<text x="${(x + bw/2).toFixed(1)}" y="${H - 6}" text-anchor="middle" font-size="9" fill="#94A3B8" font-family="JetBrains Mono,monospace">${lbl}</text>`;
+    }
+  });
+
+  // Annotation arrow region
+  html += `<text x="${(pad.l + 18*(cw/24) + 1).toFixed(1)}" y="${pad.t + 6}" font-size="9" fill="#0B2545" font-weight="700" font-family="sans-serif">After-Hours →</text>`;
+
+  svg.innerHTML = html;
+}
+
+// ─── LINE CHART — BOOKING CONVERSION RATE ─────────────────────────
+function buildLineChart() {
+  const svg = document.getElementById('lineChartSvg');
+  if (!svg) return;
+
+  const W = 560, H = 160, pad = { t:12, r:12, b:28, l:38 };
+  const cw = W - pad.l - pad.r;
+  const ch = H - pad.t - pad.b;
+  const days = 90;
+
+  // Generate data
+  const staff = [];
+  const miles = [];
+  for (let i = 0; i < days; i++) {
+    const noise = () => (Math.random() - 0.5) * 3;
+    staff.push(31 + noise());
+    // MILES rises from 31% to 67% with acceleration
+    const progress = i / (days - 1);
+    const eased = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+    miles.push(31 + eased * 36 + noise() * 0.8);
+  }
+
+  // Scale helpers
+  const minY = 20, maxY = 75;
+  const scaleX = (i) => pad.l + (i / (days - 1)) * cw;
+  const scaleY = (v) => pad.t + ch - ((v - minY) / (maxY - minY)) * ch;
+
+  let html = '';
+
+  // Y-axis gridlines
+  [20,30,40,50,60,70].forEach(v => {
+    const y = scaleY(v);
+    html += `<line x1="${pad.l}" y1="${y.toFixed(1)}" x2="${W-pad.r}" y2="${y.toFixed(1)}" stroke="#E2E8F0" stroke-width="1"/>`;
+    html += `<text x="${pad.l-5}" y="${(y+4).toFixed(1)}" text-anchor="end" font-size="9" fill="#94A3B8" font-family="JetBrains Mono,monospace">${v}%</text>`;
+  });
+
+  // X-axis labels
+  ['Day 1','Day 30','Day 60','Day 90'].forEach((lbl,i) => {
+    const x = scaleX(i === 0 ? 0 : i === 1 ? 29 : i === 2 ? 59 : 89);
+    html += `<text x="${x.toFixed(1)}" y="${H-6}" text-anchor="middle" font-size="9" fill="#94A3B8" font-family="JetBrains Mono,monospace">${lbl}</text>`;
+  });
+
+  // Staff fill area (subtle)
+  let staffArea = `M ${scaleX(0).toFixed(1)},${scaleY(staff[0]).toFixed(1)}`;
+  staff.forEach((v,i) => { if(i>0) staffArea += ` L ${scaleX(i).toFixed(1)},${scaleY(v).toFixed(1)}`; });
+  staffArea += ` L ${scaleX(days-1).toFixed(1)},${scaleY(minY).toFixed(1)} L ${scaleX(0).toFixed(1)},${scaleY(minY).toFixed(1)} Z`;
+  html += `<path d="${staffArea}" fill="rgba(203,213,225,.25)" stroke="none"/>`;
+
+  // MILES fill area
+  let milesArea = `M ${scaleX(0).toFixed(1)},${scaleY(miles[0]).toFixed(1)}`;
+  miles.forEach((v,i) => { if(i>0) milesArea += ` L ${scaleX(i).toFixed(1)},${scaleY(v).toFixed(1)}`; });
+  milesArea += ` L ${scaleX(days-1).toFixed(1)},${scaleY(minY).toFixed(1)} L ${scaleX(0).toFixed(1)},${scaleY(minY).toFixed(1)} Z`;
+  html += `<path d="${milesArea}" fill="rgba(37,99,235,.08)" stroke="none"/>`;
+
+  // Staff line
+  let staffPath = `M ${scaleX(0).toFixed(1)},${scaleY(staff[0]).toFixed(1)}`;
+  staff.forEach((v,i) => { if(i>0) staffPath += ` L ${scaleX(i).toFixed(1)},${scaleY(v).toFixed(1)}`; });
+  html += `<path d="${staffPath}" fill="none" stroke="#CBD5E1" stroke-width="1.5" stroke-linejoin="round"/>`;
+
+  // MILES line
+  let milesPath = `M ${scaleX(0).toFixed(1)},${scaleY(miles[0]).toFixed(1)}`;
+  miles.forEach((v,i) => { if(i>0) milesPath += ` L ${scaleX(i).toFixed(1)},${scaleY(v).toFixed(1)}`; });
+  html += `<path d="${milesPath}" fill="none" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/>`;
+
+  // End labels
+  const staffEnd = scaleY(staff[days-1]);
+  const milesEnd = scaleY(miles[days-1]);
+  html += `<text x="${(W-pad.r+3).toFixed(1)}" y="${(staffEnd+4).toFixed(1)}" font-size="9" fill="#94A3B8" font-family="sans-serif">31%</text>`;
+  html += `<text x="${(W-pad.r+3).toFixed(1)}" y="${(milesEnd+4).toFixed(1)}" font-size="9" fill="#2563EB" font-weight="700" font-family="sans-serif">67%</text>`;
+
+  // MILES launch annotation
+  html += `<line x1="${scaleX(0).toFixed(1)}" y1="${pad.t}" x2="${scaleX(0).toFixed(1)}" y2="${(pad.t+ch).toFixed(1)}" stroke="#0B2545" stroke-width="1" stroke-dasharray="3,3"/>`;
+  html += `<text x="${(scaleX(0)+4).toFixed(1)}" y="${(pad.t+10).toFixed(1)}" font-size="9" fill="#0B2545" font-weight="700" font-family="sans-serif">MILES Go-Live</text>`;
+
+  svg.innerHTML = html;
+}
+
+// Build charts when Performance view is activated
+document.querySelector('[data-view="performance"]').addEventListener('click', () => {
+  setTimeout(() => { buildBarChart(); buildLineChart(); }, 40);
+});
+
+// ─── CALL QUEUE CLOCK SYNC ─────────────────────────────────────────
+setInterval(() => {
+  const el = document.getElementById('cqClock');
+  if (el) el.textContent = document.getElementById('liveClock').textContent;
+}, 1000);
+
+// ─── CALL QUEUE DATA ──────────────────────────────────────────────
+const CQ = [
+  { time:'11:52 PM', caller:'David Sullivan', phone:'(603) 555-0291', vehicle:'2017 Subaru Outback', shop:'Auto Care Plus — Derry, NH', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Mon 7:30 AM — Brake Inspection', conf:94,
+    tx:[{s:'MILES',t:"Thanks for calling Auto Care Plus in Derry. This is the after-hours service line. May I have your name?"},{s:'CALLER',t:"Yeah, hi, this is David Sullivan."},{s:'MILES',t:"Hi David — I see you've been a customer with us since 2019. Are you calling about your 2017 Subaru Outback?"},{s:'CALLER',t:"Yeah, exactly. I've got this grinding noise when I brake. Started today."},{s:'MILES',t:"That's something we definitely want to look at — grinding on brakes can mean the pads have worn through to the rotors. I'd recommend bringing it in as soon as possible. Are you comfortable driving short distances?"},{s:'CALLER',t:"Yeah, it's not bad yet, just started."},{s:'MILES',t:"Okay. I have an opening tomorrow at 7:30 AM, or 11:00 AM if you'd prefer later. Which works better?"},{s:'CALLER',t:"7:30 works."},{s:'MILES',t:"Booked. I'll text you a confirmation right now. We'll do a full brake inspection — that's complimentary — and call you with findings before any work starts. Anything else I can help with?"},{s:'CALLER',t:"No, that's great. Thanks."},{s:'MILES',t:"Perfect. See you tomorrow at 7:30, David. Drive safely tonight."}],
+    reasoning:['ANI lookup: David Sullivan — customer since 2019','Vehicle confirmed: 2017 Subaru Outback','Keywords: "grinding" + "brake" → Brake Inspection (94%)','Severity: Moderate — safe short-distance driving','Bay query: Derry — slots found for tomorrow','Customer selected 7:30 AM slot','Booking confirmed in shop management system','SMS confirmation sent to (603) 555-0291'],
+    bk:{service:'Brake Inspection (Complimentary)',date:'Monday, April 14, 2026',time:'7:30 AM',shop:'Auto Care Plus — Derry, NH',addr:'14 Manning St, Derry, NH 03038',note:'We will call with findings before any work begins.',sms:'Your appt at Auto Care Plus Derry is confirmed: Mon Apr 14 @ 7:30 AM — Brake Inspection. Questions? Call (603) 555-0100.'}},
+
+  { time:'11:47 PM', caller:'Maria Hernandez', phone:'(561) 555-0142', vehicle:'2018 Honda CR-V', shop:'All County — Boca Raton, FL', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Wed 8:00 AM — Oil Change + Tire Rotation', conf:98,
+    tx:[{s:'MILES',t:"Thank you for calling All County Tire and Auto in Boca Raton. After-hours service line — may I have your name?"},{s:'CALLER',t:"Hi, Maria Hernandez."},{s:'MILES',t:"Hi Maria! I have your 2018 Honda CR-V on file. How can I help tonight?"},{s:'CALLER',t:"I need an oil change and maybe a tire rotation — it's been about 5,000 miles."},{s:'MILES',t:"Perfect timing. I have Wednesday at 8:00 AM or 10:30 AM available. Which works better for you?"},{s:'CALLER',t:"8 AM is great."},{s:'MILES',t:"Booked! You'll get a text confirmation shortly. See you Wednesday, Maria."}],
+    reasoning:['ANI match: Maria Hernandez — customer since 2021','Vehicle: 2018 Honda CR-V on file','Intent: Routine maintenance — Oil Change + Tire Rotation (98%)','Mileage interval confirmed: 5,000 mi — service due','Bay query: Boca Raton — Wednesday slots available','Booking confirmed · SMS sent to (561) 555-0142'],
+    bk:{service:'Oil Change + Tire Rotation',date:'Wednesday, April 16, 2026',time:'8:00 AM',shop:'All County — Boca Raton, FL',addr:'2301 N Federal Hwy, Boca Raton, FL 33431',note:'Estimated duration: 1 hour.',sms:'Appt confirmed at All County Boca Raton: Wed Apr 16 @ 8:00 AM — Oil Change + Tire Rotation.'}},
+
+  { time:'11:32 PM', caller:'Robert Chen', phone:'(303) 555-0188', vehicle:'2015 Ford F-150', shop:'EAS — Aurora, CO', type:'ah', agents:'INTAKE → HANDOFF', outcomeType:'escalated', outcome:'Escalated: Warranty dispute on prior brake work', conf:72,
+    tx:[{s:'MILES',t:"EAS Tire and Auto Aurora, after-hours line. May I have your name?"},{s:'CALLER',t:"Robert Chen. I need to talk to someone about work you guys did on my brakes 6 months ago. I'm having problems again and I think it should be covered under warranty."},{s:'MILES',t:"I understand, Robert — I can see the brake service from October on your account. Warranty questions are best handled by one of our advisors so they can review the full work order with you. I'm going to flag this for Steve Rich, our brand lead — he'll reach out first thing tomorrow. Is that okay?"},{s:'CALLER',t:"I'd prefer to talk tonight if possible."},{s:'MILES',t:"I completely understand. Let me escalate this now and have the on-call advisor reach out within the hour. I'm also leaving a detailed note on your account."}],
+    reasoning:['ANI match: Robert Chen — customer since 2020','Vehicle: 2015 Ford F-150 confirmed','Keywords: "warranty" + "brakes" + "covered" → Escalation trigger','Confidence dropped to 72% — warranty dispute outside AI scope','Routing to MILES-HANDOFF — escalated to Steve Rich (All County)','SMS notification sent to Steve Rich'],
+    bk:{service:'N/A — Escalated',date:'—',time:'—',shop:'EAS — Aurora, CO',addr:'—',note:'Escalated to Steve Rich. Customer requesting warranty review on Oct 2025 brake service.',sms:'N/A — call escalated to human advisor.'}},
+
+  { time:'10:18 PM', caller:'Karen Walsh', phone:'(603) 555-0167', vehicle:'2020 Toyota RAV4', shop:'Auto Care Plus — Derry, NH', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Sat 10:30 AM — 60K Mile Service', conf:99,
+    tx:[{s:'MILES',t:"Auto Care Plus Derry, after-hours. How can I help you tonight?"},{s:'CALLER',t:"Karen Walsh — I need to schedule my 60,000 mile service."},{s:'MILES',t:"Hi Karen! I see you're at 58,400 miles on your 2020 RAV4 from your last visit. Great timing. I have Saturday at 10:30 AM available. The 60K service typically takes about 2.5 hours. Does that work?"},{s:'CALLER',t:"Yes, Saturday is perfect."},{s:'MILES',t:"Confirmed. You'll get a full rundown of what's included in a text shortly. See you Saturday, Karen!"}],
+    reasoning:['ANI match: Karen Walsh — customer since 2022','Vehicle: 2020 Toyota RAV4 (58,400 mi at last visit)','Intent: 60K Mile Service — 99% confidence','Mileage milestone confirmed — full service bundle applicable','Slot confirmed: Saturday 10:30 AM · Est. 2.5 hrs','SMS sent to (603) 555-0167'],
+    bk:{service:'60K Mile Service (Full Bundle)',date:'Saturday, April 19, 2026',time:'10:30 AM',shop:'Auto Care Plus — Derry, NH',addr:'14 Manning St, Derry, NH 03038',note:'Estimated duration: 2.5 hours. Includes oil change, filters, fluids, inspection.',sms:'Confirmed at Auto Care Plus Derry: Sat Apr 19 @ 10:30 AM — 60K Mile Service. Est. 2.5 hrs.'}},
+
+  { time:'10:01 PM', caller:'James Lindqvist', phone:'(612) 555-0234', vehicle:'2019 Chevy Silverado', shop:'Victory — Plymouth, MN', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Thu 9:00 AM — Wheel Alignment', conf:97,
+    tx:[{s:'MILES',t:"Victory Tire and Auto Plymouth, after-hours. May I help you?"},{s:'CALLER',t:"Yeah, James Lindqvist. My truck's pulling left really bad after I hit a pothole on 494 tonight."},{s:'MILES',t:"That sounds like an alignment issue, James — pretty common after a pothole impact. I want to get you in soon. I have Thursday at 9 AM — would that work?"},{s:'CALLER',t:"Yeah, Thursday morning is fine."},{s:'MILES',t:"Perfect. Booked for a 4-wheel alignment Thursday at 9 AM. We'll also check for any suspension or tire damage from the impact while you're in. Text confirmation on its way."}],
+    reasoning:['ANI match: James Lindqvist — customer since 2020','Vehicle: 2019 Chevy Silverado','Keywords: "pulling" + "pothole" → Alignment workflow (97%)','Urgency: Moderate — alignment drift, drive safe until appt','Bay query: Plymouth — Thursday 9 AM available','Booking confirmed · SMS sent'],
+    bk:{service:'4-Wheel Alignment + Impact Inspection',date:'Thursday, April 17, 2026',time:'9:00 AM',shop:'Victory — Plymouth, MN',addr:'3300 Fernbrook Ln N, Plymouth, MN 55441',note:'Technician will inspect for suspension or tire damage from pothole impact.',sms:'Confirmed at Victory Plymouth: Thu Apr 17 @ 9:00 AM — Alignment + Inspection.'}},
+
+  { time:'9:44 PM', caller:'Patricia Kowalski', phone:'(208) 555-0176', vehicle:'2016 Toyota Camry', shop:'Silverlake — Boise, ID', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Fri 11:00 AM — Brake Pad Replacement', conf:96,
+    tx:[{s:'MILES',t:"Silverlake Automotive Boise, after-hours line."},{s:'CALLER',t:"Patricia Kowalski — my brakes are squealing every time I stop. Been going on for a week."},{s:'MILES',t:"That's a classic sign the pads are getting thin, Patricia. Good that you're calling now — I'd rather you get those checked before it becomes a rotor issue. I have Friday at 11 AM. Does that work?"},{s:'CALLER',t:"Yes, perfect."},{s:'MILES',t:"Booked. See you Friday at 11 for a brake inspection and pad replacement."}],
+    reasoning:['New customer intake — Patricia Kowalski','Vehicle: 2016 Toyota Camry (entered during call)','Keywords: "squealing" + "brakes" + "week" → Brake Pad workflow (96%)','Duration: 1 week — moderate urgency, pads likely worn','Booking: Friday 11:00 AM · Silverlake Boise'],
+    bk:{service:'Brake Pad Replacement (Front)',date:'Friday, April 18, 2026',time:'11:00 AM',shop:'Silverlake — Boise, ID',addr:'8150 W Emerald St, Boise, ID 83704',note:'Full brake inspection included. Rotors checked at no additional charge.',sms:'Confirmed at Silverlake Boise: Fri Apr 18 @ 11:00 AM — Brake Service.'}},
+
+  { time:'9:28 PM', caller:'Thomas Bergstrom', phone:'(612) 555-0315', vehicle:'2021 Subaru Outback', shop:'Victory — Eden Prairie, MN', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Wed 2:00 PM — AC Diagnostic', conf:91,
+    tx:[{s:'MILES',t:"Victory Tire and Auto Eden Prairie, after-hours."},{s:'CALLER',t:"Hey, Thomas Bergstrom. My AC stopped blowing cold yesterday. Just warm air."},{s:'MILES',t:"That's frustrating — could be a refrigerant issue or a compressor problem. Either way we'll figure it out. I have Wednesday at 2 PM for a diagnostic. Does that work for you?"},{s:'CALLER',t:"Wednesday's fine."},{s:'MILES',t:"Booked! AC diagnostic Wednesday at 2. We'll call with findings and an estimate before any work starts."}],
+    reasoning:['ANI match: Thomas Bergstrom — customer since 2023','Vehicle: 2021 Subaru Outback confirmed','Keywords: "AC" + "warm air" → AC Diagnostic workflow (91%)','Season context: Spring — AC issues common, high demand','Booking: Wednesday 2:00 PM · Victory Eden Prairie'],
+    bk:{service:'AC System Diagnostic',date:'Wednesday, April 16, 2026',time:'2:00 PM',shop:'Victory — Eden Prairie, MN',addr:'12100 Anderson Lakes Pkwy, Eden Prairie, MN 55344',note:'No-charge diagnostic. Estimate provided before any repair work.',sms:'Confirmed at Victory Eden Prairie: Wed Apr 16 @ 2:00 PM — AC Diagnostic.'}},
+
+  { time:'8:55 PM', caller:'Jennifer Okafor', phone:'(561) 555-0248', vehicle:'2019 Nissan Rogue', shop:'All County — Delray Beach, FL', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Tue 9:30 AM — Tire Rotation + Balance', conf:98,
+    tx:[{s:'MILES',t:"All County Tire and Auto Delray Beach — after-hours."},{s:'CALLER',t:"Jennifer Okafor. I need a tire rotation and balance."},{s:'MILES',t:"Absolutely, Jennifer. I have your 2019 Nissan Rogue on file. How's Tuesday at 9:30 AM?"},{s:'CALLER',t:"Perfect."},{s:'MILES',t:"Done! Tire rotation and balance Tuesday at 9:30. Takes about 45 minutes."}],
+    reasoning:['ANI match: Jennifer Okafor — customer since 2021','Vehicle: 2019 Nissan Rogue confirmed','Intent: Tire Rotation + Balance (98%)','Quick booking — no ambiguity, direct service request','Slot: Tuesday 9:30 AM · All County Delray Beach'],
+    bk:{service:'Tire Rotation + Balance',date:'Tuesday, April 15, 2026',time:'9:30 AM',shop:'All County — Delray Beach, FL',addr:'1401 N Federal Hwy, Delray Beach, FL 33483',note:'Est. 45 minutes.',sms:'Confirmed at All County Delray Beach: Tue Apr 15 @ 9:30 AM — Tire Rotation + Balance.'}},
+
+  { time:'8:33 PM', caller:'Michael Bouchard', phone:'(603) 555-0392', vehicle:'2014 Jeep Grand Cherokee', shop:'Auto Care Plus — Manchester, NH', type:'ah', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Mon 8:00 AM — Check Engine Diagnostic', conf:88,
+    tx:[{s:'MILES',t:"Auto Care Plus Manchester, after-hours service."},{s:'CALLER',t:"Michael Bouchard. My check engine light came on today."},{s:'MILES',t:"Got it, Michael. That could be a lot of things — we'll do a full scan to figure it out. I have Monday at 8 AM available. Does that work?"},{s:'CALLER',t:"Yeah, Monday morning is fine."},{s:'MILES',t:"Booked. Monday at 8 for a diagnostic scan. We'll call you with results before doing any work."}],
+    reasoning:['ANI match: Michael Bouchard — customer since 2019','Vehicle: 2014 Jeep Grand Cherokee confirmed','Keywords: "check engine light" → Diagnostic workflow (88%)','Confidence slightly lower — CEL can vary widely in cause','Booking: Monday 8:00 AM · Auto Care Plus Manchester'],
+    bk:{service:'Check Engine Diagnostic (Full Scan)',date:'Monday, April 14, 2026',time:'8:00 AM',shop:'Auto Care Plus — Manchester, NH',addr:'875 Second St, Manchester, NH 03102',note:'No charge for scan. Estimate provided before any repair.',sms:'Confirmed at Auto Care Plus Manchester: Mon Apr 14 @ 8:00 AM — Check Engine Diagnostic.'}},
+
+  { time:'8:15 PM', caller:'Derek Hoffman', phone:'(720) 555-0127', vehicle:'2017 Honda Pilot', shop:'EAS — Denver, CO', type:'missed', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Tue 10:00 AM — 4-Wheel Alignment', conf:95,
+    tx:[{s:'MILES',t:"Hi, this is MILES from EAS Tire and Auto — I'm returning a missed call from this number. Is this Derek?"},{s:'CALLER',t:"Yeah, hey. I called earlier about getting an alignment."},{s:'MILES',t:"I'm glad I caught you, Derek. I have your 2017 Honda Pilot on file. I've got Tuesday at 10 AM for a 4-wheel alignment — does that work?"},{s:'CALLER',t:"Yeah that works great."},{s:'MILES',t:"Confirmed! Tuesday at 10 for alignment. Text confirmation is on its way."}],
+    reasoning:['Missed call recovery — outbound callback to (720) 555-0127','ANI match: Derek Hoffman — customer since 2022','Vehicle: 2017 Honda Pilot confirmed','Intent confirmed on callback: Alignment (95%)','Booking: Tuesday 10:00 AM · EAS Denver'],
+    bk:{service:'4-Wheel Alignment',date:'Tuesday, April 15, 2026',time:'10:00 AM',shop:'EAS — Denver, CO',addr:'4200 E Colfax Ave, Denver, CO 80220',note:'Est. 1 hour.',sms:'Confirmed at EAS Denver: Tue Apr 15 @ 10:00 AM — 4-Wheel Alignment.'}},
+
+  { time:'7:52 PM', caller:'Sandra Nguyen', phone:'(720) 555-0289', vehicle:'2020 Ford Escape', shop:'EAS — Lakewood, CO', type:'missed', agents:'INTAKE → HANDOFF', outcomeType:'voicemail', outcome:'Voicemail: Transmission quote inquiry', conf:81,
+    tx:[{s:'MILES',t:"Hi, MILES from EAS Tire and Auto calling back — may I speak with Sandra?"},{s:'CALLER',t:"This is Sandra."},{s:'MILES',t:"Hi Sandra, returning your earlier call. How can I help?"},{s:'CALLER',t:"I wanted to get a quote on a transmission rebuild. My car's been slipping gears."},{s:'MILES',t:"Transmission work is definitely something our technicians can help with — I want to make sure you get an accurate quote rather than a rough estimate. I'm going to connect you with our service team first thing tomorrow morning. I'll leave a detailed note. Is 8 AM okay for them to call?"}],
+    reasoning:['Missed call recovery — (720) 555-0289','ANI match: Sandra Nguyen — new customer','Keywords: "transmission" + "slipping gears" → Escalation flag','Transmission quotes require technician assessment — outside AI scope','Confidence: 81% — routing to human advisor for follow-up'],
+    bk:{service:'N/A — Pending Human Callback',date:'—',time:'—',shop:'EAS — Lakewood, CO',addr:'—',note:'Transmission inquiry — advisor callback scheduled for 8 AM.',sms:'N/A — voicemail left, advisor follow-up scheduled.'}},
+
+  { time:'7:30 PM', caller:'Erik Nylander', phone:'(651) 555-0143', vehicle:'2018 GMC Sierra', shop:'Victory — Woodbury, MN', type:'recall', agents:'RECALL → BOOK', outcomeType:'booked', outcome:'Booked: Sat 8:00 AM — Tire Replacement (4)', conf:97,
+    tx:[{s:'MILES',t:"Hi Erik, this is MILES from Victory Tire and Auto. We're following up — when you were in last November, our technician noted your tires were at about 3/32 tread depth and recommended replacement. Wanted to check if you'd like to get those taken care of."},{s:'CALLER',t:"Yeah I've been meaning to do that. My wife's been on me about it actually."},{s:'MILES',t:"Ha — well she's right! Winter's over but that tread depth is getting unsafe. I can get you in Saturday at 8 AM. We have your tire size on file. Want me to lock that in?"},{s:'CALLER',t:"Yeah let's do it."},{s:'MILES',t:"Booked! Saturday at 8 for a full set of 4 tires. We'll have them ordered and ready."}],
+    reasoning:['Outbound recall campaign: Tire Replacement — 70%+ worn','Customer: Erik Nylander — visit Nov 2025, tread at 3/32"','Deferred service confirmed via outbound call','Customer receptive — booked on first contact (97%)','Estimated revenue: $680 — 4 tires + install'],
+    bk:{service:'Tire Replacement (Set of 4)',date:'Saturday, April 19, 2026',time:'8:00 AM',shop:'Victory — Woodbury, MN',addr:'8000 Tamarack Village, Woodbury, MN 55125',note:'Tires ordered — LT265/70R17. Est. 1.5 hours.',sms:'Confirmed at Victory Woodbury: Sat Apr 19 @ 8:00 AM — Tire Replacement (4). Tires pre-ordered.'}},
+
+  { time:'7:15 PM', caller:'Linda Christophersen', phone:'(208) 555-0214', vehicle:'2019 Ford Edge', shop:'Silverlake — Nampa, ID', type:'recall', agents:'RECALL → BOOK', outcomeType:'booked', outcome:'Booked: Thu 1:00 PM — Brake Service', conf:96,
+    tx:[{s:'MILES',t:"Hi Linda, MILES from Silverlake Automotive. We're following up on your visit in January — our tech recommended front brake service when you were in for your oil change. Wanted to see if you'd like to get that scheduled."},{s:'CALLER',t:"Oh, I meant to do that. Is it urgent?"},{s:'MILES',t:"It was borderline in January, so 3 months later I'd say yes — worth getting in soon. I can do Thursday at 1 PM. About 2 hours."},{s:'CALLER',t:"Thursday works."},{s:'MILES',t:"Booked! Thursday at 1 for brake service. See you then, Linda."}],
+    reasoning:['Outbound recall: Brake Service — recommended Jan 2026','Customer: Linda Christophersen — 3 months deferred','Deferred service urgency elevated with time','Booked first contact — high receptivity (96%)','Estimated revenue: $320 — front brake pads + inspection'],
+    bk:{service:'Front Brake Service (Pads + Inspection)',date:'Thursday, April 17, 2026',time:'1:00 PM',shop:'Silverlake — Nampa, ID',addr:'315 Caldwell Blvd, Nampa, ID 83651',note:'Est. 1.5-2 hours.',sms:'Confirmed at Silverlake Nampa: Thu Apr 17 @ 1:00 PM — Brake Service.'}},
+
+  { time:'6:58 PM', caller:'Carlos Mendoza', phone:'(954) 555-0167', vehicle:'2016 Toyota Camry', shop:'All County — Pembroke Pines, FL', type:'missed', agents:'INTAKE → BOOK', outcomeType:'booked', outcome:'Booked: Mon 7:30 AM — State Inspection', conf:99,
+    tx:[{s:'MILES',t:"Hi, MILES returning a missed call from All County Pembroke Pines. Is this Carlos?"},{s:'CALLER',t:"Yeah, I need to get my inspection sticker — it expires end of the month."},{s:'MILES',t:"Perfect timing, Carlos. I have Monday at 7:30 AM — that's first slot of the day, in and out in about 30 minutes. Want that?"},{s:'CALLER',t:"Yes, 7:30 is great."},{s:'MILES',t:"Done! Monday at 7:30 for your state inspection. Confirmation text is on its way."}],
+    reasoning:['Missed call recovery — (954) 555-0167','ANI match: Carlos Mendoza — customer since 2023','Vehicle: 2016 Toyota Camry confirmed','Intent: State Inspection — expiring end of April (99%)','Urgency: High — expiration imminent','Booking: Monday 7:30 AM first slot · All County Pembroke Pines'],
+    bk:{service:'Florida State Safety Inspection',date:'Monday, April 14, 2026',time:'7:30 AM',shop:'All County — Pembroke Pines, FL',addr:'11411 Pines Blvd, Pembroke Pines, FL 33026',note:'Est. 30 minutes. Please bring current registration.',sms:'Confirmed at All County Pembroke Pines: Mon Apr 14 @ 7:30 AM — State Inspection.'}}
+];
+
+let currentSOCall = null;
+let currentSOTab = 'transcript';
+
+const CQ_BRAND_MAP = {'all-county':'All County','auto-care':'Auto Care Plus','eas':'EAS','silverlake':'Silverlake','victory':'Victory'};
+
+function buildCQTable() {
+  const bVal = (document.getElementById('cqBrand')||{}).value || 'all';
+  const sVal = (document.getElementById('cqStatus')||{}).value || 'all';
+  const aVal = (document.getElementById('cqAgent')||{}).value || 'all';
+
+  const filtered = CQ.map((c,i)=>({c,i})).filter(({c})=>{
+    const brandOk = bVal==='all' || c.shop.startsWith(CQ_BRAND_MAP[bVal]||'\x00');
+    const statusOk = sVal==='all' || (sVal==='recall' ? c.type==='recall' : c.outcomeType===sVal);
+    const agentOk  = aVal==='all' || c.agents.toLowerCase().includes(aVal);
+    return brandOk && statusOk && agentOk;
+  });
+
+  const tbody = document.getElementById('cqBody');
+  tbody.innerHTML = '';
+  const countEl = document.getElementById('cqCount');
+
+  if(filtered.length===0){
+    const tr = document.createElement('tr');
+    tr.className='cq-empty-row';
+    tr.innerHTML='<td colspan="9">No calls match the current filters</td>';
+    tbody.appendChild(tr);
+    if(countEl) countEl.textContent='No calls found';
+    return;
+  }
+
+  filtered.forEach(({c,i}) => {
+    const confClass = c.conf>=90?'conf-hi':c.conf>=80?'conf-mid':'conf-lo';
+    const typeLabel = c.type==='ah'?'After-Hours':c.type==='missed'?'Missed Call':'Outbound Recall';
+    const typeClass = c.type==='ah'?'chip-ah':c.type==='missed'?'chip-missed':'chip-recall';
+    const outcomePill = c.outcomeType==='booked'
+      ?`<span class="status-pill pill-done" style="font-size:10px">Booked</span>`
+      :c.outcomeType==='escalated'
+      ?`<span class="status-pill pill-esc" style="font-size:10px">Escalated</span>`
+      :`<span class="status-pill" style="background:rgba(100,116,139,.1);color:#475569;border:1px solid rgba(100,116,139,.2);font-size:10px;padding:2px 8px;border-radius:100px;font-weight:700">Voicemail</span>`;
+    const tr = document.createElement('tr');
+    tr.innerHTML=`
+      <td class="td-time">${c.time}</td>
+      <td><div class="td-caller-name">${c.caller}</div><div class="td-caller-phone">${c.phone}</div></td>
+      <td class="td-veh">${c.vehicle}</td>
+      <td class="td-shop">${c.shop}</td>
+      <td><span class="type-chip ${typeClass}">${typeLabel}</span></td>
+      <td class="td-agents">${c.agents}</td>
+      <td>${outcomePill}<div style="font-size:11px;color:var(--t2);margin-top:3px">${c.outcome}</div></td>
+      <td class="td-conf ${confClass}">${c.conf}%</td>
+      <td><div class="cq-actions-cell">
+        <button class="cq-btn" onclick="openSO(${i},'transcript');event.stopPropagation()"><i data-lucide="file-text"></i> Transcript</button>
+        <button class="cq-btn" onclick="openSO(${i},'booking');event.stopPropagation()"><i data-lucide="check-circle"></i></button>
+      </div></td>`;
+    tr.addEventListener('click',()=>openSO(i,'transcript'));
+    tbody.appendChild(tr);
+  });
+
+  if(countEl) countEl.textContent = filtered.length===CQ.length
+    ?`Showing ${CQ.length} calls · Last 24 hours`
+    :`Showing ${filtered.length} of ${CQ.length} calls · Last 24 hours`;
+  lucide.createIcons();
+}
+buildCQTable();
+
+// ─── SLIDE-OUT PANEL ──────────────────────────────────────────────
+function openSO(idx, tab) {
+  currentSOCall = CQ[idx];
+  currentSOTab = tab;
+  document.getElementById('soTitle').textContent = currentSOCall.caller;
+  document.getElementById('soMeta').textContent = `${currentSOCall.phone} · ${currentSOCall.vehicle} · ${currentSOCall.shop}`;
+  document.querySelectorAll('.so-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  renderSOTab(tab);
+  document.getElementById('soBackdrop').classList.add('open');
+  document.getElementById('soPanel').classList.add('open');
+  lucide.createIcons();
+}
+
+function closeSO() {
+  document.getElementById('soBackdrop').classList.remove('open');
+  document.getElementById('soPanel').classList.remove('open');
+}
+
+function switchSOTab(el) {
+  document.querySelectorAll('.so-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentSOTab = el.dataset.tab;
+  renderSOTab(currentSOTab);
+  lucide.createIcons();
+}
+
+function renderSOTab(tab) {
+  const body = document.getElementById('soBody');
+  const c = currentSOCall;
+  if (tab === 'transcript') {
+    body.innerHTML = `<div class="so-transcript">${c.tx.map(l=>`<div class="so-tline"><span class="so-tspeaker ${l.s==='MILES'?'so-ts-miles':'so-ts-caller'}">${l.s}</span><span class="so-ttext">${l.t}</span></div>`).join('')}</div>`;
+  } else if (tab === 'reasoning') {
+    body.innerHTML = `<div class="so-reasoning">${c.reasoning.map((r,i)=>`<div class="so-r-step so-r-done"><i data-lucide="check"></i><span class="so-r-text">${r}</span></div>`).join('')}</div>`;
+  } else {
+    const bk = c.bk;
+    body.innerHTML = `
+      <div class="so-booking">
+        <div class="so-bk-header">Booking Confirmation — Sent to Customer</div>
+        ${[['Service',bk.service],['Date',bk.date],['Time',bk.time],['Location',bk.shop],['Address',bk.addr],['Note',bk.note]].map(([k,v])=>`<div class="so-bk-row"><span class="so-bk-key">${k}</span><span class="so-bk-val">${v}</span></div>`).join('')}
+      </div>
+      <div style="font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">SMS Sent to ${c.phone}</div>
+      <div class="so-sms-preview">${bk.sms}</div>`;
+  }
+}
+
+// ─── CALENDAR DATA ────────────────────────────────────────────────
+// slot height = 48px per 30min. top = (hour-7)*2*48 + (min/30)*48
+function slotTop(h,m){ return ((h-7)*2 + m/30) * 48; }
+function slotH(min){ return (min/30)*48; }
+
+const APPTS = [
+  // Monday Apr 14
+  {d:0,h:7,m:30,dur:90,name:'David Sullivan',veh:'2017 Subaru Outback',svc:'Brake Inspection',type:'a-brake',src:'miles'},
+  {d:0,h:8,m:0,dur:60,name:'Patricia Dunn',veh:'2019 Honda CR-V',svc:'Oil Change',type:'a-oil',src:'staff'},
+  {d:0,h:9,m:0,dur:30,name:'Robert Fields',veh:'2021 Hyundai Tucson',svc:'Tire Rotation',type:'a-tire',src:'miles'},
+  {d:0,h:10,m:0,dur:120,name:'Cynthia Morse',veh:'2018 Toyota Camry',svc:'Brake Pads + Rotors',type:'a-brake',src:'miles'},
+  {d:0,h:13,m:0,dur:60,name:'Mike Cahill',veh:'2020 Mazda CX-5',svc:'Oil Change',type:'a-oil',src:'miles'},
+  {d:0,h:14,m:0,dur:90,name:'Laura Hennessey',veh:'2017 Honda Pilot',svc:'AC Diagnostic',type:'a-ac',src:'miles'},
+  {d:0,h:15,m:30,dur:60,name:'Thomas Daly',veh:'2019 Ford F-150',svc:'Wheel Alignment',type:'a-align',src:'miles'},
+  {d:0,h:16,m:30,dur:60,name:'Denise Flynn',veh:'2022 Toyota RAV4',svc:'Tire Replacement',type:'a-tire',src:'staff'},
+  // Tuesday Apr 15
+  {d:1,h:7,m:30,dur:60,name:'Gary Connors',veh:'2015 Jeep Grand Cherokee',svc:'Oil Change',type:'a-oil',src:'miles'},
+  {d:1,h:8,m:30,dur:150,name:'Susan Kilpatrick',veh:'2018 Subaru Forester',svc:'60K Mile Service',type:'a-svc',src:'miles'},
+  {d:1,h:10,m:30,dur:60,name:'James Murphy',veh:'2020 Honda Accord',svc:'Brake Inspection',type:'a-brake',src:'miles'},
+  {d:1,h:13,m:0,dur:60,name:'Catherine Bouchard',veh:'2019 Toyota Tacoma',svc:'Alignment',type:'a-align',src:'staff'},
+  {d:1,h:14,m:30,dur:30,name:'Kevin Walsh',veh:'2017 Ford Edge',svc:'Tire Rotation',type:'a-tire',src:'miles'},
+  {d:1,h:15,m:30,dur:60,name:'Anne Fitzgerald',veh:'2021 Nissan Rogue',svc:'Oil Change',type:'a-oil',src:'miles'},
+  {d:1,h:17,m:0,dur:60,name:'Sean Doyle',veh:'2016 Honda CR-V',svc:'Check Engine Diag',type:'a-diag',src:'miles'},
+  // Wednesday Apr 16
+  {d:2,h:8,m:0,dur:60,name:'Carol Sawyer',veh:'2018 Honda CR-V',svc:'Oil Change + Tire Rotation',type:'a-oil',src:'miles'},
+  {d:2,h:9,m:30,dur:120,name:'Bill Tracey',veh:'2019 Subaru Outback',svc:'Brake Service',type:'a-brake',src:'staff'},
+  {d:2,h:11,m:30,dur:90,name:'Jennifer Lyons',veh:'2020 Toyota Camry',svc:'AC Diagnostic',type:'a-ac',src:'miles'},
+  {d:2,h:13,m:0,dur:60,name:'Rick Hannaford',veh:'2017 Jeep Wrangler',svc:'Alignment',type:'a-align',src:'miles'},
+  {d:2,h:14,m:30,dur:60,name:'Meg Sullivan',veh:'2022 Honda Pilot',svc:'Oil Change',type:'a-oil',src:'miles'},
+  {d:2,h:16,m:0,dur:30,name:'Dave Kenney',veh:'2018 Ford Explorer',svc:'Tire Rotation',type:'a-tire',src:'staff'},
+  // Thursday Apr 17
+  {d:3,h:7,m:0,dur:60,name:"Kevin O'Brien",veh:'2016 Subaru Impreza',svc:'Oil Change',type:'a-oil',src:'miles'},
+  {d:3,h:8,m:0,dur:120,name:'Patricia Barker',veh:'2020 Toyota Highlander',svc:'Brake Pads + Rotors',type:'a-brake',src:'miles'},
+  {d:3,h:10,m:0,dur:60,name:'Fred Marchand',veh:'2018 Chevy Silverado',svc:'Check Engine Diag',type:'a-diag',src:'staff'},
+  {d:3,h:11,m:30,dur:60,name:'Gloria Taber',veh:'2021 Nissan Murano',svc:'Tire Rotation + Balance',type:'a-tire',src:'miles'},
+  {d:3,h:13,m:0,dur:150,name:'Chris Hensley',veh:'2017 Honda CR-V',svc:'60K Mile Service',type:'a-svc',src:'miles'},
+  {d:3,h:15,m:30,dur:60,name:'Debra Foley',veh:'2019 Toyota Camry',svc:'Alignment',type:'a-align',src:'miles'},
+  {d:3,h:17,m:0,dur:60,name:'Tom MacPherson',veh:'2015 Ford F-150',svc:'Oil Change',type:'a-oil',src:'staff'},
+  // Friday Apr 18
+  {d:4,h:7,m:30,dur:90,name:'Nancy Gagnon',veh:'2020 Honda Accord',svc:'Tire Replacement (4)',type:'a-tire',src:'miles'},
+  {d:4,h:9,m:0,dur:120,name:'Peter Sheridan',veh:'2018 Subaru Outback',svc:'Brake Pads',type:'a-brake',src:'miles'},
+  {d:4,h:11,m:0,dur:60,name:'Ray Thibodeau',veh:'2016 Toyota Tacoma',svc:'Check Engine Diag',type:'a-diag',src:'staff'},
+  {d:4,h:13,m:0,dur:60,name:'Donna Pelletier',veh:'2019 Hyundai Santa Fe',svc:'Oil Change',type:'a-oil',src:'miles'},
+  {d:4,h:14,m:30,dur:60,name:'Bob Lemire',veh:'2017 Honda Pilot',svc:'AC Recharge',type:'a-ac',src:'miles'},
+  {d:4,h:16,m:0,dur:30,name:'Sandra Clough',veh:'2021 Subaru Forester',svc:'Tire Rotation',type:'a-tire',src:'miles'},
+  // Saturday Apr 19
+  {d:5,h:8,m:0,dur:60,name:'Alex Bourque',veh:'2018 Toyota Camry',svc:'Oil Change',type:'a-oil',src:'miles'},
+  {d:5,h:9,m:0,dur:60,name:'Marie LeBlanc',veh:'2020 Honda CR-V',svc:'Brake Inspection',type:'a-brake',src:'staff'},
+  {d:5,h:10,m:0,dur:30,name:'Walter Fisk',veh:'2019 Subaru Legacy',svc:'Tire Rotation',type:'a-tire',src:'miles'},
+  {d:5,h:10,m:30,dur:150,name:'Karen Walsh',veh:'2020 Toyota RAV4',svc:'60K Mile Service',type:'a-svc',src:'miles'},
+  {d:5,h:11,m:0,dur:60,name:'Paul Morin',veh:'2017 Hyundai Tucson',svc:'Alignment',type:'a-align',src:'miles'},
+  {d:5,h:12,m:30,dur:60,name:'Cheryl Tardif',veh:'2021 Honda Pilot',svc:'Oil Change',type:'a-oil',src:'miles'},
+  {d:5,h:14,m:0,dur:120,name:'Kevin Leclerc',veh:'2016 Ford F-150',svc:'Brake Service',type:'a-brake',src:'staff'},
+  {d:5,h:16,m:0,dur:60,name:'Lisa Beauregard',veh:'2019 Toyota RAV4',svc:'Tire Replacement',type:'a-tire',src:'miles'},
+];
+
+function buildCalendar() {
+  // Time column
+  const timesEl = document.getElementById('calTimes');
+  timesEl.innerHTML = '';
+  for (let h = 7; h < 19; h++) {
+    ['00','30'].forEach((m,mi) => {
+      const slot = document.createElement('div');
+      slot.className = 'cal-time-slot';
+      if (m === '00') {
+        const lbl = document.createElement('span');
+        lbl.className = 'cal-tl';
+        lbl.textContent = h <= 12 ? `${h} AM` : `${h-12} PM`;
+        slot.appendChild(lbl);
+      }
+      timesEl.appendChild(slot);
+    });
+  }
+
+  // Day columns
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+  // Create 7 day track divs
+  const tracks = [];
+  for (let d = 0; d < 7; d++) {
+    const track = document.createElement('div');
+    track.className = 'cal-day-track' + (d === 2 ? ' today' : ''); // d=2 → Wed Apr 16
+    track.style.height = (24 * 48) + 'px';
+    track.style.position = 'relative';
+    // Row lines
+    for (let r = 0; r < 24; r++) {
+      const line = document.createElement('div');
+      line.style.cssText = `position:absolute;left:0;right:0;top:${r*48}px;border-top:1px solid rgba(226,232,240,${r%2===0?'.7':'.35'})`;
+      track.appendChild(line);
+    }
+    grid.appendChild(track);
+    tracks.push(track);
+  }
+
+  // Appointments
+  APPTS.forEach(a => {
+    const el = document.createElement('div');
+    el.className = `appt ${a.type}`;
+    const top = slotTop(a.h, a.m);
+    const height = slotH(a.dur);
+    el.style.cssText = `top:${top+2}px;height:${height-4}px`;
+    const srcTag = a.src === 'miles' ? 'MILES-BOOKED' : 'STAFF-BOOKED';
+    el.innerHTML = `<div class="appt-name">${a.name}</div><div class="appt-svc">${a.svc}</div>${height > 56 ? `<div class="appt-src-tag">${srcTag}</div>` : ''}`;
+    el.addEventListener('mouseenter', (e) => showTip(e, a));
+    el.addEventListener('mouseleave', hideTip);
+    el.addEventListener('mousemove', moveTip);
+    tracks[a.d].appendChild(el);
+  });
+}
+buildCalendar();
+
+// ─── TOOLTIP ──────────────────────────────────────────────────────
+const tip = document.getElementById('apptTip');
+function showTip(e, a) {
+  document.getElementById('tipName').textContent = a.name;
+  document.getElementById('tipVeh').textContent = a.veh;
+  document.getElementById('tipSvc').textContent = a.svc;
+  const days = ['Mon Apr 14','Tue Apr 15','Wed Apr 16','Thu Apr 17','Fri Apr 18','Sat Apr 19','Sun Apr 20'];
+  const endH = a.h + Math.floor((a.m + a.dur) / 60);
+  const endM = (a.m + a.dur) % 60;
+  const fmt = (h,m) => `${h<=12?h:h-12}:${m.toString().padStart(2,'0')} ${h<12?'AM':'PM'}`;
+  document.getElementById('tipTime').textContent = `${days[a.d]} · ${fmt(a.h,a.m)} – ${fmt(endH,endM)}`;
+  const src = document.getElementById('tipSrc');
+  src.textContent = a.src === 'miles' ? 'MILES-BOOKED' : 'STAFF-BOOKED';
+  src.className = `at-src ${a.src === 'miles' ? 'at-miles' : 'at-staff'}`;
+  moveTip(e);
+  tip.classList.add('on');
+}
+function hideTip() { tip.classList.remove('on'); }
+function moveTip(e) {
+  const x = e.clientX + 14, y = e.clientY - 10;
+  tip.style.left = (x + 260 > window.innerWidth ? x - 280 : x) + 'px';
+  tip.style.top = (y + 160 > window.innerHeight ? y - 160 : y) + 'px';
+}
+
+// ─── PHASE 5 — AI WORKFLOW BUILDER ────────────────────────────────────────
+
+const WF_NODES = {
+  start:    {x:360, y:20,  w:160, h:36, label:'Inbound Call',          type:'start'},
+  greet:    {x:350, y:94,  w:180, h:44, label:'MILES Greeting',        sub:'Brand + location ID',   type:'agent'},
+  intent:   {x:350, y:178, w:180, h:44, label:'Intent Detection',      sub:'NLP Classification',    type:'intent'},
+  svcBr:    {x:110, y:266, w:148, h:44, label:'Service Request',       type:'branch'},
+  hrBr:     {x:376, y:266, w:148, h:44, label:'Hours / Pricing',       type:'branch'},
+  cmpBr:    {x:640, y:266, w:152, h:44, label:'Complaint / Warranty',  type:'branch'},
+  slotChk:  {x:110, y:350, w:148, h:44, label:'Slot Availability',     sub:'Query DMS calendar',    type:'process'},
+  faqLkp:   {x:376, y:350, w:148, h:44, label:'FAQ Knowledge Lookup',  sub:'Brand knowledge base',  type:'process'},
+  severity: {x:640, y:350, w:152, h:44, label:'Severity Scoring',      sub:'Keyword analysis',      type:'process'},
+  slotAvail:{x:28,  y:434, w:134, h:44, label:'Slots Available',       type:'decision'},
+  slotFull: {x:182, y:434, w:134, h:44, label:'No Availability',       type:'decision'},
+  infoAns:  {x:376, y:434, w:148, h:44, label:'Provide Answer',        sub:'Text-to-speech',        type:'agent'},
+  urgEsc:   {x:560, y:434, w:134, h:44, label:'High Severity',         type:'decision'},
+  routDec:  {x:714, y:434, w:134, h:44, label:'Routine',               type:'decision'},
+  bookAppt: {x:28,  y:518, w:134, h:44, label:'Book Appointment',      sub:'CRM + DMS write',       type:'agent'},
+  altOffer: {x:182, y:518, w:134, h:44, label:'Offer Alternatives',    sub:'Next 3 open slots',     type:'process'},
+  offerBk:  {x:376, y:518, w:148, h:44, label:'Offer to Book?',        type:'decision'},
+  handoff:  {x:560, y:518, w:134, h:44, label:'Live Handoff',          sub:'Warm SA transfer',      type:'escalate'},
+  vmTicket: {x:714, y:518, w:134, h:44, label:'Voicemail + Ticket',    sub:'Auto CRM case',         type:'process'},
+  smsConf:  {x:96,  y:602, w:150, h:44, label:'SMS Confirmation',      sub:'Appt + directions',     type:'process'},
+  infoEnd:  {x:376, y:602, w:148, h:36, label:'Complete — Informed',   type:'end-info'},
+  escEnd:   {x:624, y:602, w:164, h:36, label:'Complete — Escalated',  type:'end-esc'},
+  bookEnd:  {x:96,  y:678, w:150, h:36, label:'Complete — Booked',     type:'end'},
+};
+
+const WF_EDGES = [
+  {f:'start',    t:'greet'},
+  {f:'greet',    t:'intent'},
+  {f:'intent',   t:'svcBr'},
+  {f:'intent',   t:'hrBr'},
+  {f:'intent',   t:'cmpBr'},
+  {f:'svcBr',    t:'slotChk'},
+  {f:'hrBr',     t:'faqLkp'},
+  {f:'cmpBr',    t:'severity'},
+  {f:'slotChk',  t:'slotAvail'},
+  {f:'slotChk',  t:'slotFull'},
+  {f:'faqLkp',   t:'infoAns'},
+  {f:'severity', t:'urgEsc'},
+  {f:'severity', t:'routDec'},
+  {f:'slotAvail',t:'bookAppt'},
+  {f:'slotFull', t:'altOffer'},
+  {f:'infoAns',  t:'offerBk'},
+  {f:'urgEsc',   t:'handoff'},
+  {f:'routDec',  t:'vmTicket'},
+  {f:'bookAppt', t:'smsConf'},
+  {f:'altOffer', t:'smsConf'},
+  {f:'offerBk',  t:'infoEnd'},
+  {f:'handoff',  t:'escEnd'},
+  {f:'vmTicket', t:'escEnd'},
+  {f:'smsConf',  t:'bookEnd'},
+];
+
+const WF_NODE_STYLE = {
+  'start':    {fill:'#0B2545', stroke:'#0B2545', text:'#FFFFFF', r:18},
+  'agent':    {fill:'#2563EB', stroke:'#1D4ED8', text:'#FFFFFF', r:6},
+  'intent':   {fill:'#1E3A5F', stroke:'#0B2545', text:'#FFFFFF', r:6},
+  'branch':   {fill:'#F1F3F7', stroke:'#CBD5E1', text:'#334155', r:6},
+  'process':  {fill:'#FFFFFF', stroke:'#E2E8F0', text:'#0F172A', r:6},
+  'decision': {fill:'#FFFBEB', stroke:'#D97706', text:'#92400E', r:6},
+  'escalate': {fill:'#FEF2F2', stroke:'#DC2626', text:'#991B1B', r:6},
+  'end':      {fill:'#ECFDF5', stroke:'#059669', text:'#065F46', r:18},
+  'end-info': {fill:'#EFF6FF', stroke:'#2563EB', text:'#1E40AF', r:18},
+  'end-esc':  {fill:'#FEF2F2', stroke:'#DC2626', text:'#991B1B', r:18},
+};
+
+const WF_PATHS = [
+  {ids:['start','greet','intent','svcBr','slotChk','slotAvail','bookAppt','smsConf','bookEnd'], label:'Book path — Slots Available'},
+  {ids:['start','greet','intent','svcBr','slotChk','slotFull','altOffer','smsConf','bookEnd'],  label:'Book path — Alt Slot Offered'},
+  {ids:['start','greet','intent','hrBr','faqLkp','infoAns','offerBk','infoEnd'],               label:'Info path — Hours / Pricing'},
+  {ids:['start','greet','intent','cmpBr','severity','urgEsc','handoff','escEnd'],               label:'Escalation path — High Severity'},
+];
+
+const WF_DETAIL = {
+  start:    {title:'Inbound Call Detected', type:'TRIGGER', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'MILES intercepts the inbound call after 2 rings if no agent answers. Call metadata (ANI, DNIS, brand mapping) is captured before the greeting begins.', keywords:'After-hours trigger · Ring threshold: 2 · Brand routing via DNIS', stat:'Avg. intercept latency: 0.3s'},
+  greet:    {title:'MILES Greeting', type:'AGENT ACTION', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'MILES plays a branded greeting, addresses the caller by name if a CRM record matches the ANI, and asks an open-ended question to capture intent naturally.', keywords:'ANI lookup · CRM match rate: 81% · Greeting variant: B (after-hours)', stat:'Avg. greeting duration: 8.2s'},
+  intent:   {title:'Intent Detection', type:'NLP ENGINE', typeColor:'#7C3AED', typeBg:'rgba(124,58,237,.08)', desc:'MILES NLP classifies caller intent into Service Request, Hours/Pricing, Complaint/Warranty, or Other. Confidence threshold: 82% — below threshold routes to human immediately.', keywords:'"appointment", "oil change", "brakes", "hours", "cost", "warranty", "problem"', stat:'Classification accuracy: 96.3%'},
+  svcBr:    {title:'Service Request Branch', type:'ROUTER', typeColor:'#D97706', typeBg:'rgba(217,119,6,.08)', desc:'Routes calls where intent maps to service scheduling. Top triggers: oil change (34%), brakes (22%), tires (18%), diagnostics (14%), other (12%).', keywords:'"appointment", "schedule", "oil", "brakes", "tires", "check engine"', stat:'Service intent rate: 71% of all calls'},
+  hrBr:     {title:'Hours / Pricing Branch', type:'ROUTER', typeColor:'#D97706', typeBg:'rgba(217,119,6,.08)', desc:'Routes calls where intent is informational — hours, pricing, service availability. MILES answers from a per-brand knowledge base and offers to convert to a booking.', keywords:'"hours", "open", "close", "price", "cost", "how much"', stat:'Booking conversion from info calls: 38%'},
+  cmpBr:    {title:'Complaint / Warranty Branch', type:'ROUTER', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'Routes calls containing complaint or warranty language. MILES gathers details and assesses severity before deciding on immediate escalation or voicemail + CRM ticket.', keywords:'"complaint", "warranty", "fix", "broken", "not working", "refund"', stat:'Escalation rate: 61% of complaint calls'},
+  slotChk:  {title:'Slot Availability Check', type:'DMS QUERY', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'MILES queries the shop DMS calendar in real time to retrieve available appointment slots for the requested service type. Returns the next 5 available windows.', keywords:'DMS: Mitchell1 / Shop-Ware / Tekmetric · Service duration lookup · Bay availability', stat:'Avg. query time: 0.4s'},
+  faqLkp:   {title:'FAQ Knowledge Lookup', type:'KNOWLEDGE BASE', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'MILES retrieves relevant information from the brand knowledge base — current hours, pricing tiers, promotions, and certifications. Updated automatically from DMS and configured schedules.', keywords:'Brand: Straightaway Tire · KB version: 2.4.1 · Last updated: 2 days ago', stat:'Answer confidence: avg 94.1%'},
+  severity: {title:'Severity Scoring', type:'ML SCORING', typeColor:'#7C3AED', typeBg:'rgba(124,58,237,.08)', desc:'MILES scores the complaint 0–100 using keyword presence, caller sentiment analysis, and CRM history. Score ≥ 65 triggers an immediate warm transfer to the on-duty SA or manager.', keywords:'High-severity keywords: "unsafe", "injury", "attorney", "leak", "fire"', stat:'High-severity detection accuracy: 97.8%'},
+  slotAvail:{title:'Slots Available', type:'CONDITION', typeColor:'#D97706', typeBg:'rgba(217,119,6,.08)', desc:'Condition: one or more appointment slots returned from the DMS query within the caller\'s requested window (3 days default, extended to 7 if no results).', keywords:'Slot window: 3 days default · Preference capture: morning / afternoon / weekend', stat:'Slots available rate: 76% of service calls'},
+  slotFull: {title:'No Availability', type:'CONDITION', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'Condition: no slots within the default window. MILES widens search to 7 days and presents the next 3 available options. Waitlist registration offered if all declined.', keywords:'Fallback window: 7 days · Max alternatives: 3 · Waitlist offer enabled', stat:'Alt-slot acceptance rate: 54%'},
+  infoAns:  {title:'Provide Answer', type:'AGENT ACTION', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'MILES synthesizes the knowledge base result into a natural TTS response and proactively offers to book an appointment at the end of the answer.', keywords:'TTS engine: ElevenLabs · Voice: Alex-Straightaway · Speaking rate: 1.0x', stat:'Caller satisfaction: 4.7/5.0'},
+  urgEsc:   {title:'High Severity Route', type:'CONDITION', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'Condition: severity score ≥ 65. MILES attempts a warm transfer to the on-duty SA or manager. If unavailable, escalates to voicemail with mandatory callback flag.', keywords:'Severity threshold: 65 · Transfer target: SA-on-duty · Fallback: manager queue', stat:'Transfer success rate: 73%'},
+  routDec:  {title:'Routine Route', type:'CONDITION', typeColor:'#D97706', typeBg:'rgba(217,119,6,.08)', desc:'Condition: severity score < 65. Complaint is captured to voicemail, transcribed, and auto-logged as a CRM ticket tagged "Complaint — Review Required".', keywords:'CRM ticket type: complaint · Priority: medium · Auto-assign: service manager', stat:'Response SLA: 4 business hours'},
+  bookAppt: {title:'Book Appointment', type:'AGENT ACTION', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'MILES confirms the slot, captures vehicle year/make/model, confirms service type, and simultaneously writes the appointment to the DMS and CRM systems.', keywords:'DMS write: confirmed · CRM record update: confirmed · Consent: recorded', stat:'Booking write time: 1.1s avg · Success rate: 99.2%'},
+  altOffer: {title:'Offer Alternatives', type:'AGENT ACTION', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'MILES presents the next 3 available slots and asks the caller to choose. If the caller declines all, offers a waitlist registration and callback preference.', keywords:'Max alternatives: 3 · Waitlist offer: enabled · SMS follow-up: enabled', stat:'Acceptance rate from alt-offer: 54%'},
+  offerBk:  {title:'Offer to Book', type:'DECISION', typeColor:'#D97706', typeBg:'rgba(217,119,6,.08)', desc:'After answering the inquiry, MILES offers to schedule an appointment. If accepted, routes into the booking flow. If declined, logs the inquiry in CRM and closes the call.', keywords:'Offer trigger: post-answer · Decline handling: log inquiry + end call', stat:'Booking conversion from info: 38%'},
+  handoff:  {title:'Live Handoff', type:'ESCALATION', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'MILES initiates a warm transfer to the available SA or manager. Before connecting, MILES provides the agent a 6-second briefing: caller name, issue, sentiment score, and CRM history.', keywords:'Warm transfer: enabled · Pre-briefing: 6s summary · CRM screen pop: enabled', stat:'Agent satisfaction with handoffs: 4.8/5.0'},
+  vmTicket: {title:'Voicemail + CRM Ticket', type:'AUTOMATION', typeColor:'#7C3AED', typeBg:'rgba(124,58,237,.08)', desc:'MILES captures voicemail, transcribes via Whisper, creates a CRM ticket tagged "Complaint — Review Required", and sends an internal alert to the service manager via Slack and email.', keywords:'Transcription: Whisper v3 · Ticket type: complaint · Alert: Slack + email', stat:'Avg. transcription time: 4.2s'},
+  smsConf:  {title:'SMS Confirmation', type:'AUTOMATION', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'MILES sends a confirmation SMS with appointment date/time, shop address, service description, a calendar invite link, and a 2-tap confirm/cancel reply option. Reminders at 24h and 2h prior.', keywords:'SMS provider: Twilio · Confirmation rate: 89% · Reminders: 24h + 2h', stat:'No-show rate with SMS: 8.1% vs. 23% industry avg'},
+  infoEnd:  {title:'Call Complete — Informed', type:'TERMINAL', typeColor:'#2563EB', typeBg:'rgba(37,99,235,.08)', desc:'Call concluded after answering the inquiry. CRM log entry created with inquiry type, answer provided, booking offer outcome, and call duration.', keywords:'CRM log: created · Duration: avg 1m 42s · Booking offer: declined', stat:'Info calls: 14.2% of all handled calls'},
+  escEnd:   {title:'Call Complete — Escalated', type:'TERMINAL', typeColor:'#DC2626', typeBg:'rgba(220,38,38,.08)', desc:'Call concluded via escalation. CRM ticket created, severity score logged, and transfer outcome recorded. All escalated calls reviewed by service manager within 4 business hours.', keywords:'CRM ticket: created · Severity logged · Review SLA: 4 hours', stat:'Escalated calls: 4.9% of all handled calls'},
+  bookEnd:  {title:'Call Complete — Booked', type:'TERMINAL', typeColor:'#059669', typeBg:'rgba(5,150,105,.08)', desc:'Call concluded with appointment successfully booked. DMS and CRM updated, SMS confirmation sent, revenue attribution logged for ROI reporting, and call recording archived.', keywords:'DMS status: confirmed · CRM revenue: attributed · Recording: archived', stat:'Booked calls: 72.3% of all service-intent calls'},
+};
+
+function wfNCX(id){ const n=WF_NODES[id]; return n.x+n.w/2; }
+function wfNCY(id){ const n=WF_NODES[id]; return n.y+n.h/2; }
+function wfNBot(id){ const n=WF_NODES[id]; return n.y+n.h; }
+
+function wfEdgePath(fId, tId) {
+  const fx=wfNCX(fId), fy=wfNBot(fId);
+  const tx=wfNCX(tId), ty=WF_NODES[tId].y;
+  const midY=(fy+ty)/2;
+  return `M ${fx},${fy} C ${fx},${midY} ${tx},${midY} ${tx},${ty}`;
+}
+
+function wfRenderNode(id) {
+  const n=WF_NODES[id];
+  const s=WF_NODE_STYLE[n.type]||WF_NODE_STYLE['process'];
+  const cx=n.x+n.w/2, cy=n.y+n.h/2;
+  const isPill=n.type==='start'||n.type.startsWith('end');
+  const sw=isPill?'2':'1.5';
+  let txt='';
+  if(n.sub){
+    txt=`<text x="${cx}" y="${cy-7}" text-anchor="middle" dominant-baseline="middle" font-family="Inter,system-ui,sans-serif" font-size="11.5" font-weight="600" fill="${s.text}" pointer-events="none">${n.label}</text>`
+       +`<text x="${cx}" y="${cy+8}" text-anchor="middle" dominant-baseline="middle" font-family="Inter,system-ui,sans-serif" font-size="9.5" font-weight="400" fill="${s.text}" opacity=".7" pointer-events="none">${n.sub}</text>`;
+  } else {
+    txt=`<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" font-family="Inter,system-ui,sans-serif" font-size="${isPill?'11.5':'12'}" font-weight="${isPill?'700':'600'}" fill="${s.text}" pointer-events="none">${n.label}</text>`;
+  }
+  return `<g class="wf-node" data-nid="${id}" style="cursor:pointer">
+    <rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${s.r}" ry="${s.r}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${sw}"/>
+    ${txt}</g>`;
+}
+
+function buildWorkflow() {
+  const canvas=document.getElementById('wfCanvas');
+  if(canvas.dataset.built) return;
+  canvas.dataset.built='true';
+
+  let edgesHTML='';
+  WF_EDGES.forEach(e=>{
+    edgesHTML+=`<path class="wf-edge" id="wfe-${e.f}-${e.t}" d="${wfEdgePath(e.f,e.t)}" fill="none" stroke="#CBD5E1" stroke-width="1.5" marker-end="url(#wfArrow)"/>`;
+  });
+  let nodesHTML='';
+  Object.keys(WF_NODES).forEach(id=>{ nodesHTML+=wfRenderNode(id); });
+
+  canvas.innerHTML=`<svg id="wfSvg" viewBox="0 0 880 726" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:820px;display:block">
+  <defs>
+    <marker id="wfArrow" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#CBD5E1"/></marker>
+    <marker id="wfArrowAct" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#2563EB"/></marker>
+    <filter id="wfGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g id="wfEdgesG">${edgesHTML}</g>
+  <g id="wfNodesG">${nodesHTML}</g>
+  <circle id="wfDot" cx="-99" cy="-99" r="6" fill="#2563EB" filter="url(#wfGlow)" opacity="0"/>
+  </svg>`;
+
+  canvas.querySelectorAll('.wf-node').forEach(el=>{
+    el.addEventListener('click',()=>showWFNodeDetail(el.dataset.nid, true));
+  });
+  showWFNodeDetail('start', false);
+}
+
+// ── WF Animation ──────────────────────────────────────────────────────────
+const WFA = {pathIdx:0, edgeIdx:0, t:0, active:false, rafId:null};
+const WF_SPEED = 0.013; // ~1.3s per edge at 60fps
+
+function startWFAnimation() {
+  if(WFA.active) return;
+  WFA.active=true; WFA.pathIdx=0; WFA.edgeIdx=0; WFA.t=0;
+  requestAnimationFrame(wfAnimFrame);
+}
+
+function wfAnimFrame() {
+  const dot=document.getElementById('wfDot');
+  if(!dot){ WFA.active=false; return; }
+
+  const path=WF_PATHS[WFA.pathIdx];
+  const ids=path.ids;
+
+  if(WFA.edgeIdx>=ids.length-1){
+    dot.setAttribute('opacity','0');
+    wfResetEdges();
+    setTimeout(()=>{
+      WFA.pathIdx=(WFA.pathIdx+1)%WF_PATHS.length;
+      WFA.edgeIdx=0; WFA.t=0;
+      const lbl=document.getElementById('wfLiveLabel');
+      if(lbl) lbl.textContent='Tracing: After-Hours Inbound — '+WF_PATHS[WFA.pathIdx].label;
+      WFA.rafId=requestAnimationFrame(wfAnimFrame);
+    },1600);
+    return;
+  }
+
+  const fromId=ids[WFA.edgeIdx], toId=ids[WFA.edgeIdx+1];
+  const edgeEl=document.getElementById(`wfe-${fromId}-${toId}`);
+  if(!edgeEl){ WFA.edgeIdx++; WFA.t=0; WFA.rafId=requestAnimationFrame(wfAnimFrame); return; }
+
+  const len=edgeEl.getTotalLength();
+  const pt=edgeEl.getPointAtLength(WFA.t*len);
+  dot.setAttribute('cx',pt.x);
+  dot.setAttribute('cy',pt.y);
+  dot.setAttribute('opacity','1');
+
+  edgeEl.setAttribute('stroke','#3B82F6');
+  edgeEl.setAttribute('stroke-width','2.5');
+  edgeEl.setAttribute('marker-end','url(#wfArrowAct)');
+
+  WFA.t+=WF_SPEED;
+  if(WFA.t>=1){
+    WFA.edgeIdx++; WFA.t=0;
+    // briefly pulse dest node
+    const destEl=document.querySelector(`[data-nid="${toId}"] rect`);
+    if(destEl){
+      const os=destEl.getAttribute('stroke'), osw=destEl.getAttribute('stroke-width');
+      destEl.setAttribute('stroke','#2563EB'); destEl.setAttribute('stroke-width','2.5');
+      setTimeout(()=>{ destEl.setAttribute('stroke',os); destEl.setAttribute('stroke-width',osw); },350);
+    }
+  }
+  WFA.rafId=requestAnimationFrame(wfAnimFrame);
+}
+
+function wfResetEdges() {
+  const svg=document.getElementById('wfSvg');
+  if(!svg) return;
+  svg.querySelectorAll('.wf-edge').forEach(el=>{
+    el.setAttribute('stroke','#CBD5E1');
+    el.setAttribute('stroke-width','1.5');
+    el.setAttribute('marker-end','url(#wfArrow)');
+  });
+  // restore all node opacity
+  svg.querySelectorAll('.wf-node rect').forEach(r=>r.setAttribute('opacity','1'));
+}
+
+function showWFNodeDetail(id, dim=true) {
+  const d=WF_DETAIL[id];
+  const panel=document.getElementById('wfNodeDetail');
+  if(!d||!panel) return;
+  if(dim){
+    document.querySelectorAll('#wfNodesG .wf-node rect').forEach(r=>r.setAttribute('opacity','0.45'));
+    const sel=document.querySelector(`[data-nid="${id}"] rect`);
+    if(sel){ sel.setAttribute('opacity','1'); }
+  }
+  panel.innerHTML=`<span class="wf-nd-type" style="background:${d.typeBg};color:${d.typeColor}">${d.type}</span>
+    <div class="wf-nd-title" style="margin-top:4px">${d.title}</div>
+    <div class="wf-nd-desc" style="margin-top:6px">${d.desc}</div>
+    <div class="wf-nd-keywords" style="margin-top:8px"><strong>Config / Triggers:</strong><br>${d.keywords}</div>
+    <div class="wf-nd-stat" style="margin-top:6px">${d.stat}</div>`;
+}
+
+document.querySelector('[data-view="workflow"]').addEventListener('click', ()=>{
+  setTimeout(()=>{ buildWorkflow(); startWFAnimation(); }, 60);
+});
+
+// ─── PHASE 6 — POLISH & INTERACTIVITY ────────────────────────────────────
+
+const BRAND_LABELS = {
+  'all':'All Brands','all-county':'All County Tire & Auto',
+  'auto-care':'Auto Care Plus','eas':'EAS Tire & Auto',
+  'silverlake':'Silverlake Automotive','victory':'Victory Tire & Auto'
+};
+
+// ── Brand selector ────────────────────────────────────────────────────────
+document.getElementById('brandSelector').addEventListener('change', function(){
+  const val = this.value;
+  const cqBrand = document.getElementById('cqBrand');
+  if(cqBrand){ cqBrand.value = val; buildCQTable(); }
+  syncPerfTableBrand(val);
+  updateBrandContext(val);
+});
+
+function updateBrandContext(val) {
+  document.querySelectorAll('.lo-title').forEach(el => {
+    let chip = el.querySelector('.brand-ctx');
+    if(val==='all'){ if(chip) chip.remove(); return; }
+    if(!chip){ chip=document.createElement('span'); chip.className='brand-ctx'; el.appendChild(chip); }
+    chip.textContent = BRAND_LABELS[val]||val;
+  });
+}
+
+function syncPerfTableBrand(val) {
+  document.querySelectorAll('.brand-table tbody tr').forEach(tr=>{
+    tr.classList.toggle('bsel', tr.dataset.brand===val);
+  });
+}
+
+function selectPerfBrand(row, brand) {
+  document.querySelectorAll('.brand-table tbody tr').forEach(tr=>tr.classList.remove('bsel'));
+  row.classList.add('bsel');
+  const sel = document.getElementById('brandSelector');
+  if(sel){ sel.value=brand; sel.dispatchEvent(new Event('change')); }
+}
+
+// ── CQ filter listeners ───────────────────────────────────────────────────
+['cqBrand','cqStatus','cqAgent'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('change', buildCQTable);
+});
+
+// ── Notifications ─────────────────────────────────────────────────────────
+function toggleNotif(e){
+  e.stopPropagation();
+  document.getElementById('notifPanel').classList.toggle('open');
+  lucide.createIcons();
+}
+function markAllRead(){
+  document.querySelectorAll('.ni.unread').forEach(n=>n.classList.remove('unread'));
+  const badge=document.getElementById('notifBadge');
+  if(badge){ badge.style.opacity='0'; setTimeout(()=>badge.remove(),300); }
+  setTimeout(()=>document.getElementById('notifPanel').classList.remove('open'),240);
+}
+document.addEventListener('click', e=>{
+  const panel=document.getElementById('notifPanel');
+  const btn=document.getElementById('notifBtn');
+  if(panel && panel.classList.contains('open') && !panel.contains(e.target) && e.target!==btn && !btn.contains(e.target)){
+    panel.classList.remove('open');
+  }
+});
+
+// ── Toast ─────────────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('wfToast');
+  document.getElementById('wfToastMsg').textContent=msg;
+  lucide.createIcons();
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+document.querySelector('.wf-build-btn').addEventListener('click',()=>{
+  showToast('New workflow builder — coming in v1.2');
+});
+
+// ── Workflow selector ─────────────────────────────────────────────────────
+document.querySelector('.wf-sel').addEventListener('change', function(){
+  const PATH_LABELS = {
+    'After-Hours Inbound Call':    'After-Hours Inbound — Book path',
+    'Missed Call Recovery':        'Missed Call Recovery — Callback path',
+    'Deferred Service Outbound':   'Deferred Recall — Outbound path',
+    'Escalation & Handoff':        'Escalation & Handoff — Warm transfer path',
+  };
+  const lbl=document.getElementById('wfLiveLabel');
+  if(lbl) lbl.textContent='Tracing: '+(PATH_LABELS[this.value]||this.value);
+  const canvas=document.getElementById('wfCanvas');
+  if(canvas && canvas.dataset.built){
+    if(WFA.rafId) cancelAnimationFrame(WFA.rafId);
+    WFA.active=false;
+    canvas.dataset.built='';
+    canvas.innerHTML='';
+    setTimeout(()=>{ buildWorkflow(); startWFAnimation(); },80);
+  }
+});
+
+</script>
+</body>
+</html>
